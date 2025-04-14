@@ -2,11 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0.306 AS build
 
 # Copiamos solo los archivos de proyectos para restaurar dependencias más rápido
-COPY ["APIAUTH.Server/APIAUTH.Server.csproj", "APIAUTH.Server/"]
-COPY ["APIAUTH.Aplication/APIAUTH.Aplication.csproj", "APIAUTH.Aplication/"]
-COPY ["APIAUTH.Data/APIAUTH.Data.csproj", "APIAUTH.Data/"]
-COPY ["APIAUTH.Domain/APIAUTH.Domain.csproj", "APIAUTH.Domain/"]
-COPY ["APIAUTH.Infrastructure/APIAUTH.Infrastructure.csproj", "APIAUTH.Infrastructure/"]
+COPY APIAUTH.Server/ ./APIAUTH.Server/
+COPY APIAUTH.Aplication/ ./APIAUTH.Aplication/
+COPY APIAUTH.Data/ ./APIAUTH.Data/
+COPY APIAUTH.Domain/ ./APIAUTH.Domain/
+COPY APIAUTH.Infrastructure/ ./APIAUTH.Infrastructure/
+
 
 # Restauramos dependencias
 RUN dotnet restore "APIAUTH.Server/APIAUTH.Server.csproj"
