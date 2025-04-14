@@ -19,6 +19,10 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+builder.WebHost.UseUrls($"http://*:{port}");
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -83,6 +87,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSignalR();
 
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -91,12 +96,9 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 
