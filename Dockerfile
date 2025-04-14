@@ -11,12 +11,8 @@ COPY ["APIAUTH.Infrastructure/APIAUTH.Infrastructure.csproj", "APIAUTH.Infrastru
 # Restauramos dependencias
 RUN dotnet restore "APIAUTH.Server/APIAUTH.Server.csproj"
 
-COPY ["APIAUTH.Server/APIAUTH.Server.csproj", "APIAUTH.Server/"]
-COPY ["APIAUTH.Aplication/APIAUTH.Aplication.csproj", "APIAUTH.Aplication/"]
-COPY ["APIAUTH.Data/APIAUTH.Data.csproj", "APIAUTH.Data/"]
-COPY ["APIAUTH.Domain/APIAUTH.Domain.csproj", "APIAUTH.Domain/"]
-COPY ["APIAUTH.Infrastructure/APIAUTH.Infrastructure.csproj", "APIAUTH.Infrastructure/"]
-
+# Copiamos el resto de los archivos del proyecto
+COPY . .
 
 
 # Build
