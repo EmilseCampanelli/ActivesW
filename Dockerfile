@@ -1,9 +1,5 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-EXPOSE 80
-
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
+﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0.15 AS base
+FROM mcr.microsoft.com/dotnet/sdk:7.0.306 AS build
 
 COPY ["APIAUTH.Server/APIAUTH.Server.csproj", "APIAUTH.Server/"]
 COPY ["APIAUTH.Data/APIAUTH.Data.csproj", "APIAUTH.Data/"]
