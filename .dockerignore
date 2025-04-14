@@ -1,6 +1,4 @@
-﻿bin/
-obj/
-.vscode/
-.git/
-Dockerfile
-README.md
+﻿.git
+.vs
+*.user
+*.suo
