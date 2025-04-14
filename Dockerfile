@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0.306 AS build
 
 COPY ["APIAUTH.Server/APIAUTH.Server.csproj", "APIAUTH.Server/"]
 COPY ["APIAUTH.Data/APIAUTH.Data.csproj", "APIAUTH.Data/"]
-COPY ["APIAUTH.Application/APIAUTH.Application.csproj", "APIAUTH.Application/"]
+COPY ["APIAUTH.Application/APIAUTH.Aplication.csproj", "APIAUTH.Aplication/"]
 COPY . .
 
 WORKDIR "/src/APIAUTH.Server"
