@@ -89,6 +89,7 @@ builder.Services.AddSignalR();
 
 
 var app = builder.Build();
+app.MapGet("/", () => "API Activa en Railway");
 
 using (var scope = app.Services.CreateScope())
 {
