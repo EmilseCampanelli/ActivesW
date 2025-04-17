@@ -55,7 +55,7 @@ namespace APIAUTH.Aplication.Services
             var collaborator = _repository.GetByEmail(email);
             if (collaborator == null || collaborator.State == Domain.Enums.BaseState.Activo)
             {
-                throw new UnauthorizedAccessException("User is non-existent");
+                throw new UnauthorizedAccessException("Cuenta is non-existent");
             }
 
             //TODO: Se debe bloquear al usuario y devolver el id del usuario administrador
@@ -64,11 +64,11 @@ namespace APIAUTH.Aplication.Services
         public async Task<bool> ChangePassword(UserPasswordDto dto)
         {
             var collaborator = _repository.GetByEmail(dto.Email);
-            if (collaborator != null && collaborator.User != null)
+            if (collaborator != null && collaborator.Cuenta != null)
             {
-                if (await _repository.ValidatePasswordAsync(collaborator.User, dto.CurrentPassword))
+                if (await _repository.ValidatePasswordAsync(collaborator.Cuenta, dto.CurrentPassword))
                 {
-                    var user = collaborator.User;
+                    var user = collaborator.Cuenta;
                     user.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
                     user.PasswordDate = DateTime.Now;
                     user.IsGenericPassword = false;
@@ -80,7 +80,7 @@ namespace APIAUTH.Aplication.Services
                 }
             }
 
-            throw new UnauthorizedAccessException("User is non-existent");
+            throw new UnauthorizedAccessException("Cuenta is non-existent");
         }
 
         public async Task<CuentaDto> ActivePassword(UsuarioDto? collaborator)

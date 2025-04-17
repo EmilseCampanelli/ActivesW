@@ -1,5 +1,4 @@
-﻿using APIAUTH.Aplication.DTOs;
-using APIAUTH.Domain.Enums;
+﻿using APIAUTH.Domain.Enums;
 using MediatR;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
@@ -16,7 +15,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
         int? CompanyId,
         int RoleId,
         int? UserTypeId,
-    CreateDomicilioCommand Domicilio
+        CreateDomicilioCommand Domicilio
     ) : IRequest<int>; // Retorna el ID del nuevo usuario
 
     public class CreateDomicilioCommand

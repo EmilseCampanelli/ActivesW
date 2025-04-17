@@ -44,6 +44,8 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<ICompanyService, OrganizationService>();
 builder.Services.AddScoped<IDomicilioService, DomicilioService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<IDatosMaestrosService, DatosMaestrosService>();
 
 builder.Services.AddMediatR(cfg =>
 {

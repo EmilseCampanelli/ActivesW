@@ -8,6 +8,6 @@ namespace APIAUTH.Aplication.DTOs
 {
     public class UsuarioTipoDto : BaseEntityDto
     {
-        public string Description { get; set; }
+        public string Descripcion { get; set; }
     }
 }

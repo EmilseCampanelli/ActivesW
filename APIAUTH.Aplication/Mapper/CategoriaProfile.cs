@@ -4,11 +4,11 @@ using AutoMapper;
 
 namespace APIAUTH.Aplication.Mapper
 {
-    public class OrganizationProfile : Profile
+    public class CategoriaProfile : Profile
     {
-        public OrganizationProfile()
+        public CategoriaProfile()
         {
-            CreateMap<EmpresaDto, Empresa>()
+            CreateMap<CategoriaDto, Categoria>()
                 .ReverseMap();
         }
     }

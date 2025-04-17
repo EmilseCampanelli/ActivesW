@@ -31,7 +31,7 @@ namespace APIAUTH.Aplication.Mapper
             CreateMap<UsuarioDto, Usuario>()
                 .ReverseMap();
 
-            CreateMap<Role, RoleDto>().ReverseMap();
+            CreateMap<Rol, RoleDto>().ReverseMap();
 
             CreateMap<Empresa, EmpresaDto>().ReverseMap();
             CreateMap<Domicilio, DomicilioDto>().ReverseMap();

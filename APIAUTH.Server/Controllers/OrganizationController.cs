@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
 {
-    [Route("api/[controller]")]
+    /*[Route("api/[controller]")]
     [ApiController]
     public class OrganizationController : GenericController<ICompanyService, EmpresaDto>
     {
@@ -14,5 +14,5 @@ namespace APIAUTH.Server.Controllers
         {
             _organizationService = organizationService;
         }
-    }
+    }*/
 }

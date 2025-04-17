@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Domain.Entities
 {
-    public class Role : BaseEntity
+    public class Rol : BaseEntity
     {
-        public string Description { get; set; }
+        public string Descripcion { get; set; }
     }
 }

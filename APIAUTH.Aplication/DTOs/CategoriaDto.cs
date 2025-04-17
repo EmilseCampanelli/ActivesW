@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.DTOs
 {
-    public class RoleDto : BaseDto
+    public class CategoriaDto : BaseEntityDto
     {
         public string Descripcion { get; set; }
     }

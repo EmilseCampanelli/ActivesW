@@ -36,7 +36,7 @@ namespace APIAUTH.Aplication.Services
             {
                 throw new UnauthorizedAccessException("La contraseña con la que desea ingresar es incorrecta.");
             }
-            if(usuarios.State != Domain.Enums.BaseState.Activo)
+            if(usuarios.State != BaseState.Activo)
             {
                 throw new UnauthorizedAccessException("El usuario no se encuentra activo en este momento.");
             }
@@ -52,14 +52,13 @@ namespace APIAUTH.Aplication.Services
 
         private string GenerateIdToken(Usuario usuario)
         {
-            var userType = Enum.Parse<Domain.Enums.UsuarioTipoEnum>(usuario.UserType.Description);
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.User.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Cuenta.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
                 new Claim("idUser", usuario.Id.ToString()),
-                new Claim("Name", $"{usuario.LastName}, {usuario.Name}"),
+                new Claim("Descripcion", $"{usuario.Apellido}, {usuario.Nombre}"),
                 new Claim("email", usuario.Email),
             };
 
@@ -82,10 +81,10 @@ namespace APIAUTH.Aplication.Services
             
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.User.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Cuenta.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, usuario.Role.Description),
-                new Claim("isGenericPassword", usuario.User.IsGenericPassword.ToString()),
+                new Claim(ClaimTypes.Role, usuario.Rol.Descripcion),
+                new Claim("isGenericPassword", usuario.Cuenta.IsGenericPassword.ToString()),
 
             };
 
@@ -124,7 +123,7 @@ namespace APIAUTH.Aplication.Services
             var accessToken = GenerateAccessToken(collaborator);
             var refreshToken = GenerateRefreshToken();
 
-            SaveRefreshTokenAsync(collaborator.UserId, refreshToken);
+            SaveRefreshTokenAsync(collaborator.CuentaId, refreshToken);
 
             return (idToken, accessToken, refreshToken);
         }

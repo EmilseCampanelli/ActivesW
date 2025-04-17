@@ -8,6 +8,6 @@ namespace APIAUTH.Domain.Entities
 {
     public class UsuarioTipo : BaseEntity
     {
-        public string Description { get; set; }
+        public string Descripcion { get; set; }
     }
 }

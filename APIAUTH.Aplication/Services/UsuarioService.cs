@@ -14,10 +14,10 @@ namespace APIAUTH.Aplication.Services
         private readonly IRepository<Usuario> _repository;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<Rol> _roleRepository;
         private readonly IRepository<Domicilio> _domicilioRepository;
 
-        public UsuarioService(IRepository<Usuario> repository, IMapper mapper, IUserService userService, IRepository<Role> roleRepository, IRepository<Domicilio> domicilioRepository)
+        public UsuarioService(IRepository<Usuario> repository, IMapper mapper, IUserService userService, IRepository<Rol> roleRepository, IRepository<Domicilio> domicilioRepository)
         {
             _repository = repository;
             _mapper = mapper;
@@ -33,9 +33,9 @@ namespace APIAUTH.Aplication.Services
             var usuarioDto = _mapper.Map<UsuarioDto>(usuario);
             var userDto = _userService.ActivePassword(usuarioDto).Result;
            
-            usuario.User.Password = userDto.Password;
-            usuario.User.PasswordDate = userDto.PasswordDate;
-            usuario.User.IsGenericPassword = userDto.IsGenericPassword;
+            usuario.Cuenta.Password = userDto.Password;
+            usuario.Cuenta.PasswordDate = userDto.PasswordDate;
+            usuario.Cuenta.IsGenericPassword = userDto.IsGenericPassword;
 
             await _repository.Update(usuario);
         }

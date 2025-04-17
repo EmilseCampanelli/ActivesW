@@ -1,37 +1,32 @@
 ﻿using APIAUTH.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace APIAUTH.Domain.Entities
 {
     public class Usuario : BaseEntity
     {
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public int DocumentNumber { get; set; }
-        public TipoDocumento DocumentType { get; set; }
-        public string NumberPhone { get; set; }
-        public string? Photo { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public int Documento { get; set; }
+        public TipoDocumento TipoDocumento { get; set; }
+        public string Telefono { get; set; }
+        public string? PhotoUrl { get; set; }
         public string Email { get; set; }
         public string BackupEmail { get; set; }
         public Sexo Sexo { get; set; }
 
-        public int UserTypeId { get; set; }
-        public virtual UsuarioTipo UserType { get; set; }
+        public int UsuarioTipoId { get; set; }
+        public virtual UsuarioTipo UsuarioTipo { get; set; }
 
         public virtual List<Domicilio>  Domicilios {get; set;}
 
-        public int? CompanyId { get; set; }
-        public virtual Empresa Company { get; set; }
+        public int? EmpresaId { get; set; }
+        public virtual Empresa Empresa { get; set; }
 
-        public int UserId { get; set; }
-        public virtual Cuenta User { get; set; }
+        public int CuentaId { get; set; }
+        public virtual Cuenta Cuenta { get; set; }
 
-        public int RoleId { get; set; }
-        public virtual Role Role { get; set; }
+        public int RolId { get; set; }
+        public virtual Rol Rol { get; set; }
 
     }
 }

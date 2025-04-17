@@ -16,7 +16,7 @@ namespace APIAUTH.Domain.Repository
         Task<Cuenta> GetUserByEmailAsync(string username);
         Task<bool> ValidatePasswordAsync(Cuenta user, string password);
         Usuario GetCollaboratorByIdUser(int id);
-        List<Role> GetRoles();
+        List<Rol> GetRoles();
         Task<Cuenta> GetUserByRefreshTokenAsync(string refreshToken);
     }
 }

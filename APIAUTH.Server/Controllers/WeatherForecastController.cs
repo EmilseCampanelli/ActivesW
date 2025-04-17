@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
 {
-    [ApiController]
+   /* [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace APIAUTH.Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet(Descripcion = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -29,5 +29,5 @@ namespace APIAUTH.Server.Controllers
             })
             .ToArray();
         }
-    }
+    }*/
 }

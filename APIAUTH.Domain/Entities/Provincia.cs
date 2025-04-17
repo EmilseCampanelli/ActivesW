@@ -8,6 +8,6 @@ namespace APIAUTH.Domain.Entities
 {
     public class Provincia : BaseEntity
     {
-        public string Name { get; set; }
+        public string Descripcion { get; set; }
     }
 }
