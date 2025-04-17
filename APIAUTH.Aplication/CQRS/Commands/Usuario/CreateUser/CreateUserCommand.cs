@@ -4,17 +4,17 @@ using MediatR;
 namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
 {
     public record CreateUserCommand(
-        string Name,
-        string LastName,
-        int DocumentNumber,
-        TipoDocumento DocumentType,
-        string NumberPhone,
+        string Nombre,
+        string Apellido,
+        int Documento,
+        TipoDocumento TipoDocumento,
+        string Telefono,
         string Email,
         string BackupEmail,
         Sexo Sexo,
-        int? CompanyId,
-        int RoleId,
-        int? UserTypeId,
+        int? EmpresaId,
+        int RolId,
+        int? UsuarioTipoId,
         CreateDomicilioCommand Domicilio
     ) : IRequest<int>; // Retorna el ID del nuevo usuario
 

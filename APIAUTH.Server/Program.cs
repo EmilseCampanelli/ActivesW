@@ -16,6 +16,9 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
+using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
+using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,10 +54,23 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly);
 });
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(UpdateUserCommand).Assembly);
+});
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(CreateCategoriaCommand).Assembly);
+});
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(UpdateCategoriaCommand).Assembly);
+});
 
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserValidator>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));

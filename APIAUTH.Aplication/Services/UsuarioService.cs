@@ -112,7 +112,7 @@ namespace APIAUTH.Aplication.Services
 
             if (dto.Id.Equals(0))
             {
-                dto.User = await _userService.Save(dto);
+                dto.Cuenta = await _userService.Save(dto);
                 var nuevoUsuario = _mapper.Map<Usuario>(dto);
                 BaseEntityHelper.SetCreated(nuevoUsuario);
                 usuario = await _repository.Add(nuevoUsuario);

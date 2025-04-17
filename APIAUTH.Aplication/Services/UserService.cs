@@ -32,7 +32,7 @@ namespace APIAUTH.Aplication.Services
             try
             {
                 user.Email = dto.Email;
-                user.Password = BCrypt.Net.BCrypt.HashPassword(dto.DocumentNumber.ToString());
+                user.Password = BCrypt.Net.BCrypt.HashPassword(dto.Documento.ToString());
                 user.IsGenericPassword = true;
                 user.PasswordDate = DateTime.Now;
                 user.BaseState = Domain.Enums.BaseState.Activo;
@@ -85,8 +85,8 @@ namespace APIAUTH.Aplication.Services
 
         public async Task<CuentaDto> ActivePassword(UsuarioDto? collaborator)
         {
-            var user = collaborator.User;
-            user.Password = BCrypt.Net.BCrypt.HashPassword(collaborator.DocumentNumber.ToString());
+            var user = collaborator.Cuenta;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(collaborator.Documento.ToString());
             user.IsGenericPassword = true;
             user.PasswordDate = DateTime.Now;
 

@@ -47,9 +47,6 @@ namespace APIAUTH.Server.Controllers
             return Ok(usuario);
         }
 
-
-
-
         //[Authorize(Policy = "UserAndAdmin")] //TODO: Agregar los roles y politicas requeridas
         [HttpPost("PutImages")]
         public async Task<IActionResult> PutImages([FromForm] IFormFile image)

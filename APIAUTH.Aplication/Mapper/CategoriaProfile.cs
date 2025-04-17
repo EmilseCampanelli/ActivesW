@@ -1,4 +1,6 @@
-﻿using APIAUTH.Aplication.DTOs;
+﻿using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
+using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
+using APIAUTH.Aplication.DTOs;
 using APIAUTH.Domain.Entities;
 using AutoMapper;
 
@@ -10,6 +12,9 @@ namespace APIAUTH.Aplication.Mapper
         {
             CreateMap<CategoriaDto, Categoria>()
                 .ReverseMap();
+
+            CreateMap<CreateCategoriaCommand, CategoriaDto>();
+            CreateMap<UpdateCategoriaCommand, CategoriaDto>();
         }
     }
 }

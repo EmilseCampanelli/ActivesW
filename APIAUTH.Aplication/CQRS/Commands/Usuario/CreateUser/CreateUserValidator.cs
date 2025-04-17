@@ -6,7 +6,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
     {
         public CreateUserValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.Nombre).NotEmpty();
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.Domicilio).SetValidator(new CreateDomicilioValidator());
         }
