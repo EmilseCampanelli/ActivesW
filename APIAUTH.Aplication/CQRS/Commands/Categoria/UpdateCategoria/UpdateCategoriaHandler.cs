@@ -1,6 +1,6 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
 using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using AutoMapper;
 using MediatR;
 using System;

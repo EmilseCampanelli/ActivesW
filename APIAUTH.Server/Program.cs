@@ -1,24 +1,24 @@
-using APIAUTH.Aplication.Interfaces;
-using APIAUTH.Aplication.Services;
+using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
+using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
+using APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto;
+using APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto;
+using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
+using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
+using APIAUTH.Aplication.Mapper;
+using APIAUTH.Aplication.Policies;
+using APIAUTH.Aplication.Services.Implementacion;
+using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Data.Context;
 using APIAUTH.Data.Repository;
 using APIAUTH.Domain.Repository;
+using APIAUTH.Infrastructure.Services;
+using APIAUTH.Infrastructure.SignalR;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using APIAUTH.Aplication.Mapper;
-using APIAUTH.Aplication.Policies;
-using APIAUTH.Infrastructure.Services;
-using APIAUTH.Infrastructure.SignalR;
-using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
-using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
-using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +49,7 @@ builder.Services.AddScoped<ICompanyService, OrganizationService>();
 builder.Services.AddScoped<IDomicilioService, DomicilioService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IDatosMaestrosService, DatosMaestrosService>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -66,11 +67,20 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(UpdateCategoriaCommand).Assembly);
 });
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(CreateProductoCommand).Assembly);
+});
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(UpdateProductoCommand).Assembly);
+});
 
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductoValidator>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -107,7 +117,6 @@ builder.Services.AddSignalR();
 
 
 var app = builder.Build();
-app.MapGet("/", () => "API Activa en Railway");
 
 using (var scope = app.Services.CreateScope())
 {

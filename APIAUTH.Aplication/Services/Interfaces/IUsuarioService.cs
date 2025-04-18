@@ -2,7 +2,7 @@
 using APIAUTH.Aplication.DTOs;
 using Microsoft.AspNetCore.Http;
 
-namespace APIAUTH.Aplication.Interfaces
+namespace APIAUTH.Aplication.Services.Interfaces
 {
     public interface IUsuarioService : IGenericService<UsuarioDto>
     {

@@ -1,9 +1,10 @@
 ﻿using APIAUTH.Aplication.DTOs;
+using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Enums;
 using APIAUTH.Domain.Repository;
 
-namespace APIAUTH.Aplication.Interfaces
+namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class DatosMaestrosService : IDatosMaestrosService
     {
@@ -46,6 +47,13 @@ namespace APIAUTH.Aplication.Interfaces
         public List<ComboDto> GetEstadoOrden()
         {
             var estadosCbx = EnumHelper.ToDtoList<EstadoOrden>();
+
+            return estadosCbx;
+        }
+
+        public List<ComboDto> GetEstadoProducto()
+        {
+            var estadosCbx = EnumHelper.ToDtoList<EstadoProducto>();
 
             return estadosCbx;
         }

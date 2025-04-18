@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIAUTH.Aplication.Interfaces
+namespace APIAUTH.Aplication.Services.Interfaces
 {
     public interface IGenericService<TDto>
          where TDto : BaseDto

@@ -1,13 +1,13 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Helpers;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 
-namespace APIAUTH.Aplication.Services
+namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class UsuarioService : IUsuarioService
     {
@@ -32,7 +32,7 @@ namespace APIAUTH.Aplication.Services
             BaseEntityHelper.SetActive(usuario);
             var usuarioDto = _mapper.Map<UsuarioDto>(usuario);
             var userDto = _userService.ActivePassword(usuarioDto).Result;
-           
+
             usuario.Cuenta.Password = userDto.Password;
             usuario.Cuenta.PasswordDate = userDto.PasswordDate;
             usuario.Cuenta.IsGenericPassword = userDto.IsGenericPassword;
@@ -68,7 +68,7 @@ namespace APIAUTH.Aplication.Services
         public async Task<string> PutImage(IFormFile image)
         {
             var pathImage = await SavePicture(image);
-            return String.Join(",", pathImage);
+            return string.Join(",", pathImage);
         }
 
         public async Task<string> SavePicture(IFormFile image)
@@ -145,7 +145,7 @@ namespace APIAUTH.Aplication.Services
             var collaboratorDto = new List<UsuarioDto>();
             var collaborators = await _repository.GetAll();
 
-            foreach(var collaborator  in collaborators)
+            foreach (var collaborator in collaborators)
             {
                 collaboratorDto.Add(_mapper.Map<UsuarioDto>(collaborator));
             }
@@ -169,7 +169,7 @@ namespace APIAUTH.Aplication.Services
         public async Task<int> AddToUsuarioAsync(int usuarioId, CreateDomicilioCommand dto)
         {
             // Validar si ya existe un domicilio igual para el usuario
-            var domicilioExistente = _domicilioRepository.GetFiltered(e => e.UsuarioId == usuarioId && 
+            var domicilioExistente = _domicilioRepository.GetFiltered(e => e.UsuarioId == usuarioId &&
                                     e.Calle.ToLower() == dto.Calle.ToLower() && e.Numero.ToLower() == dto.Numero.ToLower() &&
                                     e.CodigoPostal.ToLower() == dto.CodigoPostal.ToLower()).FirstOrDefault();
             if (domicilioExistente != null)

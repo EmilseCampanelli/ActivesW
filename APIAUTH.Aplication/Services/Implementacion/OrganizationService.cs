@@ -1,11 +1,11 @@
 ﻿using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Helpers;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using AutoMapper;
 
-namespace APIAUTH.Aplication.Services
+namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class OrganizationService : ICompanyService
     {
@@ -27,7 +27,7 @@ namespace APIAUTH.Aplication.Services
 
         public async Task<bool> Exists(int id)
         {
-           return await _organizationRepository.Get(id) != null;
+            return await _organizationRepository.Get(id) != null;
         }
 
         public async Task<EmpresaDto> Get(int id)
@@ -59,7 +59,7 @@ namespace APIAUTH.Aplication.Services
         public async Task<EmpresaDto> Save(EmpresaDto dto)
         {
             var organization = new Empresa();
-            
+
             if (dto.Id.Equals(0))
             {
                 var newOrganization = _mapper.Map<Empresa>(dto);

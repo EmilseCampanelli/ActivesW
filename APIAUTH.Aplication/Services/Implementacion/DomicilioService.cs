@@ -1,6 +1,6 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using AutoMapper;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIAUTH.Aplication.Services
+namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class DomicilioService : IDomicilioService
     {

@@ -1,5 +1,5 @@
 ﻿using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
@@ -31,6 +31,12 @@ namespace APIAUTH.Server.Controllers
         public ActionResult<List<ComboDto>> GetEstadoOrden()
         {
             return _datosMaestrosService.GetEstadoOrden();
+        }
+
+        [HttpGet("estado-producto")]
+        public ActionResult<List<ComboDto>> GetEstadoProducto()
+        {
+            return _datosMaestrosService.GetEstadoProducto();
         }
 
         [HttpGet("tipo-documento")]

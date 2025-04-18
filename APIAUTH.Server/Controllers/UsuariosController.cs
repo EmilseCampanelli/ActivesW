@@ -1,7 +1,7 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
 using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -52,12 +52,6 @@ namespace APIAUTH.Server.Controllers
         public async Task<IActionResult> PutImages([FromForm] IFormFile image)
         {
             return Ok(await _usuarioService.PutImage(image));
-        }
-
-        [HttpGet("GetRoles")]
-        public async Task<IActionResult> GetRoles()
-        {
-            return Ok(await _usuarioService.GetRoles());
         }
 
         [HttpPost("Blocked")]

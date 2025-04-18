@@ -1,5 +1,5 @@
 ﻿using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Infrastructure.Services;
 using Microsoft.AspNet.SignalR.Messaging;

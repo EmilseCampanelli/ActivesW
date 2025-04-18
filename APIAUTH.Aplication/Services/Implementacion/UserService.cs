@@ -1,13 +1,13 @@
 ﻿using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Helpers;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Aplication.Valitations;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using AutoMapper;
 using System.Net.Mail;
 
-namespace APIAUTH.Aplication.Services
+namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class UserService : IUserService
     {

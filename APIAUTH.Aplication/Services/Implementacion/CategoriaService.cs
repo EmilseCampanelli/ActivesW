@@ -1,11 +1,11 @@
 ﻿using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Helpers;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using AutoMapper;
 
-namespace APIAUTH.Aplication.Services
+namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class CategoriaService : ICategoriaService
     {

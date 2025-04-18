@@ -1,5 +1,5 @@
 ﻿using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Interfaces;
+using APIAUTH.Aplication.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers

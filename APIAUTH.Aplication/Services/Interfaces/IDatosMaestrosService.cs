@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIAUTH.Aplication.Interfaces
+namespace APIAUTH.Aplication.Services.Interfaces
 {
     public interface IDatosMaestrosService
     {
@@ -13,6 +13,7 @@ namespace APIAUTH.Aplication.Interfaces
         List<ComboDto> GetEstadoCarrito();
         List<ComboDto> GetEstadoOrden();
         List<ComboDto> GetTipoDocumento();
+        List<ComboDto> GetEstadoProducto();
         Task<List<ComboDto>> GetTipoUsuario();
         Task<List<ComboDto>> GetRoles();
         Task<List<ComboDto>> GetPais();

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIAUTH.Aplication.Interfaces
+namespace APIAUTH.Aplication.Services.Interfaces
 {
-    public interface IUserService 
+    public interface IUserService
     {
         Task<bool> Exists(int id);
         Task<CuentaDto> Save(UsuarioDto dto);

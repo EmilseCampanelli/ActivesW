@@ -1,9 +1,5 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
 using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
-using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
-using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
-using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

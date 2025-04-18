@@ -6,12 +6,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Google.Apis.Auth;
 using Microsoft.Extensions.Configuration;
-using APIAUTH.Aplication.Interfaces;
 using System.Text.Json;
 using APIAUTH.Aplication.DTOs;
 using APIAUTH.Domain.Enums;
+using APIAUTH.Aplication.Services.Interfaces;
 
-namespace APIAUTH.Aplication.Services
+namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class AuthenticationService : IAuthenticationService
     {
@@ -28,7 +28,7 @@ namespace APIAUTH.Aplication.Services
         {
             var user = await _userRepository.GetUserByEmailAsync(email);
             var usuarios = _userRepository.GetCollaboratorByIdUser(user.Id);
-            if (user == null )
+            if (user == null)
             {
                 throw new UnauthorizedAccessException("El usuario con el que desea ingresar no existe.");
             }
@@ -36,7 +36,7 @@ namespace APIAUTH.Aplication.Services
             {
                 throw new UnauthorizedAccessException("La contraseña con la que desea ingresar es incorrecta.");
             }
-            if(usuarios.State != BaseState.Activo)
+            if (usuarios.State != BaseState.Activo)
             {
                 throw new UnauthorizedAccessException("El usuario no se encuentra activo en este momento.");
             }
@@ -78,7 +78,7 @@ namespace APIAUTH.Aplication.Services
 
         private string GenerateAccessToken(Usuario usuario)
         {
-            
+
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Cuenta.Email),
@@ -105,16 +105,16 @@ namespace APIAUTH.Aplication.Services
 
         public async Task<(string idToken, string accessToken, string refreshToken)> AuthenticateWithGoogleAsync(string idTokenGoogle)
         {
-          
+
             string email = GetEmailFromIdToken(idTokenGoogle);
 
-            var collaborator =  _userRepository.GetByEmail(email);
+            var collaborator = _userRepository.GetByEmail(email);
 
             if (collaborator == null)
             {
                 throw new UnauthorizedAccessException("El usuario con el que desea ingresar no existe.");
             }
-            if (collaborator.State != Domain.Enums.BaseState.Activo)
+            if (collaborator.State != BaseState.Activo)
             {
                 throw new UnauthorizedAccessException("El usuario no se encuentra activo en este momento.");
             }
@@ -145,8 +145,8 @@ namespace APIAUTH.Aplication.Services
 
         private async Task<GoogleTokenResponse> GetAccessByGoogle(string authorizationCode)
         {
-            
-            var responseData  = new GoogleTokenResponse();
+
+            var responseData = new GoogleTokenResponse();
 
             return responseData;
         }
@@ -184,10 +184,10 @@ namespace APIAUTH.Aplication.Services
         public async void SaveRefreshTokenAsync(int userId, string refreshToken)
         {
             var user = await _userRepository.Get(userId);
-            user.RefreshToken=refreshToken;
+            user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryDate = DateTime.UtcNow.AddDays(30);
 
-           await _userRepository.Update(user);
+            await _userRepository.Update(user);
         }
 
     }
