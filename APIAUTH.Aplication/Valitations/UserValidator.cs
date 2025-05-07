@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.Valitations
 {
-    public class UserValidator : AbstractValidator<CuentaDto>
+    public class UserValidator : AbstractValidator<AccountDto>
     {
         public UserValidator()
         {

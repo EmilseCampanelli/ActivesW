@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.Services.Interfaces
 {
-    public interface ICompanyService : IGenericService<EmpresaDto>
+    public interface ICompanyService : IGenericService<CompanyDto>
     {
     }
 }

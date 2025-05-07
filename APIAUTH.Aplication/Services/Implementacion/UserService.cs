@@ -1,23 +1,43 @@
-﻿using APIAUTH.Aplication.DTOs;
+﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
+using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Helpers;
 using APIAUTH.Aplication.Services.Interfaces;
-using APIAUTH.Aplication.Valitations;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using AutoMapper;
-using System.Net.Mail;
+using Microsoft.AspNetCore.Http;
 
 namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _repository;
+        private readonly IRepository<User> _repository;
         private readonly IMapper _mapper;
+        private readonly IAccountService _accountService;
+        private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<Address> _addressRepository;
 
-        public UserService(IMapper mapper, IUserRepository repository)
+        public UserService(IRepository<User> repository, IMapper mapper, IAccountService accountService, IRepository<Role> roleRepository, IRepository<Address> addressRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _accountService = accountService;
+            _roleRepository = roleRepository;
+            _addressRepository = addressRepository;
+        }
+
+        public async Task Activate(int id)
+        {
+            var usuario = await _repository.Get(id);
+            BaseEntityHelper.SetActive(usuario);
+            var usuarioDto = _mapper.Map<UserDto>(usuario);
+            var userDto = _accountService.ActivePassword(usuarioDto).Result;
+
+            usuario.Account.Password = userDto.Password;
+            usuario.Account.PasswordDate = userDto.PasswordDate;
+            usuario.Account.IsGenericPassword = userDto.IsGenericPassword;
+
+            await _repository.Update(usuario);
         }
 
         public async Task<bool> Exists(int id)
@@ -25,72 +45,128 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return await _repository.Get(id) != null;
         }
 
-        public async Task<CuentaDto> Save(UsuarioDto dto)
+        public async Task<UserDto> Get(int id)
         {
-            var user = new Cuenta();
+            var model = await _repository.Get(id);
+            return _mapper.Map<UserDto>(model);
+        }
 
+        public async Task Inactivate(int id)
+        {
+            var collaborator = await _repository.Get(id);
+            BaseEntityHelper.SetInactive(collaborator);
+            await _repository.Update(collaborator);
+        }
+
+        public async Task Blocked(int id)
+        {
+            var collaborator = await _repository.Get(id);
+            collaborator.State = Domain.Enums.BaseState.Bloquado;
+            await _repository.Update(collaborator);
+        }
+
+        public async Task<string> PutImage(IFormFile image)
+        {
+            var pathImage = await SavePicture(image);
+            return string.Join(",", pathImage);
+        }
+
+        public async Task<string> SavePicture(IFormFile image)
+        {
+            var stringPath = "";
+
+            if (image == null)
+            {
+                return stringPath;
+            }
             try
             {
-                user.Email = dto.Email;
-                user.Password = BCrypt.Net.BCrypt.HashPassword(dto.Documento.ToString());
-                user.IsGenericPassword = true;
-                user.PasswordDate = DateTime.Now;
-                user.BaseState = Domain.Enums.BaseState.Activo;
-            }
-            catch (FormatException ex)
-            {
-                throw new Exception(ex.Message);
-            }
+                var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images");
 
-            return _mapper.Map<CuentaDto>(user);
-        }
-
-        //TODO:
-        /*
-         * Alerta de vencimiento de contraseña (DEJAR PARA EL FINAL) con el campo PasswordDate
-         */
-
-        public async Task RecoverPassword(string email)
-        {
-            var collaborator = _repository.GetByEmail(email);
-            if (collaborator == null || collaborator.State == Domain.Enums.BaseState.Activo)
-            {
-                throw new UnauthorizedAccessException("Cuenta is non-existent");
-            }
-
-            //TODO: Se debe bloquear al usuario y devolver el id del usuario administrador
-        }
-
-        public async Task<bool> ChangePassword(UserPasswordDto dto)
-        {
-            var collaborator = _repository.GetByEmail(dto.Email);
-            if (collaborator != null && collaborator.Cuenta != null)
-            {
-                if (await _repository.ValidatePasswordAsync(collaborator.Cuenta, dto.CurrentPassword))
+                if (!Directory.Exists(uploadFolder))
                 {
-                    var user = collaborator.Cuenta;
-                    user.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
-                    user.PasswordDate = DateTime.Now;
-                    user.IsGenericPassword = false;
-                    return await _repository.Update(user) != null;
+                    Directory.CreateDirectory(uploadFolder);
                 }
-                else
+
+                var imageName = $"{Path.GetFileNameWithoutExtension(image.FileName)}_{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
+                var imagePath = Path.Combine(uploadFolder, imageName);
+
+                using (var stream = new FileStream(imagePath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                 {
-                    throw new UnauthorizedAccessException("Incorrect Password");
+                    await image.CopyToAsync(stream);
                 }
+
+                stringPath = Path.Combine("Images", imageName); //TODO: Modificar esta ruta
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar la imagen", ex);
             }
 
-            throw new UnauthorizedAccessException("Cuenta is non-existent");
+            return stringPath;
         }
 
-        public async Task<CuentaDto> ActivePassword(UsuarioDto? collaborator)
+        public async Task<UserDto> Save(UserDto dto)
         {
-            var user = collaborator.Cuenta;
-            user.Password = BCrypt.Net.BCrypt.HashPassword(collaborator.Documento.ToString());
-            user.IsGenericPassword = true;
-            user.PasswordDate = DateTime.Now;
+            User usuario = new User();
 
-            return user;
+            if (dto.Id.Equals(0))
+            {
+                dto.Account = await _accountService.Save(dto);
+                var nuevoUsuario = _mapper.Map<User>(dto);
+                nuevoUsuario.RoleId = 1;
+                BaseEntityHelper.SetCreated(nuevoUsuario);
+                usuario = await _repository.Add(nuevoUsuario);
+            }
+            else
+            {
+                var updatedUsuario = _mapper.Map<User>(dto);
+                BaseEntityHelper.SetUpdated(updatedUsuario);
+                usuario = await _repository.Update(updatedUsuario);
+            }
+            return _mapper.Map<UserDto>(usuario);
         }
+
+        public async Task<(bool isValid, string message)> Validate(int? id, UserDto dto)
+        {
+            var validations = new List<(bool isValid, string message)>();
+
+            //TODO: Agregar las validaciones
+
+            //var validator = new CollaboratorValidator();
+            //var result = await validator.ValidateAsync(dto);
+            //validations.Add((result.IsValid, string.Join(Environment.NewLine, result.Errors.Select(x => $"Campo {x.PropertyName} invalido. Error: {x.ErrorMessage}"))));
+
+            return (isValid: validations.All(x => x.isValid),
+                   message: string.Join(Environment.NewLine, validations.Where(x => !x.isValid).Select(x => x.message)));
+        }
+
+        public async Task<List<UserDto>> GetAll()
+        {
+            var collaboratorDto = new List<UserDto>();
+            var collaborators = await _repository.GetAll();
+
+            foreach (var collaborator in collaborators)
+            {
+                collaboratorDto.Add(_mapper.Map<UserDto>(collaborator));
+            }
+
+            return collaboratorDto;
+        }
+
+        public async Task<List<RoleDto>> GetRoles()
+        {
+            var roles = await _roleRepository.GetAll();
+            var roleDto = new List<RoleDto>();
+
+            foreach (var role in roles)
+            {
+                roleDto.Add(_mapper.Map<RoleDto>(role));
+            }
+
+            return roleDto;
+        }
+
+
     }
 }

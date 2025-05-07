@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace APIAUTH.Aplication.DTOs
+﻿namespace APIAUTH.Aplication.DTOs
 {
     public class ComboDto
     {
@@ -12,9 +6,9 @@ namespace APIAUTH.Aplication.DTOs
         public ComboDto(int id, string descripcion)
         {
             Id = id;
-            Descripcion = descripcion;
+            Description = descripcion;
         }
         public int Id { get; set; }
-        public string Descripcion { get; set; }
+        public string Description { get; set; }
     }
 }

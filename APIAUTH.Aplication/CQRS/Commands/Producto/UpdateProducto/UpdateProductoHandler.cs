@@ -13,10 +13,10 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto
 {
     public class UpdateProductoHandler :IRequestHandler<UpdateProductoCommand, int>
     {
-        private readonly IProductoService _productoService;
+        private readonly IProductService _productoService;
         private readonly IMapper _mapper;
 
-        public UpdateProductoHandler(IProductoService productoService, IMapper mapper)
+        public UpdateProductoHandler(IProductService productoService, IMapper mapper)
         {
             _productoService = productoService;
             _mapper = mapper;

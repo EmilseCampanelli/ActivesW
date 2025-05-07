@@ -10,7 +10,7 @@ namespace APIAUTH.Aplication.Mapper
     {
         public CategoriaProfile()
         {
-            CreateMap<CategoriaDto, Categoria>()
+            CreateMap<CategoriaDto, Category>()
                 .ReverseMap();
 
             CreateMap<CreateCategoriaCommand, CategoriaDto>();

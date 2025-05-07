@@ -12,10 +12,10 @@ namespace APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria
 {
     public class CreateCategoriaHandler : IRequestHandler<CreateCategoriaCommand, int>
     {
-        private readonly ICategoriaService _categoriaService;
+        private readonly ICategoryService _categoriaService;
         private readonly IMapper _mapper;
 
-        public CreateCategoriaHandler(ICategoriaService categoriaService, IMapper mapper)
+        public CreateCategoriaHandler(ICategoryService categoriaService, IMapper mapper)
         {
             _categoriaService = categoriaService;
             _mapper = mapper;

@@ -1,10 +1,4 @@
-﻿using APIAUTH.Domain.Entities;
-using APIAUTH.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using APIAUTH.Domain.Enums;
 
 namespace APIAUTH.Aplication.DTOs
 {
@@ -18,6 +12,6 @@ namespace APIAUTH.Aplication.DTOs
         public int CategoriaId { get; set; }
         public CategoriaDto Categoria { get; set; }
         public string Slug { get; set; }
-        public EstadoProducto EstadoProducto { get; set; }
+        public ProductState EstadoProducto { get; set; }
     }
 }

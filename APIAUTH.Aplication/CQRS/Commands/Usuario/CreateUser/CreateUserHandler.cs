@@ -12,10 +12,10 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
 {
     public class CreateUserHandler : IRequestHandler<CreateUserCommand, int>
     {
-        private readonly IUsuarioService _usuarioService;
+        private readonly IUserService _usuarioService;
         private readonly IMapper _mapper;
 
-        public CreateUserHandler(IUsuarioService usuarioService, IMapper mapper)
+        public CreateUserHandler(IUserService usuarioService, IMapper mapper)
         {
             _usuarioService = usuarioService;
             _mapper = mapper;
@@ -23,7 +23,14 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var dto = _mapper.Map<UsuarioDto>(request);
+            var dto = new UserDto
+            {
+                Name = request.Name,
+                Email = request.Email,
+                LastName = request.LastName,
+                Account = new AccountDto { Password = request.Password },
+                Gender = request.Gender
+            };
             var result = await _usuarioService.Save(dto);
             return result.Id;
         }

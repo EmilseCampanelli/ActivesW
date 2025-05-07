@@ -10,26 +10,19 @@ namespace APIAUTH.Aplication.Mapper
     {
         public UsuarioProfile()
         {
-            CreateMap<CreateUserCommand, UsuarioDto>()
-            .ForMember(dest => dest.Domicilios, opt => opt.MapFrom(src => new List<CreateDomicilioCommand> { src.Domicilio }));
 
-            CreateMap<CreateDomicilioCommand, Domicilio>();
-            CreateMap<CreateDomicilioCommand, DomicilioDto>();
+            CreateMap<UpdateUserCommand, UserDto>()
+           .ForMember(dest => dest.Addresses, opt => opt.Ignore()); // 👈 muy importante
 
 
 
-            CreateMap<UpdateUserCommand, UsuarioDto>()
-           .ForMember(dest => dest.Domicilios, opt => opt.Ignore()); // 👈 muy importante
-
-
-
-            CreateMap<UsuarioDto, Usuario>()
+            CreateMap<UserDto, User>()
                 .ReverseMap();
 
-            CreateMap<Rol, RoleDto>().ReverseMap();
+            CreateMap<Role, RoleDto>().ReverseMap();
 
-            CreateMap<Empresa, EmpresaDto>().ReverseMap();
-            CreateMap<Domicilio, DomicilioDto>().ReverseMap();
+            CreateMap<Company, CompanyDto>().ReverseMap();
+            CreateMap<Address, AddressDto>().ReverseMap();
         }
     }
 }

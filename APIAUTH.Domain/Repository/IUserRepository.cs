@@ -9,14 +9,14 @@ namespace APIAUTH.Domain.Repository
 {
     public interface IUserRepository
     {
-        Task<Cuenta> Add(Cuenta item);
-        Task<Cuenta> Update(Cuenta item);
-        Task<Cuenta> Get(int id);
-        Usuario GetByEmail(string email);
-        Task<Cuenta> GetUserByEmailAsync(string username);
-        Task<bool> ValidatePasswordAsync(Cuenta user, string password);
-        Usuario GetCollaboratorByIdUser(int id);
-        List<Rol> GetRoles();
-        Task<Cuenta> GetUserByRefreshTokenAsync(string refreshToken);
+        Task<Account> Add(Account item);
+        Task<Account> Update(Account item);
+        Task<Account> Get(int id);
+        User GetByEmail(string email);
+        Task<Account> GetUserByEmailAsync(string username);
+        Task<bool> ValidatePasswordAsync(Account user, string password);
+        User GetCollaboratorByIdUser(int id);
+        List<Role> GetRoles();
+        Task<Account> GetUserByRefreshTokenAsync(string refreshToken);
     }
 }

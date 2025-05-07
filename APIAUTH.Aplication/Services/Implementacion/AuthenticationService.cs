@@ -50,15 +50,15 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return (idToken, accessToken, refreshToken);
         }
 
-        private string GenerateIdToken(Usuario usuario)
+        private string GenerateIdToken(User usuario)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.Cuenta.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Account.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
                 new Claim("idUser", usuario.Id.ToString()),
-                new Claim("Descripcion", $"{usuario.Apellido}, {usuario.Nombre}"),
+                new Claim("Description", $"{usuario.LastName}, {usuario.Name}"),
                 new Claim("email", usuario.Email),
             };
 
@@ -76,15 +76,15 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private string GenerateAccessToken(Usuario usuario)
+        private string GenerateAccessToken(User usuario)
         {
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.Cuenta.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Account.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, usuario.Rol.Descripcion),
-                new Claim("isGenericPassword", usuario.Cuenta.IsGenericPassword.ToString()),
+                new Claim(ClaimTypes.Role, usuario.Role.Description),
+                new Claim("isGenericPassword", usuario.Account.IsGenericPassword.ToString()),
 
             };
 
@@ -123,7 +123,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             var accessToken = GenerateAccessToken(collaborator);
             var refreshToken = GenerateRefreshToken();
 
-            SaveRefreshTokenAsync(collaborator.CuentaId, refreshToken);
+            SaveRefreshTokenAsync(collaborator.AccountId, refreshToken);
 
             return (idToken, accessToken, refreshToken);
         }

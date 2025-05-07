@@ -14,65 +14,63 @@ namespace APIAUTH.Data.Repository
             _context = context;
         }
 
-        public async Task<Cuenta> Add(Cuenta item)
+        public async Task<Account> Add(Account item)
         {
-            _context.Cuentas.Add(item);
+            _context.Accounts.Add(item);
             await _context.SaveChangesAsync();
             return item;
         }
 
-        public async Task<Cuenta> Update(Cuenta item)
+        public async Task<Account> Update(Account item)
         {
             _context.Entry(item).State = EntityState.Modified;
             _context.SaveChanges();
             return item;
         }
 
-        public async Task<Cuenta> Get(int id)
+        public async Task<Account> Get(int id)
         {
-            return await _context.Cuentas.FindAsync(id);
+            return await _context.Accounts.FindAsync(id);
         }
 
-        public Usuario GetByEmail(string email)
+        public User GetByEmail(string email)
         {
-            return _context.Usuarios
-                .Include(u => u.Cuenta)
-                .Include(u => u.Rol)
-                .Include(u => u.Empresa)
-                .Include(u => u.UsuarioTipo)
-                .Include(u => u.Domicilios)
+            return _context.Users
+                .Include(u => u.Account)
+                .Include(u => u.Role)
+                .Include(u => u.Company)
+                .Include(u => u.Address)
                 .FirstOrDefault(u => u.Email == email);
         }
 
-        public async Task<Cuenta> GetUserByEmailAsync(string username)
+        public async Task<Account> GetUserByEmailAsync(string username)
         {
-            return await _context.Cuentas.FirstOrDefaultAsync(u => u.Email == username);
+            return await _context.Accounts.FirstOrDefaultAsync(u => u.Email == username);
         }
 
-        public async Task<bool> ValidatePasswordAsync(Cuenta user, string password)
+        public async Task<bool> ValidatePasswordAsync(Account user, string password)
         {
             return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
 
-        public Usuario GetCollaboratorByIdUser(int id)
+        public User GetCollaboratorByIdUser(int id)
         {
-            return _context.Usuarios
-                .Include(u => u.Cuenta)
-                .Include(u => u.Rol)
-                .Include(u => u.Empresa)
-                .Include(u => u.UsuarioTipo)
-                .Include(u => u.Domicilios)
-                .FirstOrDefault(u => u.CuentaId == id);
+            return _context.Users
+                .Include(u => u.Account)
+                .Include(u => u.Role)
+                .Include(u => u.Company)
+                .Include(u => u.Address)
+                .FirstOrDefault(u => u.AccountId == id);
         }
 
-        public List<Rol> GetRoles()
+        public List<Role> GetRoles()
         {
             return _context.Roles.ToList();
         }
 
-        public async Task<Cuenta> GetUserByRefreshTokenAsync(string refreshToken)
+        public async Task<Account> GetUserByRefreshTokenAsync(string refreshToken)
         {
-            return await _context.Cuentas
+            return await _context.Accounts
                 .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
         }
     }

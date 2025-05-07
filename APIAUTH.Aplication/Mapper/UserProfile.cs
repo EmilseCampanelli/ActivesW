@@ -13,7 +13,7 @@ namespace APIAUTH.Aplication.Mapper
     {
         public UserProfile()
         {
-            CreateMap<CuentaDto, Cuenta>()
+            CreateMap<AccountDto, Account>()
                 .ReverseMap();
 
         }

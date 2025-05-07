@@ -2,7 +2,7 @@
 {
     /*[Route("api/[controller]")]
     [ApiController]
-    public class OrganizationController : GenericController<ICompanyService, EmpresaDto>
+    public class OrganizationController : GenericController<ICompanyService, CompanyDto>
     {
         private readonly ICompanyService _organizationService;
 

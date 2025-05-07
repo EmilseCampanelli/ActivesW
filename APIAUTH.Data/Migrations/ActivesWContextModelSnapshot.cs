@@ -19,94 +19,7 @@ namespace APIAUTH.Data.Migrations
                 .HasAnnotation("ProductVersion", "7.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Carrito", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("EstadoCarrido")
-                        .HasColumnType("int");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Carritos");
-                });
-
-            modelBuilder.Entity("APIAUTH.Domain.Entities.CarritoProducto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CarritoId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<double>("PrecioUnitario")
-                        .HasColumnType("double");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarritoId");
-
-                    b.HasIndex("ProductoId");
-
-                    b.ToTable("CarritoProductos");
-                });
-
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Categoria", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categorias");
-                });
-
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Cuenta", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,34 +48,69 @@ namespace APIAUTH.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cuentas");
+                    b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Domicilio", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Calle")
+                    b.Property<string>("City")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Ciudad")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("CodigoPostal")
-                        .HasColumnType("longtext");
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Numero")
+                    b.Property<string>("Number")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("PaisId")
+                    b.Property<int>("ProvinceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProvinciaId")
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("ParentCategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("State")
@@ -171,25 +119,21 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PaisId");
+                    b.HasIndex("ParentCategoryId");
 
-                    b.HasIndex("ProvinciaId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Domicilios");
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Empresa", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Company", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("CUIT")
                         .HasColumnType("longtext");
@@ -197,10 +141,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Direccion")
+                    b.Property<string>("Description")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Email")
@@ -212,11 +153,11 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime>("OperationDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
-
-                    b.Property<string>("Telefono")
-                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime(6)");
@@ -226,7 +167,7 @@ namespace APIAUTH.Data.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Favorito", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Country", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -235,7 +176,30 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("ProductoId")
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Favorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("State")
@@ -244,16 +208,16 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UsuarioId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductoId");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Favoritos");
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Notificacion", b =>
@@ -291,17 +255,14 @@ namespace APIAUTH.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CarritoId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("EstadoOrden")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCompra")
+                    b.Property<DateTime>("OrdenDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("OrdenState")
+                        .HasColumnType("int");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
@@ -312,67 +273,45 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UsuarioId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarritoId");
-
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Ordenes");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Pais", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Pais");
-                });
-
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Producto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoriaId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Descripcion")
+                    b.Property<string>("Description")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("EstadoProducto")
+                    b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<string>("ImagesUrl")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Nombre")
-                        .HasColumnType("longtext");
-
-                    b.Property<double>("PrecioUnitario")
+                    b.Property<double>("Price")
                         .HasColumnType("double");
+
+                    b.Property<int>("ProductState")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Sizes")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Slug")
                         .HasColumnType("longtext");
@@ -383,17 +322,59 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
+                    b.Property<string>("Tags")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId");
+                    b.HasIndex("CategoryId");
 
-                    b.ToTable("Productos");
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Provincia", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.ProductLine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("OrdenId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrdenId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductLines");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Province", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -402,7 +383,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Descripcion")
+                    b.Property<string>("Description")
                         .HasColumnType("longtext");
 
                     b.Property<int>("State")
@@ -413,10 +394,10 @@ namespace APIAUTH.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Provincias");
+                    b.ToTable("Provinces");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Rol", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -425,7 +406,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Descripcion")
+                    b.Property<string>("Description")
                         .HasColumnType("longtext");
 
                     b.Property<int>("State")
@@ -439,86 +420,52 @@ namespace APIAUTH.Data.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Usuario", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Apellido")
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AvatarUrl")
                         .HasColumnType("longtext");
 
                     b.Property<string>("BackupEmail")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("CuentaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Documento")
+                    b.Property<int>("Document")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("EmpresaId")
+                    b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<string>("Nombre")
+                    b.Property<string>("LastName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PhotoUrl")
+                    b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("RolId")
-                        .HasColumnType("int");
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext");
 
-                    b.Property<int>("Sexo")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
 
-                    b.Property<string>("Telefono")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("TipoDocumento")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("UsuarioTipoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CuentaId");
-
-                    b.HasIndex("EmpresaId");
-
-                    b.HasIndex("RolId");
-
-                    b.HasIndex("UsuarioTipoId");
-
-                    b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("APIAUTH.Domain.Entities.UsuarioTipo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("State")
+                    b.Property<int>("TypeDocument")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -526,161 +473,151 @@ namespace APIAUTH.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UsuariosTipo");
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Carrito", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("APIAUTH.Domain.Entities.Usuario", "Usuario")
+                    b.HasOne("APIAUTH.Domain.Entities.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Usuario");
+                    b.HasOne("APIAUTH.Domain.Entities.Province", "Province")
+                        .WithMany()
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("APIAUTH.Domain.Entities.User", null)
+                        .WithMany("Address")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Province");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.CarritoProducto", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Category", b =>
                 {
-                    b.HasOne("APIAUTH.Domain.Entities.Carrito", "Carrito")
-                        .WithMany("Productos")
-                        .HasForeignKey("CarritoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("APIAUTH.Domain.Entities.Category", "ParentCategory")
+                        .WithMany("SubCategory")
+                        .HasForeignKey("ParentCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("APIAUTH.Domain.Entities.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Carrito");
-
-                    b.Navigation("Producto");
+                    b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Domicilio", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Favorite", b =>
                 {
-                    b.HasOne("APIAUTH.Domain.Entities.Pais", "Pais")
+                    b.HasOne("APIAUTH.Domain.Entities.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("PaisId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIAUTH.Domain.Entities.Provincia", "Provincia")
+                    b.HasOne("APIAUTH.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("ProvinciaId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIAUTH.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Domicilios")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Product");
 
-                    b.Navigation("Pais");
-
-                    b.Navigation("Provincia");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Favorito", b =>
-                {
-                    b.HasOne("APIAUTH.Domain.Entities.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("APIAUTH.Domain.Entities.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Producto");
-
-                    b.Navigation("Usuario");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Orden", b =>
                 {
-                    b.HasOne("APIAUTH.Domain.Entities.Carrito", "Carrito")
+                    b.HasOne("APIAUTH.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("CarritoId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIAUTH.Domain.Entities.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Carrito");
-
-                    b.Navigation("Usuario");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Producto", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Product", b =>
                 {
-                    b.HasOne("APIAUTH.Domain.Entities.Categoria", "Categoria")
+                    b.HasOne("APIAUTH.Domain.Entities.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoriaId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Categoria");
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Usuario", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.ProductLine", b =>
                 {
-                    b.HasOne("APIAUTH.Domain.Entities.Cuenta", "Cuenta")
-                        .WithMany()
-                        .HasForeignKey("CuentaId")
+                    b.HasOne("APIAUTH.Domain.Entities.Orden", "Orden")
+                        .WithMany("ProductLine")
+                        .HasForeignKey("OrdenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIAUTH.Domain.Entities.Empresa", "Empresa")
-                        .WithMany("Collaborators")
-                        .HasForeignKey("EmpresaId");
-
-                    b.HasOne("APIAUTH.Domain.Entities.Rol", "Rol")
+                    b.HasOne("APIAUTH.Domain.Entities.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("RolId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIAUTH.Domain.Entities.UsuarioTipo", "UsuarioTipo")
+                    b.Navigation("Orden");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.User", b =>
+                {
+                    b.HasOne("APIAUTH.Domain.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("UsuarioTipoId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cuenta");
+                    b.HasOne("APIAUTH.Domain.Entities.Company", "Company")
+                        .WithMany("Users")
+                        .HasForeignKey("CompanyId");
 
-                    b.Navigation("Empresa");
+                    b.HasOne("APIAUTH.Domain.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Rol");
+                    b.Navigation("Account");
 
-                    b.Navigation("UsuarioTipo");
+                    b.Navigation("Company");
+
+                    b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Carrito", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Category", b =>
                 {
-                    b.Navigation("Productos");
+                    b.Navigation("SubCategory");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Empresa", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Company", b =>
                 {
-                    b.Navigation("Collaborators");
+                    b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("APIAUTH.Domain.Entities.Usuario", b =>
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Orden", b =>
                 {
-                    b.Navigation("Domicilios");
+                    b.Navigation("ProductLine");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,11 +1,5 @@
-﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
-using APIAUTH.Domain.Enums;
+﻿using APIAUTH.Domain.Enums;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser
 {
@@ -14,11 +8,11 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser
         string Nombre,
         string Apellido,
         int Documento,
-        TipoDocumento TipoDocumento,
+        DocumentType TipoDocumento,
         string Telefono,
         string Email,
         string BackupEmail,
-        Sexo Sexo,
+        Gender Sexo,
         int? EmpresaId,
         int RolId,
         int? UsuarioTipoId

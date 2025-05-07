@@ -10,7 +10,7 @@ namespace APIAUTH.Aplication.Mapper
     {
         public ProductoProfile()
         {
-            CreateMap<Producto, ProductoDto>().ReverseMap();
+            CreateMap<Product, ProductoDto>().ReverseMap();
 
             CreateMap<CreateProductoCommand, ProductoDto>();
             CreateMap<UpdateProductoCommand, ProductoDto>();

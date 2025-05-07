@@ -9,10 +9,10 @@ namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class OrganizationService : ICompanyService
     {
-        private readonly IRepository<Empresa> _organizationRepository;
+        private readonly IRepository<Company> _organizationRepository;
         private readonly IMapper _mapper;
 
-        public OrganizationService(IRepository<Empresa> organizationRepository, IMapper mapper)
+        public OrganizationService(IRepository<Company> organizationRepository, IMapper mapper)
         {
             _organizationRepository = organizationRepository;
             _mapper = mapper;
@@ -30,20 +30,20 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return await _organizationRepository.Get(id) != null;
         }
 
-        public async Task<EmpresaDto> Get(int id)
+        public async Task<CompanyDto> Get(int id)
         {
             var model = await _organizationRepository.Get(id);
-            return _mapper.Map<EmpresaDto>(model);
+            return _mapper.Map<CompanyDto>(model);
         }
 
-        public async Task<List<EmpresaDto>> GetAll()
+        public async Task<List<CompanyDto>> GetAll()
         {
-            var organizationsDto = new List<EmpresaDto>();
+            var organizationsDto = new List<CompanyDto>();
             var organizations = await _organizationRepository.GetAll();
 
             foreach (var organ in organizations)
             {
-                organizationsDto.Add(_mapper.Map<EmpresaDto>(organ));
+                organizationsDto.Add(_mapper.Map<CompanyDto>(organ));
             }
 
             return organizationsDto;
@@ -56,27 +56,27 @@ namespace APIAUTH.Aplication.Services.Implementacion
             await _organizationRepository.Update(organization);
         }
 
-        public async Task<EmpresaDto> Save(EmpresaDto dto)
+        public async Task<CompanyDto> Save(CompanyDto dto)
         {
-            var organization = new Empresa();
+            var organization = new Company();
 
             if (dto.Id.Equals(0))
             {
-                var newOrganization = _mapper.Map<Empresa>(dto);
+                var newOrganization = _mapper.Map<Company>(dto);
                 BaseEntityHelper.SetCreated(newOrganization);
                 organization = await _organizationRepository.Add(newOrganization);
             }
             else
             {
-                var updateOrganization = _mapper.Map<Empresa>(dto);
+                var updateOrganization = _mapper.Map<Company>(dto);
                 BaseEntityHelper.SetUpdated(updateOrganization);
                 organization = await _organizationRepository.Update(updateOrganization);
             }
 
-            return _mapper.Map<EmpresaDto>(organization);
+            return _mapper.Map<CompanyDto>(organization);
         }
 
-        public async Task<(bool isValid, string message)> Validate(int? id, EmpresaDto dto)
+        public async Task<(bool isValid, string message)> Validate(int? id, CompanyDto dto)
         {
             var validations = new List<(bool isValid, string message)>();
 

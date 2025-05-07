@@ -12,10 +12,10 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser
 {
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, bool>
     {
-        private readonly IUsuarioService _usuarioService;
+        private readonly IUserService _usuarioService;
         private readonly IMapper _mapper;
 
-        public UpdateUserHandler(IUsuarioService usuarioService, IMapper mapper)
+        public UpdateUserHandler(IUserService usuarioService, IMapper mapper)
         {
             _usuarioService = usuarioService;
             _mapper = mapper;
@@ -23,7 +23,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser
 
         public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var dto = _mapper.Map<UsuarioDto>(request);
+            var dto = _mapper.Map<UserDto>(request);
 
             var result = await _usuarioService.Save(dto); // mismo Save de Create
             return result != null;

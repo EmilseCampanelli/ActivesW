@@ -13,10 +13,10 @@ namespace APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria
 {
     public record UpdateCategoriaHandler : IRequestHandler<UpdateCategoriaCommand, int>
     {
-        private readonly ICategoriaService _categoriaService;
+        private readonly ICategoryService _categoriaService;
         private readonly IMapper _mapper;
 
-        public UpdateCategoriaHandler(ICategoriaService categoriaService, IMapper mapper)
+        public UpdateCategoriaHandler(ICategoryService categoriaService, IMapper mapper)
         {
             _categoriaService = categoriaService;
             _mapper = mapper;

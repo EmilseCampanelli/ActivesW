@@ -12,10 +12,10 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
 {
     public class CreateProductoHandler : IRequestHandler<CreateProductoCommand, int>
     {
-        private readonly IProductoService _productoService;
+        private readonly IProductService _productoService;
         private readonly IMapper _mapper;
 
-        public CreateProductoHandler(IProductoService productoService, IMapper mapper)
+        public CreateProductoHandler(IProductService productoService, IMapper mapper)
         {
             _productoService = productoService;
             _mapper = mapper;

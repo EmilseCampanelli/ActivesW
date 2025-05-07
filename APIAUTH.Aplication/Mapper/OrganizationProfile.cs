@@ -8,7 +8,7 @@ namespace APIAUTH.Aplication.Mapper
     {
         public OrganizationProfile()
         {
-            CreateMap<EmpresaDto, Empresa>()
+            CreateMap<CompanyDto, Company>()
                 .ReverseMap();
         }
     }

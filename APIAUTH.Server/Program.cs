@@ -42,14 +42,14 @@ builder.Services.AddDbContext<ActivesWContext>(dbConection => dbConection.UseMyS
 
 builder.Services.AddAutoMapper(typeof(UserProfile));
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<ICompanyService, OrganizationService>();
-builder.Services.AddScoped<IDomicilioService, DomicilioService>();
-builder.Services.AddScoped<ICategoriaService, CategoriaService>();
-builder.Services.AddScoped<IDatosMaestrosService, DatosMaestrosService>();
-builder.Services.AddScoped<IProductoService, ProductoService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IMasterDataService, MasterDataService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddMediatR(cfg =>
 {

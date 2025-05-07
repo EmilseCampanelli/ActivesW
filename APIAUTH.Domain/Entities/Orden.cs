@@ -9,13 +9,12 @@ namespace APIAUTH.Domain.Entities
 {
     public class Orden : BaseEntity
     {
-        public int UsuarioId { get; set; }
-        public int CarritoId { get; set; }
-        public EstadoOrden EstadoOrden { get; set; }
+        public int UserId { get; set; }
+        public OrdenState OrdenState { get; set; }
         public double Total {  get; set; }
-        public DateTime FechaCompra {  get; set; }
+        public DateTime OrdenDate {  get; set; }
 
-        public virtual Usuario Usuario { get; set; }
-        public virtual Carrito Carrito { get; set; }
+        public virtual User User { get; set; }
+        public List<ProductLine> ProductLine { get; set; }
     }
 }

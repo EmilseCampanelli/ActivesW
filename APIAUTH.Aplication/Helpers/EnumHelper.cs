@@ -14,7 +14,7 @@ public static class EnumHelper
                    .Select(e => new ComboDto
                    {
                        Id = Convert.ToInt32(e), // o ((int)(object)e).ToString() si preferís el valor numérico
-                       Descripcion = GetDisplayName(e)
+                       Description = GetDisplayName(e)
                    })
                    .ToList();
     }

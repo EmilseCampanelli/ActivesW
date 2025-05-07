@@ -1,18 +1,13 @@
-﻿using APIAUTH.Aplication.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
+using APIAUTH.Aplication.DTOs;
+using Microsoft.AspNetCore.Http;
 
 namespace APIAUTH.Aplication.Services.Interfaces
 {
-    public interface IUserService
+    public interface IUserService : IGenericService<UserDto>
     {
-        Task<bool> Exists(int id);
-        Task<CuentaDto> Save(UsuarioDto dto);
-        Task RecoverPassword(string email);
-        Task<bool> ChangePassword(UserPasswordDto dto);
-        Task<CuentaDto> ActivePassword(UsuarioDto? collaborator);
+        Task<string> PutImage(IFormFile image);
+        Task<List<RoleDto>> GetRoles();
+        Task Blocked(int id);
     }
 }

@@ -24,8 +24,4 @@
     <ProjectReference Include="..\APIAUTH.Domain\APIAUTH.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CQRS\Queries\GetUser\" />
-  </ItemGroup>
-
 </Project>

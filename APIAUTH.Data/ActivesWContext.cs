@@ -8,45 +8,41 @@ namespace APIAUTH.Data.Context
     {
         public ActivesWContext(DbContextOptions<ActivesWContext> options) : base(options) { }
 
-        public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Cuenta> Cuentas { get; set; }
-        public DbSet<Empresa> Companies { get; set; }
-        public DbSet<Rol> Roles { get; set; }
-        public DbSet<UsuarioTipo> UsuariosTipo { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Notificacion> Notifications { get; set; }
-        public DbSet<Provincia> Provincias { get; set; }
-        public DbSet<Pais> Pais { get; set; }
-        public DbSet<Domicilio> Domicilios { get; set; }
-        public DbSet<Carrito> Carritos { get; set; }
-        public DbSet<CarritoProducto> CarritoProductos { get; set; }
-        public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<Favorito> Favoritos { get; set; }
+        public DbSet<Province> Provinces { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Orden> Ordenes { get; set; }
-        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductLine> ProductLines { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuario>().Navigation(e => e.Rol).AutoInclude();
-            modelBuilder.Entity<Usuario>().Navigation(e => e.Empresa).AutoInclude();
-            modelBuilder.Entity<Usuario>().Navigation(e => e.Cuenta).AutoInclude();
-            modelBuilder.Entity<Usuario>().Navigation(e => e.UsuarioTipo).AutoInclude();
-            modelBuilder.Entity<Usuario>().Navigation(e => e.Domicilios).AutoInclude();
+            modelBuilder.Entity<User>().Navigation(e => e.Role).AutoInclude();
+            modelBuilder.Entity<User>().Navigation(e => e.Company).AutoInclude();
+            modelBuilder.Entity<User>().Navigation(e => e.Account).AutoInclude();
+            modelBuilder.Entity<User>().Navigation(e => e.Address).AutoInclude();
 
 
-            modelBuilder.Entity<Producto>().Navigation(e => e.Categoria).AutoInclude();
+            modelBuilder.Entity<Product>().Navigation(e => e.Category).AutoInclude();
 
-            modelBuilder.Entity<Carrito>().Navigation(e => e.Usuario).AutoInclude();
-            modelBuilder.Entity<Carrito>().Navigation(e => e.Productos).AutoInclude();
+            modelBuilder.Entity<Favorite>().Navigation(e => e.Product).AutoInclude();
+            modelBuilder.Entity<Favorite>().Navigation(e => e.User).AutoInclude();
 
-            modelBuilder.Entity<CarritoProducto>().Navigation(e => e.Producto).AutoInclude();
-            modelBuilder.Entity<CarritoProducto>().Navigation(e => e.Carrito).AutoInclude();
+            modelBuilder.Entity<Orden>().Navigation(e => e.User).AutoInclude();
 
-            modelBuilder.Entity<Favorito>().Navigation(e => e.Producto).AutoInclude();
-            modelBuilder.Entity<Favorito>().Navigation(e => e.Usuario).AutoInclude();
-
-            modelBuilder.Entity<Orden>().Navigation(e => e.Carrito).AutoInclude();
-            modelBuilder.Entity<Orden>().Navigation(e => e.Usuario).AutoInclude();
+            modelBuilder.Entity<Category>()
+               .HasMany(c => c.SubCategory)
+               .WithOne(c => c.ParentCategory)
+               .HasForeignKey(c => c.ParentCategoryId)
+               .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }

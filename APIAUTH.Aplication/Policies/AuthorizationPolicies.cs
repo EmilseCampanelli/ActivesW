@@ -16,7 +16,7 @@ namespace APIAUTH.Aplication.Policies
                 policy.RequireClaim(ClaimTypes.Role, "Admin"));
 
             options.AddPolicy("UserAndAdmin", policy =>
-                policy.RequireClaim(ClaimTypes.Role, "Admin", "Cuenta"));
+                policy.RequireClaim(ClaimTypes.Role, "Admin", "Account"));
 
             options.AddPolicy("ActiveUser", policy =>
                 policy.RequireAssertion(context =>
