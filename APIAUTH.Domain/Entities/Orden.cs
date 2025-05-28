@@ -11,7 +11,6 @@ namespace APIAUTH.Domain.Entities
     {
         public int UserId { get; set; }
         public OrdenState OrdenState { get; set; }
-        public double Total {  get; set; }
         public DateTime OrdenDate {  get; set; }
 
         public virtual User User { get; set; }

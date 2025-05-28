@@ -5,17 +5,16 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser
 {
     public record UpdateUserCommand(
         int Id,
-        string Nombre,
-        string Apellido,
-        int Documento,
-        DocumentType TipoDocumento,
-        string Telefono,
+        string Name,
+        string LastName,
+        int Document,
+        DocumentType DocumentType,
+        string Phone,
         string Email,
         string BackupEmail,
-        Gender Sexo,
-        int? EmpresaId,
-        int RolId,
-        int? UsuarioTipoId
+        Gender Gender,
+        int? CompanyId,
+        int RoleId
     ) : IRequest<bool>;
 
 }

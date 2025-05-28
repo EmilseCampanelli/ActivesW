@@ -10,12 +10,12 @@ namespace APIAUTH.Domain.Enums
     public enum ProductState
     {
         [Display(Name = "Disponible")]
-        Disponible,
+        Disponible = 1,
 
         [Display(Name = "Sin Stock")]
-        SinStock,
+        SinStock = 2,
 
         [Display(Name = "Eliminado")]
-        Eliminado
+        Eliminado = 3
     }
 }

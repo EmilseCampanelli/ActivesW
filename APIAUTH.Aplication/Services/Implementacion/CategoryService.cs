@@ -30,17 +30,17 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return await _repository.Get(id) != null;
         }
 
-        public async Task<CategoriaDto> Get(int id)
+        public async Task<CategoryDto> Get(int id)
         {
             var model = await _repository.Get(id);
-            return _mapper.Map<CategoriaDto>(model);
+            return _mapper.Map<CategoryDto>(model);
         }
 
-        public async Task<List<CategoriaDto>> GetAll()
+        public async Task<List<CategoryDto>> GetAll()
         {
             var categorias = await _repository.GetAll();
 
-            return _mapper.Map<List<CategoriaDto>>(categorias);
+            return _mapper.Map<List<CategoryDto>>(categorias);
         }
 
         public async Task Inactivate(int id)
@@ -50,7 +50,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             await _repository.Update(categoria);
         }
 
-        public async Task<CategoriaDto> Save(CategoriaDto dto)
+        public async Task<CategoryDto> Save(CategoryDto dto)
         {
             var categoria = new Category();
 
@@ -67,10 +67,10 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 categoria = await _repository.Update(updateCategoria);
             }
 
-            return _mapper.Map<CategoriaDto>(categoria);
+            return _mapper.Map<CategoryDto>(categoria);
         }
 
-        public async Task<(bool isValid, string message)> Validate(int? id, CategoriaDto dto)
+        public async Task<(bool isValid, string message)> Validate(int? id, CategoryDto dto)
         {
             var validations = new List<(bool isValid, string message)>();
 

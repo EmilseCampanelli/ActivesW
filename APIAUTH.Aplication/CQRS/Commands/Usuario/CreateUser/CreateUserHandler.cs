@@ -28,8 +28,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
                 Name = request.Name,
                 Email = request.Email,
                 LastName = request.LastName,
-                Account = new AccountDto { Password = request.Password },
-                Gender = request.Gender
+                Account = new AccountDto { Password = request.Password }
             };
             var result = await _usuarioService.Save(dto);
             return result.Id;

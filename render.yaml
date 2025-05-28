@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: api-auth-net7
+    env: dotnet
+    plan: free
+    region: oregon
+    buildCommand: dotnet publish APIAUTH.Server/APIAUTH.Server.csproj -c Release
+    startCommand: dotnet APIAUTH.Server.dll
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        fromDatabase:
+          name: api-auth-db
+          property: connectionString
+    buildFilter:
+      paths:
+        - APIAUTH.Server/**
+    rootDir: APIAUTH.Server
+

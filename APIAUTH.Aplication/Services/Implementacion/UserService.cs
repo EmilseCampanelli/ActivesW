@@ -120,9 +120,19 @@ namespace APIAUTH.Aplication.Services.Implementacion
             }
             else
             {
-                var updatedUsuario = _mapper.Map<User>(dto);
-                BaseEntityHelper.SetUpdated(updatedUsuario);
-                usuario = await _repository.Update(updatedUsuario);
+                var currentUser = await _repository.Get(dto.Id);
+                currentUser.Name = dto.Name;
+                currentUser.LastName = dto.LastName;
+                currentUser.Document = dto.Document;
+                currentUser.TypeDocument = dto.DocumentType;
+                currentUser.Phone = dto.Phone;
+                currentUser.Email = dto.Email;
+                currentUser.BackupEmail = dto.BackupEmail;
+                currentUser.Gender = dto.Gender;
+                currentUser.CompanyId = dto.CompanyId;
+                currentUser.RoleId = dto.RoleId;
+                BaseEntityHelper.SetUpdated(currentUser);
+                usuario = await _repository.Update(currentUser);
             }
             return _mapper.Map<UserDto>(usuario);
         }

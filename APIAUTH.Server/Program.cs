@@ -1,6 +1,7 @@
 using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
 using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
 using APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto;
+using APIAUTH.Aplication.CQRS.Commands.Producto.ProductCart.Create;
 using APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
@@ -36,8 +37,11 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                        ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
-builder.Services.AddDbContext<ActivesWContext>(dbConection => dbConection.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+//var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
+//builder.Services.AddDbContext<ActivesWContext>(dbConection => dbConection.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddDbContext<ActivesWContext>(dbConnection =>
+    dbConnection.UseNpgsql(connectionString));
 
 
 builder.Services.AddAutoMapper(typeof(UserProfile));
@@ -50,6 +54,7 @@ builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IMasterDataService, MasterDataService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductCartService, ProductCartService>();
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -74,6 +79,10 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(UpdateProductoCommand).Assembly);
+});
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(CreateProductCartCommand).Assembly);
 });
 
 

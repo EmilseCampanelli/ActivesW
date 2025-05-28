@@ -29,9 +29,9 @@ namespace APIAUTH.Aplication.Services.Implementacion
             try
             {
                 user.Email = dto.Email;
-                user.Password = dto.Account.Password;
+                user.Password = BCrypt.Net.BCrypt.HashPassword(dto.Account.Password);
                 user.IsGenericPassword = false;
-                user.PasswordDate = DateTime.Now;
+                user.PasswordDate = DateTime.UtcNow;
                 user.BaseState = Domain.Enums.BaseState.Activo;
             }
             catch (FormatException ex)
@@ -67,7 +67,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 {
                     var user = collaborator.Account;
                     user.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
-                    user.PasswordDate = DateTime.Now;
+                    user.PasswordDate = DateTime.UtcNow;
                     user.IsGenericPassword = false;
                     return await _repository.Update(user) != null;
                 }
@@ -85,7 +85,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             var user = collaborator.Account;
             user.Password = BCrypt.Net.BCrypt.HashPassword(collaborator.Document.ToString());
             user.IsGenericPassword = true;
-            user.PasswordDate = DateTime.Now;
+            user.PasswordDate = DateTime.UtcNow;
 
             return user;
         }

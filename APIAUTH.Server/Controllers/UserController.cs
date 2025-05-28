@@ -21,14 +21,14 @@ namespace APIAUTH.Server.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("CreateUser")]
+        [HttpPost("register")]
         public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
         {
             var id = await _mediator.Send(command);
             return CreatedAtAction(nameof(Get), new { id }, null);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserCommand command)
         {
             if (id != command.Id)

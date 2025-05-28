@@ -1,17 +1,16 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using APIAUTH.Domain.Enums;
+using MediatR;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
 {
     public record CreateProductoCommand(
-        string Nombre,
-        string Descripcion,
-        double PrecioUnitatio,
+        string Title,
+        string Description,
+        double Price,
         int Stock,
-        int CategoriaId
+        int CategoryId,
+        string[] Sizes,
+        string[] Tags,
+        Gender Gender
     ) : IRequest<int>;
 }

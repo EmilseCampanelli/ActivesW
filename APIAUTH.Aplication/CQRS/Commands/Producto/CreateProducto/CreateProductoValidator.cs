@@ -11,9 +11,9 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
     {
         public CreateProductoValidator()
         {
-            RuleFor(x => x.Nombre).NotEmpty();
-            RuleFor(x => x.PrecioUnitatio).GreaterThan(0);
-            RuleFor(x => x.CategoriaId).NotEmpty();
+            RuleFor(x => x.Title).NotEmpty();
+            RuleFor(x => x.Price).GreaterThan(0);
+            RuleFor(x => x.CategoryId).NotEmpty();
         }
     }
 }

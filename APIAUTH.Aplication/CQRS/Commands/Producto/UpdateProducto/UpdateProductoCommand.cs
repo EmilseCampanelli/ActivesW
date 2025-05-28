@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using APIAUTH.Domain.Enums;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,13 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto
 {
     public record UpdateProductoCommand(
         int Id,
-        string Nombre,
-        string Descripcion,
-        double PrecioUnitatio,
+        string Title,
+        string Description,
+        double Price,
         int Stock,
-        int CategoriaId
+        int CategoryId,
+        string[] Sizes,
+        string[] Tags,
+        Gender Gender
     ) : IRequest<int>;
 }

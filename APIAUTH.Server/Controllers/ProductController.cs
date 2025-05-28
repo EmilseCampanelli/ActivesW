@@ -5,6 +5,7 @@ using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
 using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Services.Implementacion;
 using APIAUTH.Aplication.Services.Interfaces;
+using APIAUTH.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,33 +43,38 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductoDto>> Get(int id)
+        public async Task<ActionResult<ProductDto>> Get(int id)
         {
             var producto = await _productoService.Get(id);
             return Ok(producto);
         }
 
-        [HttpPost("AddStock")]
-        public async Task<IActionResult> AddStock(int productoId, int stock)
+        [HttpPost("AddOrRemoveStock")]
+        public async Task<IActionResult> AddStock(int productoId, int stock, string operation)
         {
-            var producto = await _productoService.AddStock(productoId, stock);
-            return Ok(producto);
-        }
+            try
+            {
+                var product = new ProductDto();
+                if (operation == "ADD")
+                {
+                    product = await _productoService.AddStock(productoId, stock);
+                }
+                else
+                {
+                    product = await _productoService.RemoveStock(productoId, stock);
+                }
+                return Ok(product);
 
-        [HttpPost("RemoveStock")]
-        public async Task<IActionResult> RemoveStock(int productoId, int stock)
-        {
-            var producto = await _productoService.RemoveStock(productoId, stock);
-            return Ok(producto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /*
-         * Agregar producto
-         * Editar Products
+         * Obtener producto
          * Eliminar Products
-         * Agregar stock
-         * Quitar stock
-         * Obtener un producto
          * Listar productos Disponibles
          * Listar productos Disponibles y sin stock
          * Listar productos Eliminadoss

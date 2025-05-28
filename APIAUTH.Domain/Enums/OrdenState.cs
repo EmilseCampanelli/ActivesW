@@ -9,7 +9,11 @@ namespace APIAUTH.Domain.Enums
 {
     public enum OrdenState
     {
-        [Display(Name = "Pendiente")]
+
+        [Display(Name = "Pendiente de compra")]
+        PendienteCompra,
+
+        [Display(Name = "Pendiente de Pago")]
         Pendiente,
 
         [Display(Name = "Pagado")]

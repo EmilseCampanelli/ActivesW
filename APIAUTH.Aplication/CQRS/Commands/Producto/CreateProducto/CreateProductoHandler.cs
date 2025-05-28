@@ -23,7 +23,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
 
         public async Task<int> Handle(CreateProductoCommand request, CancellationToken cancellationToken)
         {
-            var dto = _mapper.Map<ProductoDto>(request);
+            var dto = _mapper.Map<ProductDto>(request);
             var result = await _productoService.Save(dto);
             return result.Id;
         }

@@ -24,7 +24,7 @@ namespace APIAUTH.Data.Context
                 configuration.GetConnectionString("DefaultConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<ActivesWContext>();
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            optionsBuilder.UseNpgsql(connectionString);
 
             return new ActivesWContext(optionsBuilder.Options);
         }

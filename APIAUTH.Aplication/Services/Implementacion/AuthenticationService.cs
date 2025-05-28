@@ -69,7 +69,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["Jwt:IdTokenLifetimeMinutes"])),
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:IdTokenLifetimeMinutes"])),
                 signingCredentials: creds
             );
 
@@ -96,7 +96,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["Jwt:AccessTokenLifetimeMinutes"])),
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:AccessTokenLifetimeMinutes"])),
                 signingCredentials: creds
             );
 

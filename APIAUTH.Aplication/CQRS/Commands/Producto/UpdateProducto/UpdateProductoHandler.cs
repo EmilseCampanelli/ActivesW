@@ -24,7 +24,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto
 
         public async Task<int> Handle(UpdateProductoCommand request, CancellationToken cancellationToken)
         {
-            var dto = _mapper.Map<ProductoDto>(request);
+            var dto = _mapper.Map<ProductDto>(request);
             var result = await _productoService.Save(dto);
             return result.Id;
         }

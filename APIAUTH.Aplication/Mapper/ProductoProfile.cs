@@ -10,10 +10,22 @@ namespace APIAUTH.Aplication.Mapper
     {
         public ProductoProfile()
         {
-            CreateMap<Product, ProductoDto>().ReverseMap();
+            CreateMap<Product, ProductDto>()
+            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => SplitSizes(src.Sizes)))
+            .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => SplitSizes(src.Tags)))
+            .ReverseMap()
+            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => JoinSizes(src.Sizes)))
+            .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => JoinSizes(src.Tags)));
 
-            CreateMap<CreateProductoCommand, ProductoDto>();
-            CreateMap<UpdateProductoCommand, ProductoDto>();
+
+            CreateMap<CreateProductoCommand, ProductDto>();
+            CreateMap<UpdateProductoCommand, ProductDto>();
         }
+
+        private static string[] SplitSizes(string input) =>
+       string.IsNullOrEmpty(input) ? Array.Empty<string>() : input.Split(',');
+
+        private static string JoinSizes(string[] array) =>
+            array != null ? string.Join(",", array) : null;
     }
 }

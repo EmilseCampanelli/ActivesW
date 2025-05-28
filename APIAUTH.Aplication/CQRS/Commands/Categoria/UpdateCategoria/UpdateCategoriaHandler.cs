@@ -24,7 +24,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria
 
         public async Task<int> Handle(UpdateCategoriaCommand request, CancellationToken cancellationToken)
         {
-            var dto = _mapper.Map<CategoriaDto>(request);
+            var dto = _mapper.Map<CategoryDto>(request);
             var result = await _categoriaService.Save(dto);
             return result.Id;
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.Services.Interfaces
 {
-    public interface ICategoryService : IGenericService<CategoriaDto>
+    public interface ICategoryService : IGenericService<CategoryDto>
     {
     }
 }

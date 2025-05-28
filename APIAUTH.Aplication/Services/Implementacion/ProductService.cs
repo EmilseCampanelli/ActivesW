@@ -35,16 +35,16 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return await _repository.Get(id) != null;
         }
 
-        public async Task<ProductoDto> Get(int id)
+        public async Task<ProductDto> Get(int id)
         {
             var model = await _repository.Get(id);
-            return _mapper.Map<ProductoDto>(model);
+            return _mapper.Map<ProductDto>(model);
         }
 
-        public async Task<List<ProductoDto>> GetAll()
+        public async Task<List<ProductDto>> GetAll()
         {
             var productos = await _repository.GetAll();
-            return _mapper.Map<List<ProductoDto>>(productos);
+            return _mapper.Map<List<ProductDto>>(productos);
         }
 
         public async Task Inactivate(int id)
@@ -55,7 +55,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             await _repository.Update(producto);
         }
 
-        public async Task<ProductoDto> Save(ProductoDto dto)
+        public async Task<ProductDto> Save(ProductDto dto)
         {
             var producto = new Product();
 
@@ -68,26 +68,35 @@ namespace APIAUTH.Aplication.Services.Implementacion
             }
             else
             {
-                var actuProducto = _mapper.Map<Product>(dto);
-                actuProducto.ProductState = dto.Stock.Equals(0) ? Domain.Enums.ProductState.SinStock : Domain.Enums.ProductState.Disponible;
-                BaseEntityHelper.SetUpdated(actuProducto);
-                producto = await _repository.Update(actuProducto);
+                var currentProduct = await _repository.Get(dto.Id);
+                currentProduct.Title = dto.Title;
+                currentProduct.Description = dto.Description;
+                currentProduct.Price = dto.Price;
+                currentProduct.Stock = dto.Stock;
+                currentProduct.CategoryId = dto.CategoryId;
+                currentProduct.Sizes = String.Join(',', dto.Sizes);
+                currentProduct.Tags = String.Join(',', dto.Tags);
+                currentProduct.Gender = dto.Gender;
+
+                currentProduct.ProductState = dto.Stock.Equals(0) ? Domain.Enums.ProductState.SinStock : Domain.Enums.ProductState.Disponible;
+                BaseEntityHelper.SetUpdated(currentProduct);
+                producto = await _repository.Update(currentProduct);
             }
-            return _mapper.Map<ProductoDto>(producto);
+            return _mapper.Map<ProductDto>(producto);
 
         }
 
-        public async Task<ProductoDto> AddStock(int productoId, int stock)
+        public async Task<ProductDto> AddStock(int productoId, int stock)
         {
             var producto = await _repository.Get(productoId);
             producto.Stock += stock;
             producto.ProductState = Domain.Enums.ProductState.Disponible;
             await _repository.Update(producto);
 
-            return _mapper.Map<ProductoDto>(producto);
+            return _mapper.Map<ProductDto>(producto);
         }
 
-        public async Task<ProductoDto> RemoveStock(int productoId, int stock)
+        public async Task<ProductDto> RemoveStock(int productoId, int stock)
         {
             var producto = await _repository.Get(productoId);
             producto.Stock -= stock;
@@ -97,10 +106,10 @@ namespace APIAUTH.Aplication.Services.Implementacion
             }
             await _repository.Update(producto);
 
-            return _mapper.Map<ProductoDto>(producto);
+            return _mapper.Map<ProductDto>(producto);
         }
 
-        public async Task<(bool isValid, string message)> Validate(int? id, ProductoDto dto)
+        public async Task<(bool isValid, string message)> Validate(int? id, ProductDto dto)
         {
             var validations = new List<(bool isValid, string message)>();
 

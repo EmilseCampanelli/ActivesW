@@ -7,7 +7,6 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
         string Name,
         string LastName,
         string Email,
-        Gender Gender,
         string Password
     ) : IRequest<int>; // Retorna el ID del nuevo usuario
    
