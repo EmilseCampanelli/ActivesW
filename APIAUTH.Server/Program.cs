@@ -62,7 +62,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IMasterDataService, MasterDataService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductCartService, ProductCartService>();
-builder.Services.AddScoped<IEntityFilter<Product>, ProductEntityFilter>();
+builder.Services.AddScoped<IColorThemeRepository, ColorThemeRepository>();
+builder.Services.AddScoped<IColorThemeService, ColorThemeService>();
+builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+builder.Services.AddScoped<IMenuService, MenuService>();
 
 
 
@@ -82,6 +85,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IListRepository<>), typeof(ListRepository<>));
 builder.Services.AddScoped<IEntityFilter<Product>, ProductEntityFilter>();
 builder.Services.AddScoped<IEntityFilter<User>, UserEntityFilter>();
+builder.Services.AddScoped<IEntityFilter<Orden>, OrdenEntityFilter>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

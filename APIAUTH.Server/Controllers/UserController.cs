@@ -1,12 +1,10 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
-using APIAUTH.Aplication.CQRS.Queries.Products;
 using APIAUTH.Aplication.CQRS.Queries.Users;
 using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Shared.Parameters;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
@@ -40,7 +38,7 @@ namespace APIAUTH.Server.Controllers
             var success = await _mediator.Send(command);
             if (!success) return NotFound();
 
-            return NoContent(); 
+            return NoContent();
         }
 
         [HttpGet("{id}")]
@@ -65,7 +63,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetALL([FromQuery] UserQueryParameters parameters)
+        public async Task<IActionResult> GetAll([FromQuery] UserQueryParameters parameters)
         {
             try
             {

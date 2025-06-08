@@ -1,27 +1,29 @@
-﻿using APIAUTH.Domain.Entities;
+﻿using APIAUTH.Aplication.DTOs;
+using APIAUTH.Aplication.Services.Interfaces;
+using APIAUTH.Domain.Entities;
+using APIAUTH.Domain.Enums;
 using APIAUTH.Domain.Repository;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Google.Apis.Auth;
-using Microsoft.Extensions.Configuration;
-using System.Text.Json;
-using APIAUTH.Aplication.DTOs;
-using APIAUTH.Domain.Enums;
-using APIAUTH.Aplication.Services.Interfaces;
 
 namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRepository<User> _repository;
         private readonly IConfiguration _configuration;
+        private readonly IRepository<Role> _roleRepository;
 
-        public AuthenticationService(IUserRepository userRepository, IConfiguration configuration)
+        public AuthenticationService(IUserRepository userRepository, IConfiguration configuration, IRepository<Role> roleRepository, IRepository<User> repository)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _roleRepository = roleRepository;
+            _repository = repository;
         }
 
         public async Task<(string idToken, string accessToken, string refreshToken)> AuthenticateUserAsync(string email, string password)
@@ -107,25 +109,43 @@ namespace APIAUTH.Aplication.Services.Implementacion
         {
 
             string email = GetEmailFromIdToken(idTokenGoogle);
+            string fullName = GetFullNameFromIdToken(idTokenGoogle);
 
             var collaborator = _userRepository.GetByEmail(email);
 
             if (collaborator == null)
             {
-                throw new UnauthorizedAccessException("El usuario con el que desea ingresar no existe.");
+                var customerRole = _roleRepository.GetFiltered(p => p.Description == "Customer").FirstOrDefault();
+                if (customerRole == null)
+                {
+                    throw new Exception("No se encontró el rol 'Customer' en la base de datos.");
+                }
+
+                collaborator = new User
+                {
+                    Name = fullName,
+                    Email = email,
+                    RoleId = customerRole.Id,
+                    State = BaseState.Activo
+                };
+
+                await _repository.Add(collaborator);
+
+                var idToken = GenerateIdToken(collaborator);
+
+
             }
             if (collaborator.State != BaseState.Activo)
             {
                 throw new UnauthorizedAccessException("El usuario no se encuentra activo en este momento.");
             }
 
-            var idToken = GenerateIdToken(collaborator);
+
             var accessToken = GenerateAccessToken(collaborator);
             var refreshToken = GenerateRefreshToken();
 
-            SaveRefreshTokenAsync(collaborator.AccountId, refreshToken);
-
-            return (idToken, accessToken, refreshToken);
+            SaveRefreshTokenAsync(collaborator.Id, refreshToken);
+            return (idTokenGoogle, accessToken, refreshToken);
         }
 
         private string GetEmailFromIdToken(string idToken)
@@ -141,6 +161,23 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
             // Retorna el valor del email si existe
             return emailClaim?.Value ?? "No se encontró el email en el id_token";
+        }
+
+        private string GetFullNameFromIdToken(string idToken)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(idToken);
+
+            var nameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
+
+            if (string.IsNullOrEmpty(nameClaim))
+            {
+                var givenName = jwtToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value;
+                var familyName = jwtToken.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value;
+                nameClaim = $"{givenName} {familyName}".Trim();
+            }
+
+            return nameClaim ?? "Unknown User";
         }
 
         private async Task<GoogleTokenResponse> GetAccessByGoogle(string authorizationCode)

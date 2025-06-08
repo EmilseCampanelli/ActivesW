@@ -19,7 +19,7 @@ namespace APIAUTH.Domain.Entities
         public int? CompanyId { get; set; }
         public virtual Company Company { get; set; }
 
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
         public virtual Account Account { get; set; }
 
         public int RoleId { get; set; }
