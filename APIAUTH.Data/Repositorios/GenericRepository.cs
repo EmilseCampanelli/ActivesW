@@ -35,9 +35,9 @@ namespace APIAUTH.Data.Repository
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public IQueryable<TEntity> GetAll()
         {
-            return await _dbSet.ToListAsync();
+            return  _dbSet.AsQueryable();
         }
 
         public IQueryable<TEntity> GetFiltered(Expression<Func<TEntity, bool>> filter)

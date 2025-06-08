@@ -1,7 +1,10 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
+using APIAUTH.Aplication.CQRS.Queries.Products;
+using APIAUTH.Aplication.CQRS.Queries.Users;
 using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Services.Interfaces;
+using APIAUTH.Shared.Parameters;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +62,22 @@ namespace APIAUTH.Server.Controllers
         {
             await _usuarioService.Blocked(id);
             return Ok();
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetALL([FromQuery] UserQueryParameters parameters)
+        {
+            try
+            {
+                var result = await _mediator.Send(new GetUsersQuery(parameters));
+                return Ok(result);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
         }
     }
 }

@@ -38,12 +38,15 @@ namespace APIAUTH.Aplication.Services.Implementacion
         public async Task<ProductDto> Get(int id)
         {
             var model = await _repository.Get(id);
+
+            var userId = 1; //TODO: Cambiar por token
+            model.IsFavorite = model.Favorites?.Any(f => f.UserId == userId) ?? false;
             return _mapper.Map<ProductDto>(model);
         }
 
         public async Task<List<ProductDto>> GetAll()
         {
-            var productos = await _repository.GetAll();
+            var productos =  _repository.GetAll();
             return _mapper.Map<List<ProductDto>>(productos);
         }
 

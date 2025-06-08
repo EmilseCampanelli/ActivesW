@@ -34,7 +34,7 @@ namespace APIAUTH.Server.Controllers
             return _masterDataService.GetEstadoProducto();
         }
 
-        [HttpGet("DocumentType")]
+        [HttpGet("TypeDocument")]
         public ActionResult<List<ComboDto>> GetTipoDocumento()
         {
             return _masterDataService.GetTipoDocumento();

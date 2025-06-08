@@ -154,7 +154,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
         public async Task<List<UserDto>> GetAll()
         {
             var collaboratorDto = new List<UserDto>();
-            var collaborators = await _repository.GetAll();
+            var collaborators =  _repository.GetAll();
 
             foreach (var collaborator in collaborators)
             {
@@ -166,7 +166,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
         public async Task<List<RoleDto>> GetRoles()
         {
-            var roles = await _roleRepository.GetAll();
+            var roles =  _roleRepository.GetAll();
             var roleDto = new List<RoleDto>();
 
             foreach (var role in roles)

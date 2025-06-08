@@ -19,6 +19,12 @@ namespace APIAUTH.Domain.Enums
         [Display(Name = "Pagado")]
         Pagado,
 
+        [Display(Name = "En viaje")]
+        EnViaje,
+
+        [Display(Name = "Entregado")]
+        Entregado,
+
         [Display(Name = "Cancelado")]
         Cancelado
     }

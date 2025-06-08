@@ -2,15 +2,15 @@
 {
     public class AddressDto : BaseEntityDto
     {
-        public string Calle { get; set; }
-        public string Numero { get; set; }
-        public string Ciudad { get; set; }
-        public int ProvinciaId { get; set; }
-        public string ProvinciaName { get; set; }
-        public int PaisId { get; set; }
-        public string PaisName { get; set; }
-        public string CodigoPostal { get; set; }
-        public int UsuarioId { get; set; }
+        public string Street { get; set; }
+        public string Number { get; set; }
+        public string City { get; set; }
+        public int ProvinceId { get; set; }
+        public string ProvinceName { get; set; }
+        public int CountryId { get; set; }
+        public string CountryName { get; set; }
+        public string ZipCode { get; set; }
+        public int UserId { get; set; }
 
     }
 }

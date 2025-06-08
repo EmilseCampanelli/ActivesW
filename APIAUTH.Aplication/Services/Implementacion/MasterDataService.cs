@@ -27,7 +27,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
         {
             var categoriasCbx = new List<ComboDto>();
 
-            var categorias = await _categoriaRepository.GetAll();
+            var categorias =  _categoriaRepository.GetAll();
             foreach (var c in categorias)
             {
                 categoriasCbx.Add(new ComboDto(c.Id, c.Description));
@@ -60,7 +60,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
         {
             var paisCbx = new List<ComboDto>();
 
-            var pais = await _paisRepository.GetAll();
+            var pais =  _paisRepository.GetAll();
             foreach (var c in pais)
             {
                 paisCbx.Add(new ComboDto(c.Id, c.Description));
@@ -72,7 +72,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
         {
             var provinciasCbx = new List<ComboDto>();
 
-            var provincias = await _provinciaRepository.GetAll();
+            var provincias =  _provinciaRepository.GetAll();
             foreach (var c in provincias)
             {
                 provinciasCbx.Add(new ComboDto(c.Id, c.Description));
@@ -84,7 +84,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
         {
             var rolesCbx = new List<ComboDto>();
 
-            var roles = await _rolRepository.GetAll();
+            var roles =  _rolRepository.GetAll();
             foreach (var c in roles)
             {
                 rolesCbx.Add(new ComboDto(c.Id, c.Description));

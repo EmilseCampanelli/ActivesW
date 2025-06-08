@@ -9,7 +9,7 @@ services:
     envVars:
       - key: ConnectionStrings__DefaultConnection
         fromDatabase:
-          name: api-auth-db
+          name: api_ventasw
           property: connectionString
     buildFilter:
       paths:

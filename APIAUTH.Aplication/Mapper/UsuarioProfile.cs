@@ -19,10 +19,20 @@ namespace APIAUTH.Aplication.Mapper
             CreateMap<UserDto, User>()
                 .ReverseMap();
 
+            CreateMap<User, UserGetDto>()
+                .ForMember(dest => dest.RoleDescription, opt => opt.MapFrom(src => src.Role != null ? src.Role.Description : null))
+                .ReverseMap()
+                .ForMember(dest => dest.Role, opt => opt.Ignore());
+
             CreateMap<Role, RoleDto>().ReverseMap();
 
             CreateMap<Company, CompanyDto>().ReverseMap();
-            CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Address, AddressDto>()
+                .ForMember(dest => dest.CountryName, opt => opt.MapFrom(src => src.Country != null ? src.Country.Description : null))
+                .ForMember(dest => dest.ProvinceName, opt => opt.MapFrom(src => src.Province != null ? src.Province.Description : null))
+                .ReverseMap()
+                .ForMember(dest => dest.Country, opt => opt.Ignore())
+                .ForMember(dest => dest.Province, opt => opt.Ignore());
         }
     }
 }

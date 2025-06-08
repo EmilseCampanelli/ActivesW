@@ -1,11 +1,10 @@
-﻿using APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto;
+﻿using APIAUTH.Aplication.CQRS.Commands.Producto;
+using APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto;
 using APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto;
-using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
-using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
+using APIAUTH.Aplication.CQRS.Queries.Products;
 using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Services.Implementacion;
 using APIAUTH.Aplication.Services.Interfaces;
-using APIAUTH.Domain.Entities;
+using APIAUTH.Shared.Parameters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,12 +71,30 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
-        /*
-         * Obtener producto
-         * Eliminar Products
-         * Listar productos Disponibles
-         * Listar productos Disponibles y sin stock
-         * Listar productos Eliminadoss
-         */
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll([FromQuery] ProductQueryParameters parameters)
+        {
+            try
+            {
+                var result = await _mediator.Send(new GetProductsQuery(parameters));
+                return Ok(result);
+
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e);
+            }
+            
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var success = await _mediator.Send(new DeleteProductoCommand(id));
+            if (!success)
+                return NotFound("Producto no encontrado");
+
+            return Ok("Producto eliminado lógicamente");
+        }
     }
 }

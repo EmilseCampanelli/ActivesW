@@ -38,7 +38,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
         public async Task<List<CategoryDto>> GetAll()
         {
-            var categorias = await _repository.GetAll();
+            var categorias =  _repository.GetAll();
 
             return _mapper.Map<List<CategoryDto>>(categorias);
         }

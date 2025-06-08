@@ -39,7 +39,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
         public async Task<List<CompanyDto>> GetAll()
         {
             var organizationsDto = new List<CompanyDto>();
-            var organizations = await _organizationRepository.GetAll();
+            var organizations =  _organizationRepository.GetAll();
 
             foreach (var organ in organizations)
             {

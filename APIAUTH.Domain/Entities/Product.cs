@@ -1,6 +1,7 @@
 ﻿using APIAUTH.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,9 @@ namespace APIAUTH.Domain.Entities
         public string Sizes { get; set; }
         public Gender Gender { get; set; }
         public string Tags { get; set; }
+        public virtual ICollection<Favorite> Favorites { get; set; }
+        [NotMapped]
+        public bool IsFavorite { get; set; }
 
     }
 }

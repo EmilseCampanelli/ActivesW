@@ -88,7 +88,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("ZipCode")
@@ -522,13 +522,17 @@ namespace APIAUTH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIAUTH.Domain.Entities.User", null)
+                    b.HasOne("APIAUTH.Domain.Entities.User", "User")
                         .WithMany("Address")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country");
 
                     b.Navigation("Province");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Category", b =>
@@ -544,7 +548,7 @@ namespace APIAUTH.Data.Migrations
             modelBuilder.Entity("APIAUTH.Domain.Entities.Favorite", b =>
                 {
                     b.HasOne("APIAUTH.Domain.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("Favorites")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -639,6 +643,11 @@ namespace APIAUTH.Data.Migrations
             modelBuilder.Entity("APIAUTH.Domain.Entities.Orden", b =>
                 {
                     b.Navigation("ProductLine");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("Favorites");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.User", b =>

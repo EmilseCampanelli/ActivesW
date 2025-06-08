@@ -32,6 +32,7 @@ namespace APIAUTH.Data.Context
 
 
             modelBuilder.Entity<Product>().Navigation(e => e.Category).AutoInclude();
+            modelBuilder.Entity<Product>().Navigation(e => e.Favorites).AutoInclude();
 
             modelBuilder.Entity<Favorite>().Navigation(e => e.Product).AutoInclude();
             modelBuilder.Entity<Favorite>().Navigation(e => e.User).AutoInclude();

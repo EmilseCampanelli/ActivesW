@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APIAUTH.Domain\APIAUTH.Domain.csproj" />
+    <ProjectReference Include="..\APIAUTH.Shared\APIAUTH.Shared.csproj" />
   </ItemGroup>
 
 </Project>

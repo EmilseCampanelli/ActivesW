@@ -11,7 +11,7 @@ namespace APIAUTH.Domain.Repository
 
         Task<TEntity> Get(int id);
 
-        Task<IEnumerable<TEntity>> GetAll();
+        IQueryable<TEntity> GetAll();
 
         IQueryable<TEntity> GetFiltered(Expression<Func<TEntity, bool>> filter);
 
@@ -20,5 +20,7 @@ namespace APIAUTH.Domain.Repository
         Task Save();
 
         Task Delete(TEntity entity);
+
+       
     }
 }

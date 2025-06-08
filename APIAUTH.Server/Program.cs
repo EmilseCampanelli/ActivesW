@@ -5,12 +5,18 @@ using APIAUTH.Aplication.CQRS.Commands.Producto.ProductCart.Create;
 using APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
+using APIAUTH.Aplication.CQRS.Queries.Products;
+using APIAUTH.Aplication.CQRS.Queries.Users;
+using APIAUTH.Aplication.Filtered;
 using APIAUTH.Aplication.Mapper;
 using APIAUTH.Aplication.Policies;
 using APIAUTH.Aplication.Services.Implementacion;
 using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Data.Context;
+using APIAUTH.Data.Filtered;
+using APIAUTH.Data.Repositorios;
 using APIAUTH.Data.Repository;
+using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using APIAUTH.Infrastructure.Services;
 using APIAUTH.Infrastructure.SignalR;
@@ -20,6 +26,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,34 +62,13 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IMasterDataService, MasterDataService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductCartService, ProductCartService>();
+builder.Services.AddScoped<IEntityFilter<Product>, ProductEntityFilter>();
+
+
 
 builder.Services.AddMediatR(cfg =>
 {
-    cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly);
-});
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(UpdateUserCommand).Assembly);
-});
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(CreateCategoriaCommand).Assembly);
-});
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(UpdateCategoriaCommand).Assembly);
-});
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(CreateProductoCommand).Assembly);
-});
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(UpdateProductoCommand).Assembly);
-});
-builder.Services.AddMediatR(cfg =>
-{
-    cfg.RegisterServicesFromAssembly(typeof(CreateProductCartCommand).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(APIAUTH.Aplication.AssemblyReference).Assembly);
 });
 
 
@@ -93,6 +79,16 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateProductoValidator>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(IListRepository<>), typeof(ListRepository<>));
+builder.Services.AddScoped<IEntityFilter<Product>, ProductEntityFilter>();
+builder.Services.AddScoped<IEntityFilter<User>, UserEntityFilter>();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>

@@ -10,7 +10,7 @@ namespace APIAUTH.Aplication.DTOs
         public int Stock { get; set; }
         public string ImagesUrl { get; set; }
         public int CategoryId { get; set; }
-        public CategoryDto Category { get; set; }
+        public string CategoryName { get; set; }
         public string Slug { get; set; }
         public ProductState ProductState { get; set; }
         public bool IsFavorite { get; set; }
