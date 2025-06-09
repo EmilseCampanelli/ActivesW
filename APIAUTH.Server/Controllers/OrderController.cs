@@ -45,7 +45,7 @@ namespace APIAUTH.Server.Controllers
             return Ok(result);
         }
 
-        [HttpPut("cambiar-estado")]
+        [HttpPut("changeState")]
         public async Task<IActionResult> CambiarEstado([FromBody] ChangeStateOrdenCommand command)
         {
             await _mediator.Send(command);

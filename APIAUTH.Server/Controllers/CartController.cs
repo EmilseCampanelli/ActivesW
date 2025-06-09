@@ -26,7 +26,7 @@ namespace APIAUTH.Server.Controllers
             return Ok(id);
         }
 
-        [HttpGet("Get")]
+        [HttpGet("GetCart")]
         public async Task<IActionResult> GetPendientes()
         {
             var result = await _mediator.Send(new GetCartsQuery());
@@ -40,7 +40,7 @@ namespace APIAUTH.Server.Controllers
             return NoContent();
         }
 
-        [HttpPut("update-quantity")]
+        [HttpPut("updateQuantity")]
         public async Task<IActionResult> UpdateQuantity([FromBody] UpdateProductQuantityInCartCommand command)
         {
             await _mediator.Send(command);

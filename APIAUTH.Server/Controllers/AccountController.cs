@@ -40,7 +40,7 @@ namespace APIAUTH.Server.Controllers
 
         }
 
-        [HttpPut("change-password")]
+        [HttpPut("changePassword")]
         public async Task<IActionResult> ChangePassword(UserPasswordDto userPasswordDto)
         {
             if (!ModelState.IsValid)

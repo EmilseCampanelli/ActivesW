@@ -44,7 +44,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
         public List<ComboDto> GetEstadoOrden()
         {
-            var estadosCbx = EnumHelper.ToDtoList<OrdenState>();
+            var estadosCbx = EnumHelper.ToDtoList<OrdenState>(OrdenState.PendienteCompra);
 
             return estadosCbx;
         }

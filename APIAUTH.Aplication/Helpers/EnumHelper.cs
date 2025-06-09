@@ -7,13 +7,14 @@ using System.Reflection;
 
 public static class EnumHelper
 {
-    public static List<ComboDto> ToDtoList<TEnum>() where TEnum : Enum
+    public static List<ComboDto> ToDtoList<TEnum>(params TEnum[] excludedValues) where TEnum : Enum
     {
         return Enum.GetValues(typeof(TEnum))
                    .Cast<TEnum>()
+                   .Where(e => !excludedValues.Contains(e))
                    .Select(e => new ComboDto
                    {
-                       Id = Convert.ToInt32(e), // o ((int)(object)e).ToString() si preferís el valor numérico
+                       Id = Convert.ToInt32(e),
                        Description = GetDisplayName(e)
                    })
                    .ToList();
