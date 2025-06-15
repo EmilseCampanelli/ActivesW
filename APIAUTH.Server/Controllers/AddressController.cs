@@ -19,32 +19,60 @@ namespace APIAUTH.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(int usuarioId)
         {
-            var domicilios = await _addressService.GetByUsuarioIdAsync(usuarioId);
-            return Ok(domicilios);
+            try
+            {
+                var domicilios = await _addressService.GetByUsuarioIdAsync(usuarioId);
+                return Ok(domicilios);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(int usuarioId, [FromBody] AddressAddDto dto)
         {
-            var id = await _addressService.AddToUsuarioAsync(usuarioId, dto);
-            return CreatedAtAction(nameof(GetAll), new { usuarioId }, null);
+            try
+            {
+                var id = await _addressService.AddToUsuarioAsync(usuarioId, dto);
+                return CreatedAtAction(nameof(GetAll), new { usuarioId }, null);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _addressService.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await _addressService.DeleteAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int usuarioId, int id, [FromBody] AddressDto dto)
         {
-            if (id != dto.Id)
-                return BadRequest("El ID del domicilio no coincide.");
+            try
+            {
+                if (id != dto.Id)
+                    return BadRequest("El ID del domicilio no coincide.");
 
-            await _addressService.UpdateAsync(dto);
-            return NoContent();
+                await _addressService.UpdateAsync(dto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

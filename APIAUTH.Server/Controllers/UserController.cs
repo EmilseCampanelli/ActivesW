@@ -25,41 +25,76 @@ namespace APIAUTH.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
         {
-            var id = await _mediator.Send(command);
-            return CreatedAtAction(nameof(Get), new { id }, null);
+            try
+            {
+                var id = await _mediator.Send(command);
+                return CreatedAtAction(nameof(Get), new { id }, null);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserCommand command)
         {
-            if (id != command.Id)
-                return BadRequest("El ID de la ruta no coincide con el del cuerpo");
+            try
+            {
+                if (id != command.Id)
+                    return BadRequest("El ID de la ruta no coincide con el del cuerpo");
 
-            var success = await _mediator.Send(command);
-            if (!success) return NotFound();
+                var success = await _mediator.Send(command);
+                if (!success) return Ok();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> Get(int id)
         {
-            var usuario = await _usuarioService.Get(id);
-            return Ok(usuario);
+            try
+            {
+                var usuario = await _usuarioService.Get(id);
+                return Ok(usuario);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         //[Authorize(Policy = "UserAndAdmin")] //TODO: Agregar los roles y politicas requeridas
         [HttpPost("PutImages")]
         public async Task<IActionResult> PutImages([FromForm] IFormFile image)
         {
-            return Ok(await _usuarioService.PutImage(image));
+            try
+            {
+                return Ok(await _usuarioService.PutImage(image));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Blocked")]
         public async Task<IActionResult> Blocked(int id)
         {
-            await _usuarioService.Blocked(id);
-            return Ok();
+            try
+            {
+                await _usuarioService.Blocked(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("GetAll")]

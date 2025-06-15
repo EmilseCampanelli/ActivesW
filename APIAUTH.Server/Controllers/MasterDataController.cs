@@ -18,50 +18,106 @@ namespace APIAUTH.Server.Controllers
         [HttpGet("Gender")]
         public ActionResult<List<ComboDto>> GetSexo()
         {
-            return _masterDataService.GetSexo();
+            try
+            {
+                return _masterDataService.GetSexo();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
         [HttpGet("OrdenState")]
         public ActionResult<List<ComboDto>> GetEstadoOrden()
         {
-            return _masterDataService.GetEstadoOrden();
+            try
+            {
+                return _masterDataService.GetEstadoOrden();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("ProductState")]
         public ActionResult<List<ComboDto>> GetEstadoProducto()
         {
-            return _masterDataService.GetEstadoProducto();
+            try
+            {
+                return _masterDataService.GetEstadoProducto();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("TypeDocument")]
         public ActionResult<List<ComboDto>> GetTipoDocumento()
         {
-            return _masterDataService.GetTipoDocumento();
+            try
+            {
+                return _masterDataService.GetTipoDocumento();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("Roles")]
         public async Task<ActionResult<List<ComboDto>>> GetRoles()
         {
-            return await _masterDataService.GetRoles();
+            try
+            {
+                return await _masterDataService.GetRoles();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("Countries")]
         public async Task<ActionResult<List<ComboDto>>> GetPais()
         {
-            return await _masterDataService.GetPais();
+            try
+            {
+                return await _masterDataService.GetPais();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("Categories")]
         public async Task<ActionResult<List<ComboDto>>> GetCategorias()
         {
-            return await _masterDataService.GetCategorias();
+            try
+            {
+                return await _masterDataService.GetCategorias();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("Provinces")]
         public async Task<ActionResult<List<ComboDto>>> GetProvincias()
         {
-            return await _masterDataService.GetProvincias();
+            try
+            {
+                return await _masterDataService.GetProvincias();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 

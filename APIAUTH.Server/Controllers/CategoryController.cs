@@ -19,19 +19,33 @@ namespace APIAUTH.Server.Controllers
         [HttpPost("CreateCategory")]
         public async Task<IActionResult> Create([FromBody] CreateCategoriaCommand command)
         {
-            var id = await _mediator.Send(command);
-            return Ok(id);
+            try
+            {
+                var id = await _mediator.Send(command);
+                return Ok(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoriaCommand command)
         {
-            if (id != command.Id)
-                return BadRequest("El ID de la ruta no coincide con el del cuerpo");
+            try
+            {
+                if (id != command.Id)
+                    return BadRequest("El ID de la ruta no coincide con el del cuerpo");
 
-            var idCategoria = await _mediator.Send(command);
+                var idCategoria = await _mediator.Send(command);
 
-            return Ok(idCategoria);
+                return Ok(idCategoria);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

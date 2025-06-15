@@ -21,30 +21,58 @@ namespace APIAUTH.Server.Controllers
         [HttpPost()]
         public async Task<IActionResult> Create([FromBody] CreateProductCartCommand request)
         {
-            var id = await _mediator.Send(request);
+            try
+            {
+                var id = await _mediator.Send(request);
 
-            return Ok(id);
+                return Ok(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("GetCart")]
         public async Task<IActionResult> GetPendientes()
         {
-            var result = await _mediator.Send(new GetCartsQuery());
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(new GetCartsQuery());
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("remove")]
         public async Task<IActionResult> RemoveProduct([FromBody] RemoveProductFromCartCommand command)
         {
-            await _mediator.Send(command);
-            return NoContent();
+            try
+            {
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("updateQuantity")]
         public async Task<IActionResult> UpdateQuantity([FromBody] UpdateProductQuantityInCartCommand command)
         {
-            await _mediator.Send(command);
-            return NoContent();
+            try
+            {
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

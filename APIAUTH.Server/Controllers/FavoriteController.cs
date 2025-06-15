@@ -20,15 +20,29 @@ namespace APIAUTH.Server.Controllers
         [HttpPost("toggle")]
         public async Task<IActionResult> Toggle([FromBody] ToggleFavoriteCommand command)
         {
-            await _mediator.Send(command);
-            return NoContent();
+            try
+            {
+                await _mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetByUser([FromQuery] int userId)
         {
-            var result = await _mediator.Send(new GetFavoritesByUserQuery(userId));
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(new GetFavoritesByUserQuery(userId));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }

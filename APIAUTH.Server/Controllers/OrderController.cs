@@ -1,7 +1,5 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Orders;
-using APIAUTH.Aplication.CQRS.Commands.Producto.ProductCart.Create;
 using APIAUTH.Aplication.CQRS.Queries.Orders;
-using APIAUTH.Aplication.CQRS.Queries.Products;
 using APIAUTH.Shared.Parameters;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -41,22 +39,43 @@ namespace APIAUTH.Server.Controllers
         [HttpPost("confirm")]
         public async Task<IActionResult> Confirm([FromBody] ConfirmOrdenCommand command)
         {
-            var result = await _mediator.Send(command);
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("changeState")]
         public async Task<IActionResult> CambiarEstado([FromBody] ChangeStateOrdenCommand command)
         {
-            await _mediator.Send(command);
-            return NoContent();
+            try
+            {
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var orden = await _mediator.Send(new GetOrdenByIdQuery(id));
-            return Ok(orden);
+            try
+            {
+                var orden = await _mediator.Send(new GetOrdenByIdQuery(id));
+                return Ok(orden);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }

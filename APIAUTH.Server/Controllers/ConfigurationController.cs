@@ -1,5 +1,4 @@
 ﻿using APIAUTH.Aplication.DTOs;
-using APIAUTH.Aplication.Services.Implementacion;
 using APIAUTH.Aplication.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,15 +23,29 @@ namespace APIAUTH.Server.Controllers
         [HttpGet("colors")]
         public async Task<ActionResult<ColorThemeResponse>> GetColors()
         {
-            var result = await _colorThemeService.GetColorsAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _colorThemeService.GetColorsAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetMenus()
         {
-            var response = await _menuService.GetMenusAsync();
-            return Ok(response);
+            try
+            {
+                var response = await _menuService.GetMenusAsync();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

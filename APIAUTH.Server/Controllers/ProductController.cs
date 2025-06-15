@@ -26,26 +26,47 @@ namespace APIAUTH.Server.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] CreateProductoCommand command)
         {
-            var id = await _mediator.Send(command);
-            return CreatedAtAction(nameof(Get), new { id }, null);
+            try
+            {
+                var id = await _mediator.Send(command);
+                return CreatedAtAction(nameof(Get), new { id }, null);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateProductoCommand command)
         {
-            if (id != command.Id)
-                return BadRequest("El ID de la ruta no coincide con el del cuerpo");
+            try
+            {
+                if (id != command.Id)
+                    return BadRequest("El ID de la ruta no coincide con el del cuerpo");
 
-            var success = await _mediator.Send(command);
+                var success = await _mediator.Send(command);
 
-            return Ok(success);
+                return Ok(success);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDto>> Get(int id)
         {
-            var producto = await _productoService.Get(id);
-            return Ok(producto);
+            try
+            {
+                var producto = await _productoService.Get(id);
+                return Ok(producto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("AddOrRemoveStock")]
@@ -90,11 +111,18 @@ namespace APIAUTH.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _mediator.Send(new DeleteProductoCommand(id));
-            if (!success)
-                return NotFound("Producto no encontrado");
+            try
+            {
+                var success = await _mediator.Send(new DeleteProductoCommand(id));
+                if (!success)
+                    return NotFound("Producto no encontrado");
 
-            return Ok("Producto eliminado lógicamente");
+                return Ok("Producto eliminado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
