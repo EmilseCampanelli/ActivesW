@@ -30,9 +30,21 @@ namespace APIAUTH.Data.Repositorios
 
                 var total = await query.CountAsync();
 
+                var entityType = typeof(TEntity);
+                var property = entityType.GetProperties()
+                    .FirstOrDefault(p => string.Equals(p.Name, parameters.OrderBy, StringComparison.OrdinalIgnoreCase));
+
+                if (property == null)
+                    throw new ArgumentException($"La propiedad '{parameters.OrderBy}' no existe en la entidad '{entityType.Name}'.");
+
+                // Usamos el nombre correcto de la propiedad (con casing válido)
+                var validOrderBy = property.Name;
+
+
                 query = parameters.Order.ToLower() == "desc"
-                    ? query.OrderByDescending(x => EF.Property<object>(x, parameters.OrderBy))
-                    : query.OrderBy(x => EF.Property<object>(x, parameters.OrderBy));
+                    ? query.OrderByDescending(x => EF.Property<object>(x, validOrderBy))
+                    : query.OrderBy(x => EF.Property<object>(x, validOrderBy));
+
 
                 var skip = (parameters.Page - 1) * parameters.Limit;
 
