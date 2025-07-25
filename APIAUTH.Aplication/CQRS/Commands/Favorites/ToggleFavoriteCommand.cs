@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,9 @@ namespace APIAUTH.Aplication.CQRS.Commands.Favorites
 {
     public class ToggleFavoriteCommand : IRequest<Unit>
     {
+        [BindNever]
         public int UserId { get; set; }
+
         public int ProductId { get; set; }
     }
 }

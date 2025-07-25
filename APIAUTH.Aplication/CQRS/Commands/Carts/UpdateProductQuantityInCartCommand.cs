@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace APIAUTH.Aplication.CQRS.Commands.Carts
     public class UpdateProductQuantityInCartCommand : IRequest<Unit>
     {
         public int ProductId { get; set; }
+
+        [BindNever]
         public int UserId { get; set; }
         public int NewQuantity { get; set; }
     }

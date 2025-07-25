@@ -6,12 +6,15 @@ using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Shared.Parameters;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace APIAUTH.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -97,6 +100,9 @@ namespace APIAUTH.Server.Controllers
         {
             try
             {
+                var userId = int.Parse(User.FindFirst("idUser")?.Value ?? "0"); 
+
+                parameters.UserId = userId;
                 var result = await _mediator.Send(new GetProductsQuery(parameters));
                 return Ok(result);
 
