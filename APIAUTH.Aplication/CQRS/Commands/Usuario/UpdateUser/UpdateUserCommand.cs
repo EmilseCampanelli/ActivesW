@@ -14,7 +14,8 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser
         string BackupEmail,
         Gender Gender,
         int? CompanyId,
-        int RoleId
+        int RoleId,
+        string Image
     ) : IRequest<bool>;
 
 }

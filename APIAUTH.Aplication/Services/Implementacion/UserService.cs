@@ -134,6 +134,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 currentUser.Gender = (Domain.Enums.Gender)dto.Gender;
                 currentUser.CompanyId = dto.CompanyId;
                 currentUser.RoleId = dto.RoleId;
+                currentUser.AvatarUrl = dto.AvatarUrl;
                 BaseEntityHelper.SetUpdated(currentUser);
                 usuario = await _repository.Update(currentUser);
             }

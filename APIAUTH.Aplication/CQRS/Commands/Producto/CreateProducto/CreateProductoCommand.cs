@@ -11,6 +11,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
         int CategoryId,
         string[] Sizes,
         string[] Tags,
-        Gender Gender
+        Gender Gender,
+        List<string> Images
     ) : IRequest<int>;
 }

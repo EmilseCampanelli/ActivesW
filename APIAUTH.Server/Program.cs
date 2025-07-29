@@ -20,6 +20,7 @@ using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using APIAUTH.Infrastructure.Services;
 using APIAUTH.Infrastructure.SignalR;
+using CloudinaryDotNet;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -78,6 +79,22 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(APIAUTH.Aplication.AssemblyReference).Assembly);
 });
+
+builder.Services.AddSingleton(provider =>
+{
+    var cloudinaryUrl = Environment.GetEnvironmentVariable("CLOUDINARY_URL");
+    if (string.IsNullOrWhiteSpace(cloudinaryUrl))
+        throw new Exception("La variable CLOUDINARY_URL no está configurada");
+
+    var uri = new Uri(cloudinaryUrl);
+    var apiKey = uri.UserInfo.Split(':')[0];
+    var apiSecret = uri.UserInfo.Split(':')[1];
+    var cloudName = uri.Host;
+
+    var account = new CloudinaryDotNet.Account(cloudName, apiKey, apiSecret);
+    return new Cloudinary(account);
+});
+
 
 
 builder.Services.AddFluentValidationAutoValidation();
