@@ -10,18 +10,20 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
 {
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, int>
+    public class CreateUserHandler : IRequestHandler<CreateUserCommand, AuthDto>
     {
         private readonly IUserService _usuarioService;
         private readonly IMapper _mapper;
+        private readonly IAuthenticationService _authenticationService;
 
-        public CreateUserHandler(IUserService usuarioService, IMapper mapper)
+        public CreateUserHandler(IUserService usuarioService, IMapper mapper, IAuthenticationService authenticationService)
         {
             _usuarioService = usuarioService;
             _mapper = mapper;
+            _authenticationService = authenticationService;
         }
 
-        public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<AuthDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var dto = new UserDto
             {
@@ -31,7 +33,8 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
                 Account = new AccountDto { Password = request.Password }
             };
             var result = await _usuarioService.Save(dto);
-            return result.Id;
+
+            return await _authenticationService.AuthenticateUserAsync(request.Email, request.Password);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
 using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
@@ -17,6 +18,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPost("CreateCategory")]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateCategoriaCommand command)
         {
             try
@@ -31,6 +33,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoriaCommand command)
         {
             try

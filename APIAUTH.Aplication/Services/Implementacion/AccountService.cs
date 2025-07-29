@@ -26,6 +26,12 @@ namespace APIAUTH.Aplication.Services.Implementacion
         {
             var user = new Account();
 
+            var collaborator = _repository.GetByEmail(dto.Email);
+            if (collaborator != null)
+            {
+                throw new UnauthorizedAccessException("Account already exist");
+            }
+
             try
             {
                 user.Email = dto.Email;
@@ -42,10 +48,6 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return _mapper.Map<AccountDto>(user);
         }
 
-        //TODO:
-        /*
-         * Alerta de vencimiento de contraseña (DEJAR PARA EL FINAL) con el campo PasswordDate
-         */
 
         public async Task RecoverPassword(string email)
         {

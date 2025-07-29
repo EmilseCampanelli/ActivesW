@@ -26,7 +26,7 @@ namespace APIAUTH.Server.Controllers
             try
             {
                 var tokens = await _authenticationService.AuthenticateUserAsync(request.Email, request.Password);
-                return Ok(new { idToken = tokens.idToken, accessToken = tokens.accessToken });
+                return Ok(tokens);
             }
             catch (UnauthorizedAccessException e)
             {
@@ -47,7 +47,7 @@ namespace APIAUTH.Server.Controllers
             try
             {
                 var tokens = await _authenticationService.AuthenticateWithGoogleAsync(idTokenGoogle);
-                return Ok(new { idToken = tokens.idToken, accessToken = tokens.accessToken });
+                return Ok(tokens);
             }
             catch (Exception ex)
             {

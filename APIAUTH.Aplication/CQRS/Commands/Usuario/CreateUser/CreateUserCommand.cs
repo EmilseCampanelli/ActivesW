@@ -1,4 +1,5 @@
-﻿using APIAUTH.Domain.Enums;
+﻿using APIAUTH.Aplication.DTOs;
+using APIAUTH.Domain.Enums;
 using MediatR;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
@@ -8,6 +9,6 @@ namespace APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser
         string LastName,
         string Email,
         string Password
-    ) : IRequest<int>; // Retorna el ID del nuevo usuario
+    ) : IRequest<AuthDto>; // Retorna el ID del nuevo usuario
    
 }

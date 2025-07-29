@@ -2,12 +2,14 @@
 using APIAUTH.Aplication.CQRS.Commands.Producto.ProductCart.Create;
 using APIAUTH.Aplication.CQRS.Queries.Carts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CartController : ControllerBase
     {
 

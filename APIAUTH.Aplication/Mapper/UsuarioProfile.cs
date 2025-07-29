@@ -2,6 +2,7 @@
 using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
 using APIAUTH.Aplication.DTOs;
 using APIAUTH.Domain.Entities;
+using APIAUTH.Domain.Enums;
 using AutoMapper;
 
 namespace APIAUTH.Aplication.Mapper
@@ -22,7 +23,9 @@ namespace APIAUTH.Aplication.Mapper
             CreateMap<User, UserGetDto>()
                 .ForMember(dest => dest.RoleDescription, opt => opt.MapFrom(src => src.Role != null ? src.Role.Description : null))
                 .ReverseMap()
-                .ForMember(dest => dest.Role, opt => opt.Ignore());
+                .ForMember(dest => dest.Role, opt => opt.Ignore())
+                .ForMember(dest => dest.Document, opt => opt.MapFrom(src => src.Document != 0 ? (int?)src.Document : null))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender != 0 ? (Gender?)src.Gender : null));
 
             CreateMap<Role, RoleDto>().ReverseMap();
 

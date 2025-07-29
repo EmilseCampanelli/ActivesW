@@ -26,7 +26,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             _repository = repository;
         }
 
-        public async Task<(string idToken, string accessToken, string refreshToken)> AuthenticateUserAsync(string email, string password)
+        public async Task<AuthDto> AuthenticateUserAsync(string email, string password)
         {
             var user = await _userRepository.GetUserByEmailAsync(email);
             var usuarios = _userRepository.GetCollaboratorByIdUser(user.Id);
@@ -49,7 +49,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
             SaveRefreshTokenAsync(user.Id, refreshToken);
 
-            return (idToken, accessToken, refreshToken);
+            return new AuthDto(idToken, accessToken);
         }
 
         private string GenerateIdToken(User usuario)
@@ -105,7 +105,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<(string idToken, string accessToken, string refreshToken)> AuthenticateWithGoogleAsync(string idTokenGoogle)
+        public async Task<AuthDto> AuthenticateWithGoogleAsync(string idTokenGoogle)
         {
 
             string email = GetEmailFromIdToken(idTokenGoogle);
@@ -145,21 +145,17 @@ namespace APIAUTH.Aplication.Services.Implementacion
             var refreshToken = GenerateRefreshToken();
 
             SaveRefreshTokenAsync(collaborator.Id, refreshToken);
-            return (idTokenGoogle, accessToken, refreshToken);
+            return new AuthDto(idTokenGoogle, accessToken);
         }
 
         private string GetEmailFromIdToken(string idToken)
         {
-            // Inicializa el manejador de JWT
             var handler = new JwtSecurityTokenHandler();
 
-            // Lee el token para extraer los datos
             var jwtToken = handler.ReadJwtToken(idToken);
 
-            // Accede a los claims del payload
             var emailClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email");
 
-            // Retorna el valor del email si existe
             return emailClaim?.Value ?? "No se encontró el email en el id_token";
         }
 
@@ -193,7 +189,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
         }
 
-        public async Task<(string idToken, string accessToken, string refreshToken)> RefreshTokensAsync(string refreshToken)
+        public async Task<AuthDto> RefreshTokensAsync(string refreshToken)
         {
             var user = await _userRepository.GetUserByRefreshTokenAsync(refreshToken);
             var collaborator = _userRepository.GetCollaboratorByIdUser(user.Id);
@@ -215,7 +211,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             var newRefreshToken = GenerateRefreshToken();
             SaveRefreshTokenAsync(user.Id, newRefreshToken);
 
-            return (idToken, accessToken, refreshToken);
+            return new AuthDto(idToken, accessToken);
         }
 
         public async void SaveRefreshTokenAsync(int userId, string refreshToken)

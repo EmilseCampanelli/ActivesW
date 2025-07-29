@@ -5,6 +5,7 @@ using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Shared.Parameters;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
@@ -27,8 +28,8 @@ namespace APIAUTH.Server.Controllers
         {
             try
             {
-                var id = await _mediator.Send(command);
-                return CreatedAtAction(nameof(Get), new { id }, null);
+                var token = await _mediator.Send(command);
+                return Ok(token);
             }
             catch (Exception ex)
             {
@@ -37,6 +38,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPut("Update/{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserCommand command)
         {
             try
@@ -56,6 +58,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> Get(int id)
         {
             try
@@ -71,6 +74,7 @@ namespace APIAUTH.Server.Controllers
 
         //[Authorize(Policy = "UserAndAdmin")] //TODO: Agregar los roles y politicas requeridas
         [HttpPost("PutImages")]
+        [Authorize]
         public async Task<IActionResult> PutImages([FromForm] IFormFile image)
         {
             try
@@ -84,6 +88,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPost("Blocked")]
+        [Authorize]
         public async Task<IActionResult> Blocked(int id)
         {
             try
@@ -98,6 +103,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpGet("GetAll")]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] UserQueryParameters parameters)
         {
             try

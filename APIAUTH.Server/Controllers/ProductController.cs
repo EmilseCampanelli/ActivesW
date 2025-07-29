@@ -14,7 +14,6 @@ namespace APIAUTH.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -27,6 +26,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateProductoCommand command)
         {
             try
@@ -41,6 +41,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateProductoCommand command)
         {
             try
@@ -73,6 +74,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPost("AddOrRemoveStock")]
+        [Authorize]
         public async Task<IActionResult> AddStock(int productoId, int stock, string operation)
         {
             try
@@ -115,6 +117,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             try

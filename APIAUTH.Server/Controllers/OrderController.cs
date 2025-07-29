@@ -2,12 +2,14 @@
 using APIAUTH.Aplication.CQRS.Queries.Orders;
 using APIAUTH.Shared.Parameters;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
 

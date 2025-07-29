@@ -1,12 +1,14 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Favorites;
 using APIAUTH.Aplication.CQRS.Queries.Favorites;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIAUTH.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class FavoriteController : ControllerBase
     {
 

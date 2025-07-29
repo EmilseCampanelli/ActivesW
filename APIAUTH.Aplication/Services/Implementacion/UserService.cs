@@ -48,7 +48,10 @@ namespace APIAUTH.Aplication.Services.Implementacion
         public async Task<UserDto> Get(int id)
         {
             var model = await _repository.Get(id);
-            return _mapper.Map<UserDto>(model);
+            var userdto = _mapper.Map<UserDto>(model);
+            userdto.Document = userdto.Document != 0 ? userdto.Document : null;
+            userdto.Gender = userdto.Gender != 0 ? userdto.Gender : null;
+            return userdto;
         }
 
         public async Task Inactivate(int id)
@@ -123,12 +126,12 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 var currentUser = await _repository.Get(dto.Id);
                 currentUser.Name = dto.Name;
                 currentUser.LastName = dto.LastName;
-                currentUser.Document = dto.Document;
-                currentUser.TypeDocument = dto.DocumentType;
+                currentUser.Document = (int)dto.Document;
+                currentUser.TypeDocument = (Domain.Enums.DocumentType)dto.DocumentType;
                 currentUser.Phone = dto.Phone;
                 currentUser.Email = dto.Email;
                 currentUser.BackupEmail = dto.BackupEmail;
-                currentUser.Gender = dto.Gender;
+                currentUser.Gender = (Domain.Enums.Gender)dto.Gender;
                 currentUser.CompanyId = dto.CompanyId;
                 currentUser.RoleId = dto.RoleId;
                 BaseEntityHelper.SetUpdated(currentUser);
