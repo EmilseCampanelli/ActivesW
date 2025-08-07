@@ -105,5 +105,12 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
             return tipoDocumentoCbx;
         }
+
+        public List<ComboDto> GetEstados()
+        {
+            var estadosCbx = EnumHelper.ToDtoList<BaseState>();
+
+            return estadosCbx;
+        }
     }
 }

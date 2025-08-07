@@ -56,7 +56,8 @@ namespace APIAUTH.Data.Repositorios
                     Page = parameters.Page,
                     Order = parameters.Order,
                     OrderBy = parameters.OrderBy,
-                    Data = data.Select(selector).ToList()
+                    Data = data.Select(selector).ToList(),
+                    TotalPages = (int)Math.Ceiling((double)total / parameters.Limit)
                 };
             }
             catch (Exception ex)

@@ -39,12 +39,12 @@ namespace APIAUTH.Server.Controllers
 
 
         [HttpPost("confirm")]
-        public async Task<IActionResult> Confirm([FromBody] ConfirmOrdenCommand command)
+        public async Task<IActionResult> Confirm()
         {
             try
             {
                 var userId = int.Parse(User.FindFirst("idUser")?.Value ?? "0");
-
+                ConfirmOrdenCommand command = new ConfirmOrdenCommand();
                 command.UserId = userId;
                 var result = await _mediator.Send(command);
                 return Ok(result);

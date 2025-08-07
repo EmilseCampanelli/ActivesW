@@ -18,5 +18,6 @@ namespace APIAUTH.Aplication.Services.Interfaces
         Task<List<ComboDto>> GetPais();
         Task<List<ComboDto>> GetCategorias();
         Task<List<ComboDto>> GetProvincias();
+        List<ComboDto> GetEstados();
     }
 }

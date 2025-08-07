@@ -7,5 +7,6 @@
         public string OrderBy { get; set; }
         public string Order { get; set; }
         public List<T> Data { get; set; } = new();
+        public int TotalPages { get; set; }
     }
 }

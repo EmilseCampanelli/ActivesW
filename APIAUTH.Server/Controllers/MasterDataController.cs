@@ -120,6 +120,19 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
+        [HttpGet("State")]
+        public ActionResult<List<ComboDto>> GetEstados()
+        {
+            try
+            {
+                return _masterDataService.GetEstados();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

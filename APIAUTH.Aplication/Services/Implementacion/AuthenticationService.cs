@@ -44,12 +44,12 @@ namespace APIAUTH.Aplication.Services.Implementacion
             }
 
             var idToken = GenerateIdToken(usuarios);
-            var accessToken = GenerateAccessToken(usuarios);
+            //var accessToken = GenerateAccessToken(usuarios);
             var refreshToken = GenerateRefreshToken();
 
             SaveRefreshTokenAsync(user.Id, refreshToken);
 
-            return new AuthDto(idToken, accessToken);
+            return new AuthDto(idToken);
         }
 
         private string GenerateIdToken(User usuario)
@@ -62,6 +62,8 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 new Claim("idUser", usuario.Id.ToString()),
                 new Claim("Description", $"{usuario.LastName}, {usuario.Name}"),
                 new Claim("email", usuario.Email),
+                new Claim(ClaimTypes.Role, usuario.Role.Description),
+                new Claim("isGenericPassword", usuario.Account.IsGenericPassword.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -87,7 +89,6 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, usuario.Role.Description),
                 new Claim("isGenericPassword", usuario.Account.IsGenericPassword.ToString()),
-
             };
 
 
@@ -141,11 +142,11 @@ namespace APIAUTH.Aplication.Services.Implementacion
             }
 
 
-            var accessToken = GenerateAccessToken(collaborator);
+            //var accessToken = GenerateAccessToken(collaborator);
             var refreshToken = GenerateRefreshToken();
 
             SaveRefreshTokenAsync(collaborator.Id, refreshToken);
-            return new AuthDto(idTokenGoogle, accessToken);
+            return new AuthDto(idTokenGoogle);
         }
 
         private string GetEmailFromIdToken(string idToken)
@@ -206,12 +207,12 @@ namespace APIAUTH.Aplication.Services.Implementacion
             }
 
             var idToken = GenerateIdToken(collaborator);
-            var accessToken = GenerateAccessToken(collaborator);
+           // var accessToken = GenerateAccessToken(collaborator);
 
             var newRefreshToken = GenerateRefreshToken();
             SaveRefreshTokenAsync(user.Id, newRefreshToken);
 
-            return new AuthDto(idToken, accessToken);
+            return new AuthDto(idToken);
         }
 
         public async void SaveRefreshTokenAsync(int userId, string refreshToken)

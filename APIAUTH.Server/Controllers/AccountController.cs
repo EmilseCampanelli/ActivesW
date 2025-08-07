@@ -2,6 +2,7 @@
 using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Infrastructure.Services;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPut("changePassword")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(UserPasswordDto userPasswordDto)
         {
             if (!ModelState.IsValid)
@@ -49,7 +51,10 @@ namespace APIAUTH.Server.Controllers
             }
 
             try
-            {               
+            {
+                var userId = User.FindFirst("email")?.Value;
+                userPasswordDto.Email = userId;
+
                 return Ok(await _userService.ChangePassword(userPasswordDto));
             }
             catch (Exception ex)

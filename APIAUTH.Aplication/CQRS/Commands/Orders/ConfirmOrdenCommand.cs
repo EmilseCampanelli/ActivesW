@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Orders
 {
     public class ConfirmOrdenCommand : IRequest<bool>
     {
-        [BindNever]
+        [JsonIgnore]
         public int UserId { get; set; }
     }
 }
