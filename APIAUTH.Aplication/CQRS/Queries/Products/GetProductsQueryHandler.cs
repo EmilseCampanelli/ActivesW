@@ -25,7 +25,6 @@ namespace APIAUTH.Aplication.CQRS.Queries.Products
         {
             var query = _readOnlyRepo.GetAll()
         .Include(p => p.Category)
-        .Include(p => p.ProductImages)
         .Select(p => new Product
         {
             Id = p.Id,
@@ -33,7 +32,7 @@ namespace APIAUTH.Aplication.CQRS.Queries.Products
             Description = p.Description,
             Price = p.Price,
             Stock = p.Stock,
-            ImagesUrl = p.ImagesUrl,
+            ImagesUrl = p.ProductImages.FirstOrDefault().Url,
             CategoryId = p.CategoryId,
             Category = p.Category,
             Slug = p.Slug,
