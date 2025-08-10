@@ -9,9 +9,12 @@ namespace APIAUTH.Aplication.CQRS.Queries.Products
     {
         public ProductQueryParameters Parameters { get; set; }
 
+        public int UserId { get; set; }
+
         public GetProductsQuery(ProductQueryParameters parameters)
         {
             Parameters = parameters;
+            UserId = parameters.UserId;
         }
     }
 }
