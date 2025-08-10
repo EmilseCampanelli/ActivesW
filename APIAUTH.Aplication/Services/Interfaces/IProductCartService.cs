@@ -10,7 +10,7 @@ namespace APIAUTH.Aplication.Services.Interfaces
 {
     public interface IProductCartService
     {
-        void AddProductCart(CreateProductCartCommand command);
+        Task<int> AddProductCart(CreateProductCartCommand command, CancellationToken ct = default);
 
     }
 }

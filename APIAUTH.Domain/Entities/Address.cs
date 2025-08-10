@@ -10,6 +10,10 @@
         public int CountryId { get; set; }
         public virtual Country Country { get; set; }
         public string ZipCode { get; set; }
+        public string Apartment { get; set; }
+        public string Floor { get; set; }
+        public string Notes { get; set; }
+        public string State { get; set; }
 
         public int UserId { get; set; }
         public virtual User User {get; set;}

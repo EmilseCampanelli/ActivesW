@@ -11,6 +11,10 @@
         public string CountryName { get; set; }
         public string ZipCode { get; set; }
         public int UserId { get; set; }
+        public string Apartment { get; set; }
+        public string Floor { get; set; }
+        public string Notes { get; set; }
+        public string State { get; set; }
 
     }
 }

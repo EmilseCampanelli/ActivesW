@@ -25,6 +25,7 @@ namespace APIAUTH.Aplication.CQRS.Queries.Products
         {
             var query = _readOnlyRepo.GetAll()
         .Include(p => p.Category)
+        .Include(p => p.ProductImages)
         .Select(p => new Product
         {
             Id = p.Id,
@@ -40,14 +41,16 @@ namespace APIAUTH.Aplication.CQRS.Queries.Products
             Sizes = p.Sizes,
             Tags = p.Tags,
             Gender = p.Gender,
-            IsFavorite = p.Favorites.Any(f => f.UserId == request.Parameters.UserId)
+            IsFavorite = p.Favorites.Any(f => f.UserId == request.Parameters.UserId),
+            ProductImages = p.ProductImages
         });
+
 
             return await _repository.GetPagedResultAsync(
                 query,
                 request.Parameters,
-                p =>  _mapper.Map<ProductDto>(p)
-            );
+                p => _mapper.Map<ProductDto>(p)
+             );
         }
     }
 }

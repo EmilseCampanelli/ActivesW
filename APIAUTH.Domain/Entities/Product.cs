@@ -25,6 +25,7 @@ namespace APIAUTH.Domain.Entities
         public virtual ICollection<Favorite> Favorites { get; set; }
         [NotMapped]
         public bool IsFavorite { get; set; }
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
 
     }
 }

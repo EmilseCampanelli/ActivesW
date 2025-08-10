@@ -29,7 +29,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
         }
 
 
-        public async void AddProductCart(CreateProductCartCommand command)
+        public async Task<int> AddProductCart(CreateProductCartCommand command, CancellationToken ct = default)
         {
             var product = await _productRepository.Get(command.ProductId);
             var ordenCurrent = _ordenRepository.GetFiltered(u => u.UserId == command.UserId && u.OrdenState == Domain.Enums.OrdenState.PendienteCompra).FirstOrDefault();
@@ -38,6 +38,8 @@ namespace APIAUTH.Aplication.Services.Implementacion
             newProductLine.ProductId = command.ProductId;
             newProductLine.Amount = command.Quantity;
             newProductLine.Price = product.Price;
+            newProductLine.CreatedDate = DateTime.UtcNow;
+            newProductLine.State = Domain.Enums.BaseState.Activo;
 
 
             if (ordenCurrent == null)
@@ -45,7 +47,9 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 var orden = new Orden();
                 orden.UserId = command.UserId;
                 orden.OrdenState = Domain.Enums.OrdenState.PendienteCompra;
-                orden.OrdenDate = DateTime.Now;
+                orden.OrdenDate = DateTime.UtcNow;
+                orden.CreatedDate = DateTime.UtcNow;
+                orden.State = Domain.Enums.BaseState.Activo;
 
                 ordenCurrent = await _ordenRepository.Add(orden);
             }
@@ -53,6 +57,8 @@ namespace APIAUTH.Aplication.Services.Implementacion
             newProductLine.OrdenId = ordenCurrent.Id;
 
             await _productLineRepository.Add(newProductLine);
+
+            return newProductLine.Id;
 
         }
     }

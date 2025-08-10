@@ -1,4 +1,5 @@
 ﻿using APIAUTH.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace APIAUTH.Aplication.DTOs
 {
@@ -17,5 +18,10 @@ namespace APIAUTH.Aplication.DTOs
         public string[] Sizes { get; set; }
         public string[] Tags { get; set; }
         public Gender Gender { get; set; }
+
+        [JsonIgnore]
+        public List<ProductImageAddDto> ProductImages { get; set; }
+
+        public List<ProductImageDto> ProductsImageDto { get; set; }
     }
 }

@@ -25,6 +25,9 @@ namespace APIAUTH.Server.Controllers
         {
             try
             {
+                var userId = int.Parse(User.FindFirst("idUser")?.Value ?? "0");
+
+                request.UserId = userId;
                 var id = await _mediator.Send(request);
 
                 return Ok(id);

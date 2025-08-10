@@ -94,7 +94,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ZipCode")
+                    b.Property<string>("PostalCode")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

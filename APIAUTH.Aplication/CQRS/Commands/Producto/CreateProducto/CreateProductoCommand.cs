@@ -1,4 +1,6 @@
-﻿using APIAUTH.Domain.Enums;
+﻿using APIAUTH.Aplication.DTOs;
+using APIAUTH.Domain.Entities;
+using APIAUTH.Domain.Enums;
 using MediatR;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
@@ -12,6 +14,6 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
         string[] Sizes,
         string[] Tags,
         Gender Gender,
-        List<string> Images
+        List<ProductImageAddDto> ProductImage
     ) : IRequest<int>;
 }

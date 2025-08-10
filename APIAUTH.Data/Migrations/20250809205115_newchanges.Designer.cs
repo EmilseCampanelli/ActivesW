@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APIAUTH.Data.Migrations
 {
     [DbContext(typeof(ActivesWContext))]
-    [Migration("20250511165756_1.0.0.initialdata")]
-    partial class _100initialdata
+    [Migration("20250809205115_newchanges")]
+    partial class newchanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,9 @@ namespace APIAUTH.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Apartment")
+                        .HasColumnType("text");
+
                     b.Property<string>("City")
                         .HasColumnType("text");
 
@@ -76,14 +79,23 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Floor")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
                     b.Property<string>("Number")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PostalCode")
                         .HasColumnType("text");
 
                     b.Property<int>("ProvinceId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("State")
-                        .HasColumnType("integer");
+                    b.Property<string>("State")
+                        .HasColumnType("text");
 
                     b.Property<string>("Street")
                         .HasColumnType("text");
@@ -91,11 +103,8 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -136,6 +145,289 @@ namespace APIAUTH.Data.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.ColorTheme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Mode")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Property")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Section")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ColorThemes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Mode = "light",
+                            Property = "main",
+                            Section = "primary",
+                            Value = "#FFFFFF"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Mode = "light",
+                            Property = "contrastText",
+                            Section = "primary",
+                            Value = "#000000"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Mode = "light",
+                            Property = "main",
+                            Section = "secondary",
+                            Value = "#000000"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Mode = "light",
+                            Property = "contrastText",
+                            Section = "secondary",
+                            Value = "#FFFFFF"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Mode = "light",
+                            Property = "default",
+                            Section = "background",
+                            Value = "#FFFFFF"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Mode = "light",
+                            Property = "paper",
+                            Section = "background",
+                            Value = "#F9F9F9"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Mode = "light",
+                            Property = "primary",
+                            Section = "text",
+                            Value = "#000000"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Mode = "light",
+                            Property = "secondary",
+                            Section = "text",
+                            Value = "#666666"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Mode = "light",
+                            Property = "disabled",
+                            Section = "text",
+                            Value = "#BBBBBB"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Mode = "light",
+                            Property = "main",
+                            Section = "border",
+                            Value = "#DDDDDD"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Mode = "light",
+                            Property = "main",
+                            Section = "success",
+                            Value = "#4CAF50"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Mode = "light",
+                            Property = "contrastText",
+                            Section = "success",
+                            Value = "#FFFFFF"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Mode = "light",
+                            Property = "main",
+                            Section = "warning",
+                            Value = "#FFC107"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Mode = "light",
+                            Property = "contrastText",
+                            Section = "warning",
+                            Value = "#000000"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Mode = "light",
+                            Property = "main",
+                            Section = "error",
+                            Value = "#F44336"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Mode = "light",
+                            Property = "contrastText",
+                            Section = "error",
+                            Value = "#FFFFFF"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Mode = "dark",
+                            Property = "main",
+                            Section = "primary",
+                            Value = "#000000"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Mode = "dark",
+                            Property = "contrastText",
+                            Section = "primary",
+                            Value = "#FFFFFF"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Mode = "dark",
+                            Property = "main",
+                            Section = "secondary",
+                            Value = "#FFFFFF"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Mode = "dark",
+                            Property = "contrastText",
+                            Section = "secondary",
+                            Value = "#000000"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Mode = "dark",
+                            Property = "default",
+                            Section = "background",
+                            Value = "#121212"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Mode = "dark",
+                            Property = "paper",
+                            Section = "background",
+                            Value = "#1E1E1E"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Mode = "dark",
+                            Property = "primary",
+                            Section = "text",
+                            Value = "#FFFFFF"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Mode = "dark",
+                            Property = "secondary",
+                            Section = "text",
+                            Value = "#AAAAAA"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Mode = "dark",
+                            Property = "disabled",
+                            Section = "text",
+                            Value = "#555555"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Mode = "dark",
+                            Property = "main",
+                            Section = "border",
+                            Value = "#333333"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Mode = "dark",
+                            Property = "main",
+                            Section = "success",
+                            Value = "#81C784"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Mode = "dark",
+                            Property = "contrastText",
+                            Section = "success",
+                            Value = "#000000"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Mode = "dark",
+                            Property = "main",
+                            Section = "warning",
+                            Value = "#FFD54F"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Mode = "dark",
+                            Property = "contrastText",
+                            Section = "warning",
+                            Value = "#000000"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Mode = "dark",
+                            Property = "main",
+                            Section = "error",
+                            Value = "#E57373"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Mode = "dark",
+                            Property = "contrastText",
+                            Section = "error",
+                            Value = "#000000"
+                        });
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Company", b =>
@@ -238,6 +530,105 @@ namespace APIAUTH.Data.Migrations
                     b.ToTable("Favorites");
                 });
 
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Label")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Menus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Icon = "dashboard_icon",
+                            Label = "Dashboard",
+                            Path = "/dashboard"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Icon = "products_icon",
+                            Label = "Products",
+                            Path = "/products"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Icon = "users_icon",
+                            Label = "Users",
+                            Path = "/users"
+                        });
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.MenuChild", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Label")
+                        .HasColumnType("text");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("MenuItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Label = "Product List",
+                            MenuId = 2,
+                            Path = "/products/list"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Label = "Add Product",
+                            MenuId = 2,
+                            Path = "/products/add"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Label = "User List",
+                            MenuId = 3,
+                            Path = "/users/list"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Label = "Add User",
+                            MenuId = 3,
+                            Path = "/users/add"
+                        });
+                });
+
             modelBuilder.Entity("APIAUTH.Domain.Entities.Notificacion", b =>
                 {
                     b.Property<int>("Id")
@@ -288,9 +679,6 @@ namespace APIAUTH.Data.Migrations
 
                     b.Property<int>("State")
                         .HasColumnType("integer");
-
-                    b.Property<double>("Total")
-                        .HasColumnType("double precision");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -458,7 +846,7 @@ namespace APIAUTH.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AccountId")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("integer");
 
                     b.Property<string>("AvatarUrl")
@@ -528,13 +916,17 @@ namespace APIAUTH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIAUTH.Domain.Entities.User", null)
+                    b.HasOne("APIAUTH.Domain.Entities.User", "User")
                         .WithMany("Address")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country");
 
                     b.Navigation("Province");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Category", b =>
@@ -550,7 +942,7 @@ namespace APIAUTH.Data.Migrations
             modelBuilder.Entity("APIAUTH.Domain.Entities.Favorite", b =>
                 {
                     b.HasOne("APIAUTH.Domain.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("Favorites")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -564,6 +956,17 @@ namespace APIAUTH.Data.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.MenuChild", b =>
+                {
+                    b.HasOne("APIAUTH.Domain.Entities.Menu", "Menu")
+                        .WithMany("Children")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Orden", b =>
@@ -611,9 +1014,7 @@ namespace APIAUTH.Data.Migrations
                 {
                     b.HasOne("APIAUTH.Domain.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountId");
 
                     b.HasOne("APIAUTH.Domain.Entities.Company", "Company")
                         .WithMany("Users")
@@ -642,9 +1043,19 @@ namespace APIAUTH.Data.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Menu", b =>
+                {
+                    b.Navigation("Children");
+                });
+
             modelBuilder.Entity("APIAUTH.Domain.Entities.Orden", b =>
                 {
                     b.Navigation("ProductLine");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("Favorites");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.User", b =>

@@ -62,7 +62,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 new Claim("idUser", usuario.Id.ToString()),
                 new Claim("Description", $"{usuario.LastName}, {usuario.Name}"),
                 new Claim("email", usuario.Email),
-                new Claim(ClaimTypes.Role, usuario.Role.Description),
+                new Claim("role", usuario.Role.Description),
                 new Claim("isGenericPassword", usuario.Account.IsGenericPassword.ToString()),
             };
 

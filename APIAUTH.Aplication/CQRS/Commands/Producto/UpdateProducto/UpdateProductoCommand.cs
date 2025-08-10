@@ -1,4 +1,5 @@
-﻿using APIAUTH.Domain.Enums;
+﻿using APIAUTH.Aplication.DTOs;
+using APIAUTH.Domain.Enums;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto
         int CategoryId,
         string[] Sizes,
         string[] Tags,
-        Gender Gender
+        Gender Gender,
+        List<ProductImageAddDto> ProductImage
     ) : IRequest<int>;
 }

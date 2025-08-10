@@ -23,6 +23,7 @@ namespace APIAUTH.Data.Context
         public DbSet<ColorTheme> ColorThemes { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<MenuChild> MenuItems { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
 
 
 
@@ -36,11 +37,13 @@ namespace APIAUTH.Data.Context
 
             modelBuilder.Entity<Product>().Navigation(e => e.Category).AutoInclude();
             modelBuilder.Entity<Product>().Navigation(e => e.Favorites).AutoInclude();
+            modelBuilder.Entity<Product>().Navigation(e => e.ProductImages).AutoInclude();
 
             modelBuilder.Entity<Favorite>().Navigation(e => e.Product).AutoInclude();
             modelBuilder.Entity<Favorite>().Navigation(e => e.User).AutoInclude();
 
             modelBuilder.Entity<Orden>().Navigation(e => e.User).AutoInclude();
+            modelBuilder.Entity<Orden>().Navigation(e => e.ProductLine).AutoInclude();
 
             modelBuilder.Entity<Category>()
                .HasMany(c => c.SubCategory)

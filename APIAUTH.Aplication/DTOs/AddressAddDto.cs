@@ -13,6 +13,10 @@ namespace APIAUTH.Aplication.DTOs
         public string City { get; set; }
         public int ProvinceId { get; set; }
         public int CountryId { get; set; }
-        public string ZipCode { get; set; }
+        public string PostalCode { get; set; }
+        public string Apartment {  get; set; }
+        public string Floor { get; set; }
+        public string Notes { get; set; }
+        public string State { get; set; }
     }
 }

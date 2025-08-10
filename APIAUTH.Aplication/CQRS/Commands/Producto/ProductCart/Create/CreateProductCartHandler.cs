@@ -20,11 +20,9 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.ProductCart.Create
             _mapper = mapper;
         }
 
-        Task<int> IRequestHandler<CreateProductCartCommand, int>.Handle(CreateProductCartCommand request, CancellationToken cancellationToken)
+        async Task<int> IRequestHandler<CreateProductCartCommand, int>.Handle(CreateProductCartCommand request, CancellationToken cancellationToken)
         {
-            _productCartService.AddProductCart(request);
-
-            return Task.FromResult(1);
+            return await _productCartService.AddProductCart(request, cancellationToken);
         }
     }
 }

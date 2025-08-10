@@ -25,13 +25,25 @@ namespace APIAUTH.Aplication.Services.Implementacion
         
             var exist = addresses.Any(d => d.Street.ToLower() == dto.Street.ToLower() &&
                 d.Number.ToLower() == dto.Number.ToLower() &&
-                d.ZipCode.ToLower() == dto.ZipCode.ToLower()
+                d.ZipCode.ToLower() == dto.PostalCode.ToLower() && d.Floor == dto.Floor
             );
 
             if (exist)
                 throw new ApplicationException("There is already an address like this for this user.");
 
-            var address = _mapper.Map<Address>(dto);
+            var address = new Address();
+            address.Street = dto.Street;
+            address.UserId = usuarioId;
+            address.Apartment = dto.Apartment;
+            address.Notes = dto.Notes;
+            address.City = dto.City;
+            address.CountryId = dto.CountryId;
+            address.ProvinceId = dto.ProvinceId;
+            address.CreatedDate = DateTime.UtcNow;
+            address.Floor = dto.Floor;
+            address.Number = dto.Number;
+            address.ZipCode = dto.PostalCode;
+            address.State = dto.State;
 
             var addressOk = await _repository.Add(address);
             return addressOk.Id;

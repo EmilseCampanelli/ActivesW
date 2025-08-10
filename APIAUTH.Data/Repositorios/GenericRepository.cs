@@ -30,9 +30,9 @@ namespace APIAUTH.Data.Repository
             await Save();
         }
 
-        public async Task<TEntity> Get(int id)
+        public async Task<TEntity> Get(int id, CancellationToken ct = default)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(id, ct);
         }
 
         public IQueryable<TEntity> GetAll()

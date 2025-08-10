@@ -36,6 +36,8 @@ namespace APIAUTH.Aplication.Mapper
                 .ReverseMap()
                 .ForMember(dest => dest.Country, opt => opt.Ignore())
                 .ForMember(dest => dest.Province, opt => opt.Ignore());
+
+
         }
     }
 }

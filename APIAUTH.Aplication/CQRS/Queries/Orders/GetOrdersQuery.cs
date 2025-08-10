@@ -13,7 +13,7 @@ namespace APIAUTH.Aplication.CQRS.Queries.Orders
 
         public GetOrdersQuery(OrdenQueryParameters parameters)
         {
-
+            UserId = parameters.UserId;
             Parameters = parameters;
         }
     }

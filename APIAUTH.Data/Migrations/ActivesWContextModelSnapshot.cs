@@ -64,6 +64,9 @@ namespace APIAUTH.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Apartment")
+                        .HasColumnType("text");
+
                     b.Property<string>("City")
                         .HasColumnType("text");
 
@@ -73,14 +76,20 @@ namespace APIAUTH.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Floor")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
                     b.Property<string>("Number")
                         .HasColumnType("text");
 
                     b.Property<int>("ProvinceId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("State")
-                        .HasColumnType("integer");
+                    b.Property<string>("State")
+                        .HasColumnType("text");
 
                     b.Property<string>("Street")
                         .HasColumnType("text");
@@ -738,6 +747,39 @@ namespace APIAUTH.Data.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("APIAUTH.Domain.Entities.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Orden")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+                });
+
             modelBuilder.Entity("APIAUTH.Domain.Entities.ProductLine", b =>
                 {
                     b.Property<int>("Id")
@@ -979,6 +1021,17 @@ namespace APIAUTH.Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("APIAUTH.Domain.Entities.ProductImage", b =>
+                {
+                    b.HasOne("APIAUTH.Domain.Entities.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("APIAUTH.Domain.Entities.ProductLine", b =>
                 {
                     b.HasOne("APIAUTH.Domain.Entities.Orden", "Orden")
@@ -1044,6 +1097,8 @@ namespace APIAUTH.Data.Migrations
             modelBuilder.Entity("APIAUTH.Domain.Entities.Product", b =>
                 {
                     b.Navigation("Favorites");
+
+                    b.Navigation("ProductImages");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.User", b =>

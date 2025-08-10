@@ -26,6 +26,8 @@ namespace APIAUTH.Server.Controllers
         {
             try
             {
+                var userId = int.Parse(User.FindFirst("idUser")?.Value ?? "0");
+                parameters.UserId = userId;
                 var result = await _mediator.Send(new GetOrdersQuery(parameters));
                 return Ok(result);
 

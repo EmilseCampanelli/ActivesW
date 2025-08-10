@@ -9,7 +9,7 @@ namespace APIAUTH.Domain.Repository
 
         Task<TEntity> Update(TEntity item);
 
-        Task<TEntity> Get(int id);
+        Task<TEntity> Get(int id, CancellationToken ct = default);
 
         IQueryable<TEntity> GetAll();
 

@@ -41,6 +41,7 @@ namespace APIAUTH.Server.Controllers
         {
             try
             {
+                userId = int.Parse(User.FindFirst("idUser")?.Value ?? "0");
                 var result = await _mediator.Send(new GetFavoritesByUserQuery(userId));
                 return Ok(result);
             }
