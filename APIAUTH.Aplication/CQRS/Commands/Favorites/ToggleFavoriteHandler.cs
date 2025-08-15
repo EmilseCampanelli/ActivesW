@@ -37,7 +37,7 @@ namespace APIAUTH.Aplication.CQRS.Commands.Favorites
                     ProductId = request.ProductId,
                     CreatedDate = DateTime.UtcNow,
                     UpdatedDate = DateTime.UtcNow,
-                    State = Domain.Enums.BaseState.Activo
+                    Status = Domain.Enums.BaseState.Activo
                 };
                 await _repo.Add(favorite);
             }

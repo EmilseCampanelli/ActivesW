@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20250815194715_1.0.0.initialdata.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Migrations\20250815194715_1.0.0.initialdata.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.20" />

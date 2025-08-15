@@ -6,5 +6,7 @@
         public double Price { get; set; }
         public int ProductId { get; set; }
         public string ProductTitle { get; set; }
+        public string ProductDescription { get; set; }
+        public List<ProductImageDto> ImagesUrl { get; set; }
     }
 }

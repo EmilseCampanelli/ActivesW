@@ -76,8 +76,12 @@ namespace APIAUTH.Aplication.Services.Implementacion
             {
                 var nuevoProducto = _mapper.Map<Product>(dto);
                 nuevoProducto.ProductState = dto.Stock.Equals(0) ? Domain.Enums.ProductState.SinStock : Domain.Enums.ProductState.Disponible;
+                
                 BaseEntityHelper.SetCreated(nuevoProducto);
                 producto = await _repository.Add(nuevoProducto);
+
+                producto.Slug = $"{producto.Id}-{producto.Title?.Replace(" ", "-")}";
+                producto = await _repository.Update(producto);
             }
             else
             {

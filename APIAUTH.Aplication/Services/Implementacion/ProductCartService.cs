@@ -39,7 +39,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             newProductLine.Amount = command.Quantity;
             newProductLine.Price = product.Price;
             newProductLine.CreatedDate = DateTime.UtcNow;
-            newProductLine.State = Domain.Enums.BaseState.Activo;
+            newProductLine.Status = Domain.Enums.BaseState.Activo;
 
 
             if (ordenCurrent == null)
@@ -49,7 +49,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 orden.OrdenState = Domain.Enums.OrdenState.PendienteCompra;
                 orden.OrdenDate = DateTime.UtcNow;
                 orden.CreatedDate = DateTime.UtcNow;
-                orden.State = Domain.Enums.BaseState.Activo;
+                orden.Status = Domain.Enums.BaseState.Activo;
 
                 ordenCurrent = await _ordenRepository.Add(orden);
             }

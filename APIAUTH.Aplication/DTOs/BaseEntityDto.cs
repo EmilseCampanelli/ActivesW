@@ -10,6 +10,6 @@ namespace APIAUTH.Aplication.DTOs
 
         [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
-        public BaseState? State { get; set; }
+        public BaseState? Estado { get; set; }
     }
 }

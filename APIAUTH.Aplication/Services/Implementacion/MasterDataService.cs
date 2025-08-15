@@ -3,36 +3,47 @@ using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Enums;
 using APIAUTH.Domain.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace APIAUTH.Aplication.Services.Implementacion
 {
     public class MasterDataService : IMasterDataService
     {
         private readonly IRepository<Category> _categoriaRepository;
-        private readonly IRepository<Country> _paisRepository;
-        private readonly IRepository<Province> _provinciaRepository;
         private readonly IRepository<Role> _rolRepository;
+        private readonly IGeoRepo _geoRepo;
 
 
-        public MasterDataService(IRepository<Role> rolRepository, IRepository<Category> categoriaRepository,
-            IRepository<Country> paisRepository, IRepository<Province> provinciaRepository)
+        public MasterDataService(IRepository<Role> rolRepository, IRepository<Category> categoriaRepository, IGeoRepo geoRepo)
         {
             _rolRepository = rolRepository;
-            _paisRepository = paisRepository;
             _categoriaRepository = categoriaRepository;
-            _provinciaRepository = provinciaRepository;
+            _geoRepo = geoRepo;
         }
 
         public async Task<List<ComboDto>> GetCategorias()
         {
             var categoriasCbx = new List<ComboDto>();
 
-            var categorias =  _categoriaRepository.GetAll();
+            var categorias = _categoriaRepository.GetAll();
             foreach (var c in categorias)
             {
                 categoriasCbx.Add(new ComboDto(c.Id, c.Description));
             }
             return categoriasCbx;
+        }
+
+        public async Task<List<ComboUbiDto>> GetPaisesAsync()
+        {
+            var countriesCbx = new List<ComboUbiDto>();
+
+            var countries =await _geoRepo.GetPaisesAsync();
+            foreach (var co in countries)
+            {
+                countriesCbx.Add(new ComboUbiDto(co.Iso2, co.Name));
+            }
+
+            return countriesCbx;
         }
 
         public List<ComboDto> GetEstadoCarrito()
@@ -56,35 +67,12 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return estadosCbx;
         }
 
-        public async Task<List<ComboDto>> GetPais()
-        {
-            var paisCbx = new List<ComboDto>();
-
-            var pais =  _paisRepository.GetAll();
-            foreach (var c in pais)
-            {
-                paisCbx.Add(new ComboDto(c.Id, c.Description));
-            }
-            return paisCbx;
-        }
-
-        public async Task<List<ComboDto>> GetProvincias()
-        {
-            var provinciasCbx = new List<ComboDto>();
-
-            var provincias =  _provinciaRepository.GetAll();
-            foreach (var c in provincias)
-            {
-                provinciasCbx.Add(new ComboDto(c.Id, c.Description));
-            }
-            return provinciasCbx;
-        }
 
         public async Task<List<ComboDto>> GetRoles()
         {
             var rolesCbx = new List<ComboDto>();
 
-            var roles =  _rolRepository.GetAll();
+            var roles = _rolRepository.GetAll();
             foreach (var c in roles)
             {
                 rolesCbx.Add(new ComboDto(c.Id, c.Description));
@@ -109,6 +97,41 @@ namespace APIAUTH.Aplication.Services.Implementacion
         public List<ComboDto> GetEstados()
         {
             var estadosCbx = EnumHelper.ToDtoList<BaseState>();
+
+            return estadosCbx;
+        }
+
+        
+
+        public async Task<List<ComboDto>> GetProvinciasAsync(string countryIso2)
+        {
+            var stateCbx = new List<ComboDto>();
+
+            var states = await _geoRepo.GetProvinciasAsync(countryIso2);
+            foreach (var co in states)
+            {
+                stateCbx.Add(new ComboDto(co.Id, co.Name));
+            }
+
+            return stateCbx;
+        }
+
+        public async Task<List<ComboUbiDto>> GetCiudadesAsync(string countryIso2, int? stateId = null, string? q = null, int top = 50)
+        {
+            var citiesCbx = new List<ComboUbiDto>();
+
+            var cities = await _geoRepo.GetCiudadesAsync(countryIso2,stateId);
+            foreach (var co in cities)
+            {
+                citiesCbx.Add(new ComboUbiDto(co.Id.ToString(), co.Name));
+            }
+
+            return citiesCbx;
+        }
+
+        public List<ComboSizeDto> GetSizeAsync()
+        {
+            var estadosCbx = EnumHelper.ToDtoListSize<Sizes>();
 
             return estadosCbx;
         }

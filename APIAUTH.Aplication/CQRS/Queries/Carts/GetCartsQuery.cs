@@ -8,8 +8,18 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.CQRS.Queries.Carts
 {
-    public class GetCartsQuery : IRequest<List<OrdenDto>>
+    public class GetCartsQuery : IRequest<List<CartDto>>
     {
+        public int UserId { get; set; }
 
+        public GetCartsQuery(int userId)
+        {
+            UserId = userId;
+        }
+
+        public GetCartsQuery()
+        {
+            
+        }
     }
 }

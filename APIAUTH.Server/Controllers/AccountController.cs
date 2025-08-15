@@ -5,6 +5,7 @@ using APIAUTH.Infrastructure.Services;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Messaging;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace APIAUTH.Server.Controllers
 {
@@ -52,8 +53,9 @@ namespace APIAUTH.Server.Controllers
 
             try
             {
-                var userId = User.FindFirst("email")?.Value;
-                userPasswordDto.Email = userId;
+                var email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+                userPasswordDto.Email = email;
 
                 return Ok(await _userService.ChangePassword(userPasswordDto));
             }

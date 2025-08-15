@@ -29,7 +29,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             var collaborator = _repository.GetByEmail(dto.Email);
             if (collaborator != null)
             {
-                throw new UnauthorizedAccessException("Account already exist");
+                throw new UnauthorizedAccessException("El usuario ya posee una cuenta con este email");
             }
 
             try
@@ -52,9 +52,9 @@ namespace APIAUTH.Aplication.Services.Implementacion
         public async Task RecoverPassword(string email)
         {
             var collaborator = _repository.GetByEmail(email);
-            if (collaborator == null || collaborator.State == Domain.Enums.BaseState.Activo)
+            if (collaborator == null || collaborator.Status == Domain.Enums.BaseState.Activo)
             {
-                throw new UnauthorizedAccessException("Account is non-existent");
+                throw new UnauthorizedAccessException("Usuario inexistente");
             }
 
             //TODO: Se debe bloquear al usuario y devolver el id del usuario administrador
@@ -75,7 +75,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 }
                 else
                 {
-                    throw new UnauthorizedAccessException("Incorrect Password");
+                    throw new UnauthorizedAccessException("La contraseña actual ingresada es incorrecta");
                 }
             }
 

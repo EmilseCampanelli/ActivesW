@@ -13,7 +13,7 @@ namespace APIAUTH.Aplication.Helpers
             where T : BaseEntity
         {
             entity.CreatedDate = DateTime.UtcNow;
-            entity.State = Domain.Enums.BaseState.Activo;
+            entity.Status = Domain.Enums.BaseState.Activo;
         }
 
         public static void SetUpdated<T>(T entity)
@@ -25,14 +25,14 @@ namespace APIAUTH.Aplication.Helpers
         public static void SetActive<T>(T entity)
             where T : BaseEntity
         {
-            entity.State = Domain.Enums.BaseState.Activo;
+            entity.Status = Domain.Enums.BaseState.Activo;
             entity.UpdatedDate = DateTime.UtcNow;
         }
 
         public static void SetInactive<T>(T entity)
             where T : BaseEntity
         {
-            entity.State = Domain.Enums.BaseState.Inactivo;
+            entity.Status = Domain.Enums.BaseState.Inactivo;
             entity.UpdatedDate = DateTime.UtcNow;
         }
     }

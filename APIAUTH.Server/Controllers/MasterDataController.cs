@@ -82,11 +82,11 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpGet("Countries")]
-        public async Task<ActionResult<List<ComboDto>>> GetPais()
+        public async Task<ActionResult<List<ComboUbiDto>>> GetPais()
         {
             try
             {
-                return await _masterDataService.GetPais();
+                return await _masterDataService.GetPaisesAsync();
             }
             catch (Exception ex)
             {
@@ -107,12 +107,12 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
-        [HttpGet("Provinces")]
-        public async Task<ActionResult<List<ComboDto>>> GetProvincias()
+        [HttpGet("Province")]
+        public async Task<ActionResult<List<ComboDto>>> GetProvincias(string countryId)
         {
             try
             {
-                return await _masterDataService.GetProvincias();
+                return await _masterDataService.GetProvinciasAsync(countryId);
             }
             catch (Exception ex)
             {
@@ -120,12 +120,39 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
-        [HttpGet("State")]
+
+        [HttpGet("Cities")]
+        public async Task<ActionResult<List<ComboUbiDto>>> GetCiudades(string countryId, int stateId)
+        {
+            try
+            {
+                return await _masterDataService.GetCiudadesAsync(countryId, stateId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Status")]
         public ActionResult<List<ComboDto>> GetEstados()
         {
             try
             {
                 return _masterDataService.GetEstados();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Size")]
+        public ActionResult<List<ComboSizeDto>> GetSizes()
+        {
+            try
+            {
+                return _masterDataService.GetSizeAsync();
             }
             catch (Exception ex)
             {

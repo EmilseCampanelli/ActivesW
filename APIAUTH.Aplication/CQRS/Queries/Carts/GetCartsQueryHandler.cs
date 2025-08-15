@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.CQRS.Queries.Carts
 {
-    public class GetCartsQueryHandler : IRequestHandler<GetCartsQuery, List<OrdenDto>>
+    public class GetCartsQueryHandler : IRequestHandler<GetCartsQuery, List<CartDto>>
     {
         private readonly IRepository<Orden> _repository;
         private readonly IMapper _mapper;
@@ -24,14 +24,14 @@ namespace APIAUTH.Aplication.CQRS.Queries.Carts
             _mapper = mapper;
         }
 
-        public async Task<List<OrdenDto>> Handle(GetCartsQuery request, CancellationToken cancellationToken)
+        public async Task<List<CartDto>> Handle(GetCartsQuery request, CancellationToken cancellationToken)
         {
             var query = _repository
-                .GetFiltered(p => p.OrdenState == Domain.Enums.OrdenState.PendienteCompra);
+                .GetFiltered(p => p.OrdenState == Domain.Enums.OrdenState.PendienteCompra && p.UserId == request.UserId);
 
             var data = await query.ToListAsync(cancellationToken);
 
-            return _mapper.Map<List<OrdenDto>>(data);
+            return _mapper.Map<List<CartDto>>(data);
         }
     }
 }

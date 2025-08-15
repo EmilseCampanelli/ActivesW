@@ -12,7 +12,6 @@ namespace APIAUTH.Data.Context
         public DbSet<Company> Companies { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Notificacion> Notifications { get; set; }
-        public DbSet<Province> Provinces { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -24,7 +23,8 @@ namespace APIAUTH.Data.Context
         public DbSet<Menu> Menus { get; set; }
         public DbSet<MenuChild> MenuItems { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
-
+        public DbSet<Province> Provinces => Set<Province>();
+        public DbSet<City> Cities => Set<City>();
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +38,8 @@ namespace APIAUTH.Data.Context
             modelBuilder.Entity<Product>().Navigation(e => e.Category).AutoInclude();
             modelBuilder.Entity<Product>().Navigation(e => e.Favorites).AutoInclude();
             modelBuilder.Entity<Product>().Navigation(e => e.ProductImages).AutoInclude();
+
+            modelBuilder.Entity<ProductLine>().Navigation(e => e.Product).AutoInclude();
 
             modelBuilder.Entity<Favorite>().Navigation(e => e.Product).AutoInclude();
             modelBuilder.Entity<Favorite>().Navigation(e => e.User).AutoInclude();
@@ -99,7 +101,23 @@ namespace APIAUTH.Data.Context
                             new MenuChild { Id = 4, Label = "Add User", Path = "/users/add", MenuId = 3 }
                         );
 
+            modelBuilder.Entity<Country>()
+                .HasIndex(c => c.Iso2).IsUnique();
+            modelBuilder.Entity<Country>()
+                .HasIndex(c => c.Iso3).IsUnique();
+
+            modelBuilder.Entity<Province>()
+                .HasIndex(s => new { s.CountryId, s.Code }).IsUnique();
+
+            modelBuilder.Entity<City>()
+                .HasKey(c => c.Id); // el geonameid como PK
+            modelBuilder.Entity<City>()
+                .HasIndex(c => new { c.CountryId, c.ProvinceId, c.Name });
+
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ActivesWContext).Assembly);
         }
     }
 }

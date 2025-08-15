@@ -36,14 +36,13 @@ namespace APIAUTH.Aplication.Services.Implementacion
             address.UserId = usuarioId;
             address.Apartment = dto.Apartment;
             address.Notes = dto.Notes;
-            address.City = dto.City;
+            address.CityId = dto.CityId;
             address.CountryId = dto.CountryId;
             address.ProvinceId = dto.ProvinceId;
             address.CreatedDate = DateTime.UtcNow;
             address.Floor = dto.Floor;
             address.Number = dto.Number;
             address.ZipCode = dto.PostalCode;
-            address.State = dto.State;
 
             var addressOk = await _repository.Add(address);
             return addressOk.Id;

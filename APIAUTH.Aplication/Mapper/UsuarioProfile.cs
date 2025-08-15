@@ -31,10 +31,12 @@ namespace APIAUTH.Aplication.Mapper
 
             CreateMap<Company, CompanyDto>().ReverseMap();
             CreateMap<Address, AddressDto>()
-                .ForMember(dest => dest.CountryName, opt => opt.MapFrom(src => src.Country != null ? src.Country.Description : null))
-                .ForMember(dest => dest.ProvinceName, opt => opt.MapFrom(src => src.Province != null ? src.Province.Description : null))
+                .ForMember(dest => dest.CountryName, opt => opt.MapFrom(src => src.Country != null ? src.Country.Name : null))
+                .ForMember(dest => dest.StateName, opt => opt.MapFrom(src => src.Province != null ? src.Province.Name : null))
+                .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City != null ? src.City.Name : null))
                 .ReverseMap()
                 .ForMember(dest => dest.Country, opt => opt.Ignore())
+                .ForMember(dest => dest.City, opt => opt.Ignore())
                 .ForMember(dest => dest.Province, opt => opt.Ignore());
 
 

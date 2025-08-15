@@ -38,7 +38,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             {
                 throw new UnauthorizedAccessException("La contraseña con la que desea ingresar es incorrecta.");
             }
-            if (usuarios.State != BaseState.Activo)
+            if (usuarios.Status != BaseState.Activo)
             {
                 throw new UnauthorizedAccessException("El usuario no se encuentra activo en este momento.");
             }
@@ -127,7 +127,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                     Name = fullName,
                     Email = email,
                     RoleId = customerRole.Id,
-                    State = BaseState.Activo
+                    Status = BaseState.Activo
                 };
 
                 await _repository.Add(collaborator);
@@ -136,7 +136,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
 
             }
-            if (collaborator.State != BaseState.Activo)
+            if (collaborator.Status != BaseState.Activo)
             {
                 throw new UnauthorizedAccessException("El usuario no se encuentra activo en este momento.");
             }

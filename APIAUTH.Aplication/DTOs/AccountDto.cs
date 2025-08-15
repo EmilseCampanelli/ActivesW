@@ -9,7 +9,7 @@ namespace APIAUTH.Aplication.DTOs
         public string Password { get; set; }
         public bool IsGenericPassword { get; set; }
         public DateTime PasswordDate { get; set; }
-        public BaseState BaseState { get; set; }
+        public BaseState Status { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryDate { get; set; }
     }

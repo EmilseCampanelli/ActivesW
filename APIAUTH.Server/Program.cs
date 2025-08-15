@@ -67,6 +67,8 @@ builder.Services.AddScoped<IColorThemeRepository, ColorThemeRepository>();
 builder.Services.AddScoped<IColorThemeService, ColorThemeService>();
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IMenuService, MenuService>();
+builder.Services.AddScoped<IGeoRepo, GeoRepo>();
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -96,7 +98,6 @@ builder.Services.AddSingleton(provider =>
 });
 
 
-
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserValidator>();
@@ -108,6 +109,8 @@ builder.Services.AddScoped(typeof(IListRepository<>), typeof(ListRepository<>));
 builder.Services.AddScoped<IEntityFilter<Product>, ProductEntityFilter>();
 builder.Services.AddScoped<IEntityFilter<User>, UserEntityFilter>();
 builder.Services.AddScoped<IEntityFilter<Orden>, OrdenEntityFilter>();
+builder.Services.AddScoped<IGeoImportService, GeoImportService>();
+
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -155,7 +158,33 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();
 }
 
-    app.UseSwagger();
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ActivesWContext>();
+    var cfg = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+    var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
+
+    Console.WriteLine($"[DB] ConnString: {cfg.GetConnectionString("DefaultConnection") ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")}");
+    Console.WriteLine($"[DB] Provider: {context.Database.ProviderName}");
+    Console.WriteLine($"[DB] Database: {context.Database.GetDbConnection().Database}");
+    Console.WriteLine($"[DB] Host: {context.Database.GetDbConnection().DataSource}");
+
+    context.Database.Migrate();
+
+    if (cfg.GetValue<bool>("GeoImport:RunOnStartup"))
+    {
+        var folder = cfg["GeoImport:Folder"] ?? "Data";
+        var absFolder = Path.Combine(env.ContentRootPath, folder);
+        Console.WriteLine($"[GeoImport] Folder: {absFolder}");
+        Console.WriteLine($"[GeoImport] Files exist? countryInfo={File.Exists(Path.Combine(absFolder, "countryInfo.txt"))}, admin1={File.Exists(Path.Combine(absFolder, "admin1CodesASCII.txt"))}, cities5000={File.Exists(Path.Combine(absFolder, "cities5000.txt"))}");
+
+        var svc = scope.ServiceProvider.GetRequiredService<IGeoImportService>();
+        await svc.ImportAsync(absFolder);
+    }
+}
+
+
+app.UseSwagger();
     app.UseSwaggerUI();
 
 

@@ -64,7 +64,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
         public async Task Blocked(int id)
         {
             var collaborator = await _repository.Get(id);
-            collaborator.State = Domain.Enums.BaseState.Bloquado;
+            collaborator.Status = Domain.Enums.BaseState.Bloquado;
             await _repository.Update(collaborator);
         }
 

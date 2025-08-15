@@ -15,9 +15,11 @@ namespace APIAUTH.Aplication.Services.Interfaces
         List<ComboDto> GetTipoDocumento();
         List<ComboDto> GetEstadoProducto();
         Task<List<ComboDto>> GetRoles();
-        Task<List<ComboDto>> GetPais();
         Task<List<ComboDto>> GetCategorias();
-        Task<List<ComboDto>> GetProvincias();
         List<ComboDto> GetEstados();
+        Task<List<ComboUbiDto>> GetPaisesAsync();
+        Task<List<ComboDto>> GetProvinciasAsync(string countryIso2);
+        Task<List<ComboUbiDto>> GetCiudadesAsync(string countryIso2, int? stateId = null, string? q = null, int top = 50);
+        List<ComboSizeDto> GetSizeAsync();
     }
 }

@@ -67,8 +67,8 @@ namespace APIAUTH.Data.Migrations
                     b.Property<string>("Apartment")
                         .HasColumnType("text");
 
-                    b.Property<string>("City")
-                        .HasColumnType("text");
+                    b.Property<long>("CityId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("CountryId")
                         .HasColumnType("integer");
@@ -88,8 +88,8 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int>("ProvinceId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("State")
-                        .HasColumnType("text");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Street")
                         .HasColumnType("text");
@@ -104,6 +104,8 @@ namespace APIAUTH.Data.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("CountryId");
 
@@ -131,7 +133,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int?>("ParentCategoryId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -142,6 +144,43 @@ namespace APIAUTH.Data.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.City", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Lat")
+                        .HasColumnType("numeric(9,6)");
+
+                    b.Property<decimal>("Lng")
+                        .HasColumnType("numeric(9,6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("Population")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ProvinceId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.HasIndex("CountryId", "ProvinceId", "Name");
+
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.ColorTheme", b =>
@@ -459,7 +498,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -478,21 +517,38 @@ namespace APIAUTH.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<int>("State")
+                    b.Property<int>("GeoNameId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("Iso2")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("character varying(2)");
+
+                    b.Property<string>("Iso3")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("Region")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.HasIndex("Iso2")
+                        .IsUnique();
+
+                    b.HasIndex("Iso3")
+                        .IsUnique();
+
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Favorite", b =>
@@ -509,7 +565,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -643,7 +699,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("text");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -674,7 +730,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int>("OrdenState")
                         .HasColumnType("integer");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -725,7 +781,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<string>("Slug")
                         .HasColumnType("text");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<int>("Stock")
@@ -764,7 +820,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -803,7 +859,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -826,21 +882,28 @@ namespace APIAUTH.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<int>("State")
+                    b.Property<int>("CountryId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("GeoNameId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Provinces");
+                    b.HasIndex("CountryId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("Province", (string)null);
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Role", b =>
@@ -857,7 +920,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -912,7 +975,7 @@ namespace APIAUTH.Data.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("State")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<int>("TypeDocument")
@@ -934,6 +997,12 @@ namespace APIAUTH.Data.Migrations
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Address", b =>
                 {
+                    b.HasOne("APIAUTH.Domain.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("APIAUTH.Domain.Entities.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
@@ -952,6 +1021,8 @@ namespace APIAUTH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("City");
+
                     b.Navigation("Country");
 
                     b.Navigation("Province");
@@ -967,6 +1038,24 @@ namespace APIAUTH.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ParentCategory");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.City", b =>
+                {
+                    b.HasOne("APIAUTH.Domain.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("APIAUTH.Domain.Entities.Province", "Province")
+                        .WithMany("Cities")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Province");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.Favorite", b =>
@@ -1051,6 +1140,17 @@ namespace APIAUTH.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Province", b =>
+                {
+                    b.HasOne("APIAUTH.Domain.Entities.Country", "Country")
+                        .WithMany("Province")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
             modelBuilder.Entity("APIAUTH.Domain.Entities.User", b =>
                 {
                     b.HasOne("APIAUTH.Domain.Entities.Account", "Account")
@@ -1084,6 +1184,11 @@ namespace APIAUTH.Data.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Country", b =>
+                {
+                    b.Navigation("Province");
+                });
+
             modelBuilder.Entity("APIAUTH.Domain.Entities.Menu", b =>
                 {
                     b.Navigation("Children");
@@ -1099,6 +1204,11 @@ namespace APIAUTH.Data.Migrations
                     b.Navigation("Favorites");
 
                     b.Navigation("ProductImages");
+                });
+
+            modelBuilder.Entity("APIAUTH.Domain.Entities.Province", b =>
+                {
+                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("APIAUTH.Domain.Entities.User", b =>

@@ -43,7 +43,9 @@ namespace APIAUTH.Server.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new GetCartsQuery());
+                var userId = int.Parse(User.FindFirst("idUser")?.Value ?? "0");
+
+                var result = await _mediator.Send(new GetCartsQuery(userId));
                 return Ok(result);
             }
             catch (Exception ex)

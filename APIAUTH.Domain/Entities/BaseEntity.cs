@@ -12,6 +12,6 @@ namespace APIAUTH.Domain.Entities
         public int Id { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public DateTime CreatedDate { get; set; }
-        public BaseState State { get; set; }
+        public BaseState Status { get; set; }
     }
 }
