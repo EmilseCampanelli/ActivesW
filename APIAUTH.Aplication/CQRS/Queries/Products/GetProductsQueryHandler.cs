@@ -32,7 +32,7 @@ namespace APIAUTH.Aplication.CQRS.Queries.Products
             Description = p.Description,
             Price = p.Price,
             Stock = p.Stock,
-            ImagesUrl = p.ProductImages.FirstOrDefault().Url,
+            ImagesUrl = p.ProductImages.OrderBy(s => s.Orden).FirstOrDefault().Url,
             CategoryId = p.CategoryId,
             Category = p.Category,
             Slug = p.Slug,

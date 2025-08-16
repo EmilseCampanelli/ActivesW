@@ -116,10 +116,10 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
             if (collaborator == null)
             {
-                var customerRole = _roleRepository.GetFiltered(p => p.Description == "Customer").FirstOrDefault();
+                var customerRole = _roleRepository.GetFiltered(p => p.Description == "Cliente").FirstOrDefault();
                 if (customerRole == null)
                 {
-                    throw new Exception("No se encontró el rol 'Customer' en la base de datos.");
+                    throw new Exception("No se encontró el rol 'Cliente' en la base de datos.");
                 }
 
                 collaborator = new User
@@ -131,22 +131,17 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 };
 
                 await _repository.Add(collaborator);
-
-                var idToken = GenerateIdToken(collaborator);
-
-
             }
             if (collaborator.Status != BaseState.Activo)
             {
                 throw new UnauthorizedAccessException("El usuario no se encuentra activo en este momento.");
             }
 
-
-            //var accessToken = GenerateAccessToken(collaborator);
+            var idToken = GenerateIdToken(collaborator);
             var refreshToken = GenerateRefreshToken();
 
             SaveRefreshTokenAsync(collaborator.Id, refreshToken);
-            return new AuthDto(idTokenGoogle);
+            return new AuthDto(idToken);
         }
 
         private string GetEmailFromIdToken(string idToken)

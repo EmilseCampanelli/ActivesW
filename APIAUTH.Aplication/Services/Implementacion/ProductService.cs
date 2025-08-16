@@ -80,7 +80,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 BaseEntityHelper.SetCreated(nuevoProducto);
                 producto = await _repository.Add(nuevoProducto);
 
-                producto.Slug = $"{producto.Id}-{producto.Title?.Replace(" ", "-")}";
+                producto.Slug = $"{producto.Title?.Replace(" ", "-")}-{producto.Id}";
                 producto = await _repository.Update(producto);
             }
             else

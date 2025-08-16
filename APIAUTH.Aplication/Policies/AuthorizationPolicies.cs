@@ -16,11 +16,12 @@ namespace APIAUTH.Aplication.Policies
                 policy.RequireClaim(ClaimTypes.Role, "Admin"));
 
             options.AddPolicy("UserAndAdmin", policy =>
-                policy.RequireClaim(ClaimTypes.Role, "Admin", "Account"));
+                policy.RequireClaim(ClaimTypes.Role, "Admin", "Vendedor"));
 
             options.AddPolicy("ActiveUser", policy =>
                 policy.RequireAssertion(context =>
                     context.User.HasClaim(c => c.Type == "isActive" && c.Value == "true")));
+
         }
     }
 }

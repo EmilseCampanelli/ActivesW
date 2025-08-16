@@ -57,7 +57,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 throw new UnauthorizedAccessException("Usuario inexistente");
             }
 
-            //TODO: Se debe bloquear al usuario y devolver el id del usuario administrador
+            //TODO: Se generara una contraseña generica y se enviara un mail notificando lo mismo
         }
 
         public async Task<bool> ChangePassword(UserPasswordDto dto)

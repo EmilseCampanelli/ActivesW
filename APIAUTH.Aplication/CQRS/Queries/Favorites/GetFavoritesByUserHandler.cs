@@ -39,6 +39,7 @@ namespace APIAUTH.Aplication.CQRS.Queries.Favorites
                 .GetFiltered(p => productIds.Contains(p.Id))
                 .ToListAsync(cancellationToken);
 
+            
             return _mapper.Map<List<ProductDto>>(products);
         }
     }

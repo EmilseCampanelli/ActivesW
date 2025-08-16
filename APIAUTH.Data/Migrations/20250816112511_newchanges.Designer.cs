@@ -3,6 +3,7 @@ using System;
 using APIAUTH.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace APIAUTH.Data.Migrations
 {
     [DbContext(typeof(ActivesWContext))]
-    partial class ActivesWContextModelSnapshot : ModelSnapshot
+    [Migration("20250816112511_newchanges")]
+    partial class newchanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -765,6 +768,9 @@ namespace APIAUTH.Data.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ImagesUrl")
+                        .HasColumnType("text");
 
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
