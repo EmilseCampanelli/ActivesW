@@ -26,7 +26,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Create([FromBody] CreateProductoCommand command)
         {
             try
@@ -41,7 +41,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateProductoCommand command)
         {
             try
@@ -74,7 +74,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPost("AddOrRemoveStock")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> AddStock(int productoId, int stock, string operation)
         {
             try
@@ -117,7 +117,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Delete(int id)
         {
             try

@@ -94,6 +94,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 currentProduct.Sizes = String.Join(',', dto.Sizes);
                 currentProduct.Tags = String.Join(',', dto.Tags);
                 currentProduct.Gender = dto.Gender;
+                producto.Slug = $"{producto.Title?.Replace(" ", "-")}-{producto.Id}";
 
                 currentProduct.ProductState = dto.Stock.Equals(0) ? Domain.Enums.ProductState.SinStock : Domain.Enums.ProductState.Disponible;
                 BaseEntityHelper.SetUpdated(currentProduct);

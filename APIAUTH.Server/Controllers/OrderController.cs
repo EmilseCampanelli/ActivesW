@@ -63,6 +63,7 @@ namespace APIAUTH.Server.Controllers
             try
             {
                 await _mediator.Send(command);
+
                 return NoContent();
             }
             catch (Exception ex)

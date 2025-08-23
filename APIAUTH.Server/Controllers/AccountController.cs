@@ -13,10 +13,10 @@ namespace APIAUTH.Server.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly NotificationService _notificationService;
+        private readonly NotificationServiceInfra _notificationService;
         private readonly IAccountService _userService;
 
-        public AccountController(IAccountService userService, NotificationService notificationService)
+        public AccountController(IAccountService userService, NotificationServiceInfra notificationService)
         {
             _userService = userService;
             _notificationService = notificationService;
@@ -32,12 +32,11 @@ namespace APIAUTH.Server.Controllers
             try
             {
                 await _userService.RecoverPassword(email);
-                await _notificationService.NotifyUser("1", "");
                 return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
 
         }

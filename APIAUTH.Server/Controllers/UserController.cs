@@ -58,7 +58,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<ActionResult<UserDto>> Get(int id)
         {
             try
@@ -88,7 +88,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPost("Blocked")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Blocked(int id)
         {
             try
@@ -103,7 +103,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpGet("GetAll")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> GetAll([FromQuery] UserQueryParameters parameters)
         {
             try

@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace APIAUTH.Infrastructure.Services
 {
-    public class NotificationService
+    public class NotificationServiceInfra
     {
         private readonly IHubContext<NotificationHub> _hubContext;
 
-        public NotificationService(IHubContext<NotificationHub> hubContext)
+        public NotificationServiceInfra(IHubContext<NotificationHub> hubContext)
         {
             _hubContext = hubContext;
         }
@@ -33,6 +33,11 @@ namespace APIAUTH.Infrastructure.Services
             };
       
             await _hubContext.Clients.User(userId).SendAsync("ReceiveNotification", message);
+        }
+
+        public async Task NotifyUserAdmin(string[] userIds, NotificationDto payload)
+        {
+            await _hubContext.Clients.Users(userIds).SendAsync("ReceiveNotification", payload);
         }
     }
 }

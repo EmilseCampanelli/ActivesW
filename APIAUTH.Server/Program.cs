@@ -56,7 +56,7 @@ builder.Services.AddAutoMapper(typeof(UserProfile));
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<NotificationServiceInfra>();
 builder.Services.AddScoped<ICompanyService, OrganizationService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -68,6 +68,7 @@ builder.Services.AddScoped<IColorThemeService, ColorThemeService>();
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IMenuService, MenuService>();
 builder.Services.AddScoped<IGeoRepo, GeoRepo>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 
 builder.Services.AddControllers()

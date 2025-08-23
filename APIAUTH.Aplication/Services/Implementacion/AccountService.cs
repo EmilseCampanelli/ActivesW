@@ -3,6 +3,10 @@ using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using AutoMapper;
+using System.Net.Mail;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace APIAUTH.Aplication.Services.Implementacion
 {
@@ -52,13 +56,59 @@ namespace APIAUTH.Aplication.Services.Implementacion
         public async Task RecoverPassword(string email)
         {
             var collaborator = _repository.GetByEmail(email);
-            if (collaborator == null || collaborator.Status == Domain.Enums.BaseState.Activo)
+            if (collaborator == null || collaborator.Status != Domain.Enums.BaseState.Activo)
             {
                 throw new UnauthorizedAccessException("Usuario inexistente");
             }
 
-            //TODO: Se generara una contraseña generica y se enviara un mail notificando lo mismo
+            var temporalPassword = GenerateSecurePassword(10);
+            var user = collaborator.Account;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(temporalPassword);
+            user.PasswordDate = DateTime.UtcNow;
+            user.IsGenericPassword = true;
+            await _repository.Update(user);
+
+            await SendEmailAsync(collaborator, temporalPassword);
+
         }
+
+        private static string GenerateSecurePassword(int length)
+        {
+            const string valid = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*";
+            var bytes = new byte[length];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(bytes);
+
+            var sb = new StringBuilder(length);
+            foreach (var b in bytes)
+                sb.Append(valid[b % valid.Length]);
+
+            return sb.ToString();
+        }
+
+        private async Task SendEmailAsync(User to, string tempPassword)
+        {
+            var from = "no-reply@ActiveSW.com";
+            var subject = "Recuperación de contraseña";
+            var body = $@"
+                Hola {to.Name},
+
+                Tu contraseña temporal es: {tempPassword}
+
+                Por seguridad, deberás cambiarla al iniciar sesión.";
+
+            using var client = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential("emicampanelli16@gmail.com", "xlky qkzv euwm bfhn"),
+                EnableSsl = true
+            };
+
+            using var message = new MailMessage(from, to.Email, subject, body);
+
+            await client.SendMailAsync(message);
+        }
+
 
         public async Task<bool> ChangePassword(UserPasswordDto dto)
         {

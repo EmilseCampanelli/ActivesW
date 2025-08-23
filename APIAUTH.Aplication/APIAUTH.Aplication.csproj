@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\APIAUTH.Data\APIAUTH.Data.csproj" />
     <ProjectReference Include="..\APIAUTH.Domain\APIAUTH.Domain.csproj" />
+    <ProjectReference Include="..\APIAUTH.Infrastructure\APIAUTH.Infrastructure.csproj" />
     <ProjectReference Include="..\APIAUTH.Shared\APIAUTH.Shared.csproj" />
   </ItemGroup>
 

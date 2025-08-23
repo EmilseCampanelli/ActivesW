@@ -18,10 +18,6 @@ namespace APIAUTH.Aplication.Policies
             options.AddPolicy("UserAndAdmin", policy =>
                 policy.RequireClaim(ClaimTypes.Role, "Admin", "Vendedor"));
 
-            options.AddPolicy("ActiveUser", policy =>
-                policy.RequireAssertion(context =>
-                    context.User.HasClaim(c => c.Type == "isActive" && c.Value == "true")));
-
         }
     }
 }

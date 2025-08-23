@@ -7,9 +7,9 @@ namespace APIAUTH.Server.Controllers
     [Route("api/[controller]")]
     public class NotificationsController : Controller
     {
-        private readonly NotificationService _notificationService;
+        private readonly NotificationServiceInfra _notificationService;
 
-        public NotificationsController(NotificationService notificationService)
+        public NotificationsController(NotificationServiceInfra notificationService)
         {
             _notificationService = notificationService;
         }

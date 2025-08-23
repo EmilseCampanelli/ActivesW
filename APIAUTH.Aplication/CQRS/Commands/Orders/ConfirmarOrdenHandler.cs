@@ -1,4 +1,5 @@
-﻿using APIAUTH.Domain.Entities;
+﻿using APIAUTH.Aplication.Services.Interfaces;
+using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Enums;
 using APIAUTH.Domain.Repository;
 using MediatR;
@@ -9,10 +10,12 @@ namespace APIAUTH.Aplication.CQRS.Commands.Orders
     public class ConfirmarOrdenHandler : IRequestHandler<ConfirmOrdenCommand, bool>
     {
         private readonly IRepository<Orden> _ordenRepo;
+        private INotificationService _notificationService;
 
-        public ConfirmarOrdenHandler(IRepository<Orden> ordenRepo)
+        public ConfirmarOrdenHandler(IRepository<Orden> ordenRepo, INotificationService notificationService)
         {
             _ordenRepo = ordenRepo;
+            _notificationService = notificationService;
         }
 
         public async Task<bool> Handle(ConfirmOrdenCommand request, CancellationToken cancellationToken)
@@ -27,7 +30,9 @@ namespace APIAUTH.Aplication.CQRS.Commands.Orders
             orden.OrdenState = OrdenState.Pendiente;
             orden.OrdenDate = DateTime.UtcNow;
 
-            await _ordenRepo.Update(orden);
+            orden = await _ordenRepo.Update(orden);
+
+            await _notificationService.NotificationByConfirmOrder(orden.Id);
 
             return true;
         }

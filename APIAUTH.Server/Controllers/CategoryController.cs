@@ -18,7 +18,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPost("CreateCategory")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Create([FromBody] CreateCategoriaCommand command)
         {
             try
@@ -33,7 +33,7 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoriaCommand command)
         {
             try
