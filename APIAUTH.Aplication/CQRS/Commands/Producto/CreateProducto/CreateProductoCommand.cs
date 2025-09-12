@@ -15,5 +15,5 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
         string[] Tags,
         Gender Gender,
         List<ProductImageAddDto> ProductImage
-    ) : IRequest<int>;
+    ) : IRequest<string>;
 }

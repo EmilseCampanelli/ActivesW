@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.Services.Interfaces
 {
-    public interface ICategoryService : IGenericService<CategoryDto>
+    public interface IFaqService : IGenericService<FaqDto>
     {
-        Task<string> DeleteCategory(int categoryId);
     }
 }

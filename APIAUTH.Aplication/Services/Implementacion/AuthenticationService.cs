@@ -1,4 +1,5 @@
 ﻿using APIAUTH.Aplication.DTOs;
+using APIAUTH.Aplication.Helpers;
 using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Enums;
@@ -18,12 +19,15 @@ namespace APIAUTH.Aplication.Services.Implementacion
         private readonly IConfiguration _configuration;
         private readonly IRepository<Role> _roleRepository;
 
-        public AuthenticationService(IUserRepository userRepository, IConfiguration configuration, IRepository<Role> roleRepository, IRepository<User> repository)
+        private readonly IRepository<ProductImage> _imageRepository;
+
+        public AuthenticationService(IUserRepository userRepository, IConfiguration configuration, IRepository<Role> roleRepository, IRepository<User> repository, IRepository<ProductImage> imageRepository)
         {
             _userRepository = userRepository;
             _configuration = configuration;
             _roleRepository = roleRepository;
             _repository = repository;
+            _imageRepository = imageRepository;
         }
 
         public async Task<AuthDto> AuthenticateUserAsync(string email, string password)
@@ -110,7 +114,9 @@ namespace APIAUTH.Aplication.Services.Implementacion
         {
 
             string email = GetEmailFromIdToken(idTokenGoogle);
-            string fullName = GetFullNameFromIdToken(idTokenGoogle);
+            string name = GetNameFromIdToken(idTokenGoogle);
+            string lastName = GetLastNameFromIdToken(idTokenGoogle);
+            string picture = GetPictureFromIdToken(idTokenGoogle);
 
             var collaborator = _userRepository.GetByEmail(email);
 
@@ -124,13 +130,17 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
                 collaborator = new User
                 {
-                    Name = fullName,
+                    Name = name,
+                    LastName = lastName,
                     Email = email,
                     RoleId = customerRole.Id,
-                    Status = BaseState.Activo
+                    Status = BaseState.Activo,
+                    AvatarUrl = picture
                 };
 
-                await _repository.Add(collaborator);
+                BaseEntityHelper.SetCreated(collaborator);
+
+                var user = await _repository.Add(collaborator);
             }
             if (collaborator.Status != BaseState.Activo)
             {
@@ -155,21 +165,39 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return emailClaim?.Value ?? "No se encontró el email en el id_token";
         }
 
-        private string GetFullNameFromIdToken(string idToken)
+        private string GetNameFromIdToken(string idToken)
         {
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(idToken);
 
-            var nameClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
 
-            if (string.IsNullOrEmpty(nameClaim))
-            {
-                var givenName = jwtToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value;
-                var familyName = jwtToken.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value;
-                nameClaim = $"{givenName} {familyName}".Trim();
-            }
+            var givenName = jwtToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value;
 
-            return nameClaim ?? "Unknown User";
+
+            return givenName ?? "Unknown User";
+        }
+
+        private string GetLastNameFromIdToken(string idToken)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(idToken);
+
+
+            var givenName = jwtToken.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value;
+
+
+            return givenName ?? "Unknown User";
+        }
+
+        private string GetPictureFromIdToken(string idToken)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(idToken);
+
+
+            var picture = jwtToken.Claims.FirstOrDefault(c => c.Type == "picture")?.Value;
+
+            return picture;
         }
 
         private async Task<GoogleTokenResponse> GetAccessByGoogle(string authorizationCode)
@@ -202,7 +230,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             }
 
             var idToken = GenerateIdToken(collaborator);
-           // var accessToken = GenerateAccessToken(collaborator);
+            // var accessToken = GenerateAccessToken(collaborator);
 
             var newRefreshToken = GenerateRefreshToken();
             SaveRefreshTokenAsync(user.Id, newRefreshToken);

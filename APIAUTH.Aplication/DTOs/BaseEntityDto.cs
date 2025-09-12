@@ -10,7 +10,7 @@ namespace APIAUTH.Aplication.DTOs
 
         [JsonIgnore]
         public DateTime? CreatedDate { get; set; }
-        [JsonPropertyName("State")]
+        [JsonPropertyName("state")]
         public BaseState? Status { get; set; }
     }
 }

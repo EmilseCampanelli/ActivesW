@@ -31,8 +31,8 @@ namespace APIAUTH.Server.Controllers
         {
             try
             {
-                var id = await _mediator.Send(command);
-                return CreatedAtAction(nameof(Get), new { id }, null);
+                var slug = await _mediator.Send(command);
+                return Ok(slug);
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{slug}")]
         [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateProductoCommand command)
         {
@@ -59,7 +59,7 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{slug}")]
         public async Task<ActionResult<ProductDto>> Get(int id)
         {
             try
@@ -116,7 +116,7 @@ namespace APIAUTH.Server.Controllers
             
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{slug}")]
         [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Delete(int id)
         {

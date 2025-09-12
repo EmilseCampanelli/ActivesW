@@ -26,6 +26,10 @@ namespace APIAUTH.Domain.Enums
         Entregado,
 
         [Display(Name = "Cancelado")]
-        Cancelado
+        Cancelado,
+
+        [Display(Name = "Pago Rechazado")]
+        PagoRechazado
+
     }
 }

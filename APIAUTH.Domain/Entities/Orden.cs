@@ -10,5 +10,8 @@ namespace APIAUTH.Domain.Entities
 
         public virtual User User { get; set; }
         public List<ProductLine> ProductLine { get; set; }
+
+        public string MercadoPagoPreferenceId { get; set; }   // Al crear la preferencia
+        public long? MercadoPagoPaymentId { get; set; }       // Al confirmar en webhook
     }
 }

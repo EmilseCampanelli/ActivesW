@@ -1,4 +1,5 @@
 ﻿using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
+using APIAUTH.Aplication.CQRS.Commands.Categoria.DeleteCategory;
 using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -41,6 +42,22 @@ namespace APIAUTH.Server.Controllers
                 if (id != command.Id)
                     return BadRequest("El ID de la ruta no coincide con el del cuerpo");
 
+                var idCategoria = await _mediator.Send(command);
+
+                return Ok(idCategoria);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Authorize(Policy = "UserAndAdmin")]
+        public async Task<IActionResult> Delete([FromBody] DeleteCategoriaCommand command)
+        {
+            try
+            {
                 var idCategoria = await _mediator.Send(command);
 
                 return Ok(idCategoria);

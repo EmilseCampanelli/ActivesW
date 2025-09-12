@@ -10,6 +10,8 @@ namespace APIAUTH.Aplication.Mapper
         {
             CreateMap<CompanyDto, Company>()
                 .ReverseMap();
+
+            CreateMap<Faq, FaqDto>() .ReverseMap();
         }
     }
 }

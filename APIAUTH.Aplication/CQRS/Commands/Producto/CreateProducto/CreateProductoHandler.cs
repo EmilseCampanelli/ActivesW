@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
 {
-    public class CreateProductoHandler : IRequestHandler<CreateProductoCommand, int>
+    public class CreateProductoHandler : IRequestHandler<CreateProductoCommand, string>
     {
         private readonly IProductService _productoService;
         private readonly IMapper _mapper;
@@ -21,12 +21,12 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto
             _mapper = mapper;
         }
 
-        public async Task<int> Handle(CreateProductoCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateProductoCommand request, CancellationToken cancellationToken)
         {
             var dto = _mapper.Map<ProductDto>(request);
             dto.ProductImages = request.ProductImage;
             var result = await _productoService.Save(dto);
-            return result.Id;
+            return result.Slug;
         }
     }
 }

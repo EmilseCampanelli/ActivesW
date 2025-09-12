@@ -20,5 +20,5 @@ namespace APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto
         string[] Tags,
         Gender Gender,
         List<ProductImageAddDto> ProductImage
-    ) : IRequest<int>;
+    ) : IRequest<string>;
 }

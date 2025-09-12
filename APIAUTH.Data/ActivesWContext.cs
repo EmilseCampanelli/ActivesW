@@ -25,6 +25,13 @@ namespace APIAUTH.Data.Context
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Province> Provinces => Set<Province>();
         public DbSet<City> Cities => Set<City>();
+        public DbSet<Faq> Faq => Set<Faq>();
+        public DbSet<Promotion> Promotion => Set<Promotion>();
+        public DbSet<PromotionCategory> PromotionCategories => Set<PromotionCategory>();
+        public DbSet<PromotionProduct> PromotionProducts => Set<PromotionProduct>();
+        public DbSet<PromotionSegment> PromotionSegments => Set<PromotionSegment>();
+        public DbSet<CustomerSegment> CustomerSegments => Set<CustomerSegment>();
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,6 +53,11 @@ namespace APIAUTH.Data.Context
 
             modelBuilder.Entity<Orden>().Navigation(e => e.User).AutoInclude();
             modelBuilder.Entity<Orden>().Navigation(e => e.ProductLine).AutoInclude();
+
+            modelBuilder.Entity<Promotion>().Navigation(e => e.Products).AutoInclude();
+            modelBuilder.Entity<Promotion>().Navigation(e => e.Segments).AutoInclude();
+            modelBuilder.Entity<Promotion>().Navigation(e => e.Categories).AutoInclude();
+            modelBuilder.Entity<Promotion>().Navigation(e => e.Categories).AutoInclude();
 
             modelBuilder.Entity<Category>()
                .HasMany(c => c.SubCategory)

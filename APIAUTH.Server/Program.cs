@@ -23,6 +23,7 @@ using APIAUTH.Infrastructure.SignalR;
 using CloudinaryDotNet;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MercadoPago.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -69,6 +70,7 @@ builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IMenuService, MenuService>();
 builder.Services.AddScoped<IGeoRepo, GeoRepo>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
 builder.Services.AddControllers()
@@ -112,7 +114,7 @@ builder.Services.AddScoped<IEntityFilter<User>, UserEntityFilter>();
 builder.Services.AddScoped<IEntityFilter<Orden>, OrdenEntityFilter>();
 builder.Services.AddScoped<IGeoImportService, GeoImportService>();
 
-
+MercadoPagoConfig.AccessToken = builder.Configuration["MercadoPago:AccessToken"];
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;

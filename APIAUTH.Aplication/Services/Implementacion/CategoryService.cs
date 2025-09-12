@@ -11,11 +11,13 @@ namespace APIAUTH.Aplication.Services.Implementacion
     {
         private readonly IRepository<Category> _repository;
         private readonly IMapper _mapper;
+        private readonly IRepository<Product> _productRepository;
 
-        public CategoryService(IRepository<Category> repository, IMapper mapper)
+        public CategoryService(IRepository<Category> repository, IMapper mapper, IRepository<Product> productRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _productRepository = productRepository;
         }
 
         public async Task Activate(int id)
@@ -38,7 +40,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
         public async Task<List<CategoryDto>> GetAll()
         {
-            var categorias =  _repository.GetAll();
+            var categorias = _repository.GetAll();
 
             return _mapper.Map<List<CategoryDto>>(categorias);
         }
@@ -82,6 +84,22 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
             return (isValid: validations.All(x => x.isValid),
                    message: string.Join(Environment.NewLine, validations.Where(x => !x.isValid).Select(x => x.message)));
+        }
+
+
+        public async Task<string> DeleteCategory(int categoryId)
+        {
+            var isUsed = _productRepository.GetFiltered(u => u.CategoryId == categoryId && u.Status == Domain.Enums.BaseState.Activo).Any();
+
+            if (isUsed)
+            {
+                throw new Exception($"La categoria que desea utilizar esta siendo utilizada en productos activos");
+            }
+
+
+            await _repository.Delete( await _repository.Get(categoryId));
+
+            return $"La categoria fue eliminada con exito";
         }
     }
 }
