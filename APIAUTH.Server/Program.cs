@@ -71,6 +71,7 @@ builder.Services.AddScoped<IMenuService, MenuService>();
 builder.Services.AddScoped<IGeoRepo, GeoRepo>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IFaqService, FaqService>();
 
 
 builder.Services.AddControllers()

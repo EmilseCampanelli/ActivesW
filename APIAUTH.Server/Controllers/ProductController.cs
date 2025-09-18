@@ -40,7 +40,7 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
-        [HttpPut("{slug}")]
+        [HttpPut("")]
         [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateProductoCommand command)
         {
@@ -59,7 +59,7 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
-        [HttpGet("{slug}")]
+        [HttpGet("")]
         public async Task<ActionResult<ProductDto>> Get(int id)
         {
             try
@@ -116,7 +116,7 @@ namespace APIAUTH.Server.Controllers
             
         }
 
-        [HttpDelete("{slug}")]
+        [HttpDelete("")]
         [Authorize(Policy = "UserAndAdmin")]
         public async Task<IActionResult> Delete(int id)
         {
