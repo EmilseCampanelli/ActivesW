@@ -134,7 +134,7 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
-        [HttpGet("Status")]
+        [HttpGet("States")]
         public ActionResult<List<ComboDto>> GetEstados()
         {
             try
