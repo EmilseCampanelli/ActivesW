@@ -17,5 +17,7 @@ namespace APIAUTH.Aplication.DTOs
         public string Apartment {  get; set; }
         public string Floor { get; set; }
         public string Notes { get; set; }
+        public string Phone { get; set; }
+        public string Name { get; set; }
     }
 }

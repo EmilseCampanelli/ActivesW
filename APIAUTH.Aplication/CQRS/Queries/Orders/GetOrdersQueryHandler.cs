@@ -1,6 +1,7 @@
 ﻿using APIAUTH.Aplication.CQRS.Queries.Users;
 using APIAUTH.Aplication.DTOs;
 using APIAUTH.Domain.Entities;
+using APIAUTH.Domain.Enums;
 using APIAUTH.Domain.Repository;
 using APIAUTH.Shared.Response;
 using AutoMapper;
@@ -17,19 +18,30 @@ namespace APIAUTH.Aplication.CQRS.Queries.Orders
     {
         private readonly IListRepository<Orden> _repository;
         private readonly IRepository<Orden> _readOnlyRepo;
+        private readonly IRepository<User> _userRepo;
         private readonly IMapper _mapper;
 
-        public GetOrdersQueryHandler(IListRepository<Orden> repository, IRepository<Orden> readOnlyRepo, IMapper mapper)
+        public GetOrdersQueryHandler(IListRepository<Orden> repository, IRepository<Orden> readOnlyRepo, IMapper mapper, IRepository<User> userRepo)                 
         {
             _repository = repository;
             _readOnlyRepo = readOnlyRepo;
             _mapper = mapper;
+            _userRepo = userRepo;
         }
 
 
         public async Task<PagedResponse<OrdenDto>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            var query = _readOnlyRepo.GetFiltered(p => p.OrdenState != Domain.Enums.OrdenState.PendienteCompra && p.UserId == request.UserId);
+            var user = _userRepo.Get(request.UserId).Result;
+            IQueryable<Orden> query = null;
+            if(user.RoleId == (int)RoleEnum.Cliente)
+            {
+                query = _readOnlyRepo.GetFiltered(p => p.OrdenState != OrdenState.PendienteCompra && p.UserId == request.UserId);
+            }
+            else
+            {
+                query = _readOnlyRepo.GetFiltered(p => p.OrdenState != OrdenState.PendienteCompra);
+            }
 
             return await _repository.GetPagedResultAsync(
                 query,

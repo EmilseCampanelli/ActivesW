@@ -60,7 +60,7 @@ namespace APIAUTH.Server.Controllers
             var order = await _repository.Get(orderId);
            
 
-            return Ok(await _paymentService.CreatePaymentPreferenceAsync(order));
+            return Ok(await _paymentService.CreatePaymentPreferenceAsync(order, 0));
         }
     }
 }

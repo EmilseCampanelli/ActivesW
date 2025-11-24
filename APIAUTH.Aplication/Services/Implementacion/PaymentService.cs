@@ -4,9 +4,11 @@ using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
 using MercadoPago.Client.Preference;
+using MercadoPago.Config;
 using MercadoPago.Resource.Order;
 using MercadoPago.Resource.Preference;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,30 +20,52 @@ namespace APIAUTH.Aplication.Services.Implementacion
     public class PaymentService : IPaymentService
     {
         private readonly IRepository<Orden> _repository;
+        private readonly IConfiguration _config;
 
-        public PaymentService(IRepository<Orden> repository)
+        public PaymentService(IRepository<Orden> repository, IConfiguration config)
         {
             _repository = repository;
+            _config = config;
+            MercadoPagoConfig.AccessToken = _config["MercadoPago:AccessToken"];
         }
 
-        public async Task<string> CreatePaymentPreferenceAsync(Orden order)
+        public async Task<string> CreatePaymentPreferenceAsync(Orden order, decimal shippingCost)
         {
+            var items = order.ProductLine.Select(p => new PreferenceItemRequest
+            {
+                Id = p.OrdenId.ToString(),
+                Description = p.Product.Description,
+                PictureUrl = p.Product.ProductImages.FirstOrDefault().Url,
+                CategoryId = p.Product.CategoryId.ToString(),
+                CurrencyId = "ARS",
+                Title = p.Product.Title,
+                Quantity = p.Amount,
+                UnitPrice = (decimal?)p.Price
+            }).ToList();
+
+            if (shippingCost > 0)
+            {
+                items.Add(new PreferenceItemRequest
+                {
+                    Title = "Envío Andreani",
+                    Quantity = 1,
+                    UnitPrice = shippingCost
+                });
+            }
+
             var request = new PreferenceRequest
             {
-                Items = order.ProductLine.Select(p => new PreferenceItemRequest
-                {
-                    Title = p.Product.Title,
-                    Quantity = p.Amount,
-                    UnitPrice = (decimal?)p.Price
-                }).ToList(),
+                Items = items,
+
                 BackUrls = new PreferenceBackUrlsRequest
                 {
-                    Success = "https://activesw-henna.vercel.app/pago-exitoso",
-                    Failure = "https://activesw-henna.vercel.app/pago-fallido",
-                    Pending = "https://activesw-henna.vercel.app/pago-pendiente"
+                    Success = _config["MercadoPago:SuccessUrl"],
+                    Failure = _config["MercadoPago:FailureUrl"],
+                    Pending = _config["MercadoPago:PendingUrl"]
                 },
                 AutoReturn = "approved",
-                NotificationUrl = "https://activesw-henna.vercel.app/api/mercadopago/webhook"
+
+                NotificationUrl = _config["MercadoPago:NotificationUrl"]
             };
 
             var client = new PreferenceClient();
@@ -53,7 +77,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
             await _repository.Update(order);
 
-            return preference.InitPoint; // URL del checkout
+            return preference.Id;
         }
     }
 }

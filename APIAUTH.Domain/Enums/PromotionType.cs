@@ -9,7 +9,10 @@ namespace APIAUTH.Domain.Enums
     public enum PromotionType
     {
         General = 1,        // Applies by business rule (e.g., wholesale)
-        TimeBound = 2,      // With validity window (e.g., Cyber Monday)
-        ProductSpecific = 3 // Explicit product/category lists
+        FlashSale = 2,      // With validity window (e.g., Cyber Monday)
+        ProductSpecific = 3, // Explicit product/category lists
+        Seasonal = 4,
+        Clearance = 5,
+        BOGO = 6
     }
 }

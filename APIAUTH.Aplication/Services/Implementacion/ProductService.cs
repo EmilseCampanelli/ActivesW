@@ -147,7 +147,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
         public async Task SaveImage(int productId, List<ProductImageAddDto> productImageDtos)
         {
-            var productImageCurrent =  _imageRepository.GetFiltered(p => p.ProductId == productId);
+            var productImageCurrent =  _imageRepository.GetFiltered(p => p.ProductId == productId).ToList();
 
             if(productImageCurrent != null)
             {

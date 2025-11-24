@@ -52,12 +52,13 @@ namespace APIAUTH.Data.Repositorios
 
                 var skip = (page - 1) * limit;
 
-                // Proyectar en SQL y paginar
-                var data =  query
-                    .Select(selector)
-                    .Skip(skip)
-                    .Take(limit)
-                    .ToList();
+              
+                var entities = await query
+                                    .Skip(skip)
+                                    .Take(limit)
+                                    .ToListAsync();
+
+                var data = entities.Select(selector).ToList();
 
                 return new PagedResponse<TDto>
                 {

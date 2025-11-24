@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace APIAUTH.Aplication.CQRS.Commands.Orders
 {
-    public class ConfirmOrdenCommand : IRequest<bool>
+    public class ConfirmOrdenCommand : IRequest<string>
     {
         [JsonIgnore]
         public int UserId { get; set; }
+
+        public decimal CostTracking {  get; set; }
     }
 }
