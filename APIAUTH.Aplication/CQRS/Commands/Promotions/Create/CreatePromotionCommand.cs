@@ -1,5 +1,4 @@
-﻿using APIAUTH.Aplication.CQRS.Commands.Promotion.Create;
-using APIAUTH.Domain.Enums;
+﻿using APIAUTH.Domain.Enums;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,12 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIAUTH.Aplication.CQRS.Commands.Promotion.Update
+namespace APIAUTH.Aplication.CQRS.Commands.Promotions.Create
 {
-    public class UpdatePromotionCommand : IRequest<Unit>
+    public class CreatePromotionCommand : IRequest<long>
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
         public string Description { get; set; }
         public PromotionType Type { get; set; }
@@ -35,4 +32,20 @@ namespace APIAUTH.Aplication.CQRS.Commands.Promotion.Update
         public List<PromotionProductDto> Products { get; set; }
         public List<PromotionCategoryDto> Categories { get; set; }
     }
+
+    public class PromotionSegmentDto
+    {
+        public int CustomerSegmentId { get; set; }
+    }
+
+    public class PromotionProductDto
+    {
+        public int ProductId { get; set; }
+    }
+
+    public class PromotionCategoryDto
+    {
+        public int CategoryId { get; set; }
+    }
+
 }

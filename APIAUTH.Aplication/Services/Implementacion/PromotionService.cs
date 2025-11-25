@@ -1,5 +1,6 @@
-﻿using APIAUTH.Aplication.CQRS.Commands.Promotion.Create;
-using APIAUTH.Aplication.CQRS.Commands.Promotion.Update;
+﻿using APIAUTH.Aplication.CQRS.Commands.Promotions.Create;
+using APIAUTH.Aplication.CQRS.Commands.Promotions.Update;
+using APIAUTH.Aplication.Helpers;
 using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
@@ -35,7 +36,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
                 Stackable = cmd.Stackable,
                 Priority = cmd.Priority,
                 AppliesToAllProducts = cmd.AppliesToAllProducts,
-
+                Status =  Domain.Enums.BaseState.Activo,
                 MinQuantityRequired = cmd.MinQuantityRequired,
                 WholesaleQuantity = cmd.WholesaleQuantity,
                 WholesalePrice = cmd.WholesalePrice,
@@ -52,6 +53,8 @@ namespace APIAUTH.Aplication.Services.Implementacion
             entity.Categories = cmd.Categories
                 .Select(c => new PromotionCategory { CategoryId = c.CategoryId })
                 .ToList();
+
+            BaseEntityHelper.SetCreated(entity);
 
             await _repository.Add(entity);
 
@@ -76,7 +79,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             entity.Stackable = cmd.Stackable;
             entity.Priority = cmd.Priority;
             entity.AppliesToAllProducts = cmd.AppliesToAllProducts;
-
+            entity.Status = Domain.Enums.BaseState.Activo;
             entity.MinQuantityRequired = cmd.MinQuantityRequired;
             entity.WholesaleQuantity = cmd.WholesaleQuantity;
             entity.WholesalePrice = cmd.WholesalePrice;
@@ -96,6 +99,8 @@ namespace APIAUTH.Aplication.Services.Implementacion
             entity.Categories.AddRange(
                 cmd.Categories.Select(c => new PromotionCategory { CategoryId = c.CategoryId })
             );
+
+            BaseEntityHelper.SetCreated(entity);
 
             await _repository.Update(entity);
         }

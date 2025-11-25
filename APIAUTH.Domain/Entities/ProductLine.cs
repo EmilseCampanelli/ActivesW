@@ -10,6 +10,8 @@ namespace APIAUTH.Domain.Entities
     {
         public int Amount { get; set; }
         public double Price { get; set; }
+        public double PriceFinal { get; set; }
+        public double SubTotal { get; set; }
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
         public int OrdenId { get; set; }

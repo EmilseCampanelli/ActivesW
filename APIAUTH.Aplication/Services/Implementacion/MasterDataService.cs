@@ -135,5 +135,19 @@ namespace APIAUTH.Aplication.Services.Implementacion
 
             return estadosCbx;
         }
+
+        public List<ComboDto> GetDiscountType()
+        {
+            var discountType = EnumHelper.ToDtoList<DiscountType>();
+
+            return discountType;
+        }
+
+        public List<ComboDto> GetPromotionType()
+        {
+            var promotionType = EnumHelper.ToDtoList<PromotionType>();
+
+            return promotionType;
+        }
     }
 }

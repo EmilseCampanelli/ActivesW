@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace APIAUTH.Aplication.CQRS.Commands.Promotion.Update
+namespace APIAUTH.Aplication.CQRS.Commands.Promotions.Update
 {
     public class UpdatePromotionCommandHandler : IRequestHandler<UpdatePromotionCommand, Unit>
     {

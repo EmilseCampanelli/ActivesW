@@ -21,5 +21,7 @@ namespace APIAUTH.Aplication.Services.Interfaces
         Task<List<ComboDto>> GetProvinciasAsync(string countryIso2);
         Task<List<ComboUbiDto>> GetCiudadesAsync(string countryIso2, int? stateId = null, string? q = null, int top = 50);
         List<ComboSizeDto> GetSizeAsync();
+        List<ComboDto> GetDiscountType();
+        List<ComboDto> GetPromotionType();
     }
 }

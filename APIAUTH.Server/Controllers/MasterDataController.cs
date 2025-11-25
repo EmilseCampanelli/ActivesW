@@ -160,6 +160,30 @@ namespace APIAUTH.Server.Controllers
             }
         }
 
+        [HttpGet("DiscountType")]
+        public ActionResult<List<ComboDto>> GetDiscountType()
+        {
+            try
+            {
+                return _masterDataService.GetDiscountType();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
+        [HttpGet("PromotionType")]
+        public ActionResult<List<ComboDto>> GetPromotionType()
+        {
+            try
+            {
+                return _masterDataService.GetPromotionType();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

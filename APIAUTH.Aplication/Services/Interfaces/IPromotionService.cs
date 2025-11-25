@@ -1,5 +1,5 @@
-﻿using APIAUTH.Aplication.CQRS.Commands.Promotion.Create;
-using APIAUTH.Aplication.CQRS.Commands.Promotion.Update;
+﻿using APIAUTH.Aplication.CQRS.Commands.Promotions.Create;
+using APIAUTH.Aplication.CQRS.Commands.Promotions.Update;
 using System;
 using System.Collections.Generic;
 using System.Linq;

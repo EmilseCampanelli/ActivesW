@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIAUTH.Aplication.CQRS.Commands.Promotion.Create
+namespace APIAUTH.Aplication.CQRS.Commands.Promotions.Create
 {
     public class CreatePromotionCommandHandler : IRequestHandler<CreatePromotionCommand, long>
     {

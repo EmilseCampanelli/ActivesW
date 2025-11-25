@@ -35,12 +35,13 @@ namespace APIAUTH.Aplication.Services.Implementacion
             {
                 Id = p.OrdenId.ToString(),
                 Description = p.Product.Description,
-                PictureUrl = p.Product.ProductImages.FirstOrDefault().Url,
+                PictureUrl = p.Product.ProductImages?.FirstOrDefault()?.Url
+                 ?? "",
                 CategoryId = p.Product.CategoryId.ToString(),
                 CurrencyId = "ARS",
                 Title = p.Product.Title,
                 Quantity = p.Amount,
-                UnitPrice = (decimal?)p.Price
+                UnitPrice = (decimal?)p.PriceFinal
             }).ToList();
 
             if (shippingCost > 0)
