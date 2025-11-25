@@ -29,6 +29,12 @@ namespace APIAUTH.Domain.Entities
 
         public bool AppliesToAllProducts { get; set; } = false;
 
+        public int? MinQuantityRequired { get; set; } // compra mínima
+
+        public int? WholesaleQuantity { get; set; }    // a partir de cuántas unidades aplica precio mayorista
+
+        public decimal? WholesalePrice { get; set; }   // precio mayorista unitario
+
         public List<PromotionSegment> Segments { get; set; } = new();
 
 
@@ -54,7 +60,8 @@ namespace APIAUTH.Domain.Entities
 
         public bool AppliesToProduct(long productId, long? categoryId)
         {
-            if (AppliesToAllProducts) return true;
+            if (AppliesToAllProducts)
+                return true;
 
             if (Products.Any(pp => pp.ProductId == productId))
                 return true;
@@ -78,5 +85,25 @@ namespace APIAUTH.Domain.Entities
                 return result < 0 ? 0 : Math.Round(result, 2);
             }
         }
+
+        public bool MeetsMinQuantity(int quantity)
+        {
+            if (!MinQuantityRequired.HasValue) return true;
+            return quantity >= MinQuantityRequired.Value;
+        }
+
+
+        public decimal CalculateUnitPrice(decimal basePrice, int quantity)
+        {
+            if (WholesaleQuantity.HasValue &&
+                WholesalePrice.HasValue &&
+                quantity >= WholesaleQuantity.Value)
+            {
+                return WholesalePrice.Value;
+            }
+
+            return ApplyToPrice(basePrice);
+        }
+
     }
 }

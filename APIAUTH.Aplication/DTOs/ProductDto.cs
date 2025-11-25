@@ -23,5 +23,9 @@ namespace APIAUTH.Aplication.DTOs
         public List<ProductImageAddDto> ProductImages { get; set; }
 
         public List<ProductImageDto> ProductsImageDto { get; set; }
+
+        public decimal PriceFinal { get; set; }
+
+        public List<PromotionSimpleDto> Promotions { get; set; }
     }
 }

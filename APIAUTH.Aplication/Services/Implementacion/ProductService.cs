@@ -20,13 +20,15 @@ namespace APIAUTH.Aplication.Services.Implementacion
         private readonly IMapper _mapper;
         private readonly CloudinaryDotNet.Cloudinary _cloudinary;
         private readonly IRepository<ProductImage> _imageRepository;
+        private readonly IPromotionEngine _promotionEngine;
 
-        public ProductService(IRepository<Product> repository, IMapper mapper, CloudinaryDotNet.Cloudinary cloudinary, IRepository<ProductImage> imageRepository)
+        public ProductService(IRepository<Product> repository, IMapper mapper, CloudinaryDotNet.Cloudinary cloudinary, IRepository<ProductImage> imageRepository, IPromotionEngine promotionEngine)
         {
             _repository = repository;
             _mapper = mapper;
             _cloudinary = cloudinary;
             _imageRepository = imageRepository;
+            _promotionEngine = promotionEngine;
         }
 
         public async Task Activate(int id)
@@ -49,6 +51,19 @@ namespace APIAUTH.Aplication.Services.Implementacion
             model.IsFavorite = model.Favorites?.Any(f => f.UserId == userId) ?? false;
 
             var productDto = _mapper.Map<ProductDto>(model);
+
+            var result = _promotionEngine.CalculateFinalPrice(model, 1);
+
+            productDto.Promotions = result.PromotionsUsed
+                    .Select(pm => new PromotionSimpleDto
+                    {
+                        Id = pm.Id,
+                        Name = pm.Name,
+                        DiscountValue = pm.DiscountValue,
+                        DiscountType = pm.DiscountType
+                    }).ToList();
+
+            productDto.PriceFinal = result.FinalPrice;
 
             productDto.ProductsImageDto = _mapper.Map<List<ProductImageDto>>(model.ProductImages);
             return productDto;

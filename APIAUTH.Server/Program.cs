@@ -72,6 +72,8 @@ builder.Services.AddScoped<IGeoRepo, GeoRepo>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IFaqService, FaqService>();
+builder.Services.AddScoped<IPromotionService, PromotionService>();
+builder.Services.AddScoped<IPromotionEngine, PromotionEngine>();
 
 
 builder.Services.AddControllers()

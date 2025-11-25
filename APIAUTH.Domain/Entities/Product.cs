@@ -27,6 +27,10 @@ namespace APIAUTH.Domain.Entities
         [NotMapped]
         public bool IsFavorite { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
+        [NotMapped]
+        public List<Promotion> Promotions { get; set; }
+        [NotMapped]
+        public decimal PriceFinal { get; set; }
 
     }
 }
