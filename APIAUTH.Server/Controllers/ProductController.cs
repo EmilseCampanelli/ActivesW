@@ -64,7 +64,8 @@ namespace APIAUTH.Server.Controllers
         {
             try
             {
-                var producto = await _productoService.Get(id);
+                var userId = int.Parse(User.FindFirst("idUser")?.Value ?? "0");
+                var producto = await _productoService.Get(id, userId);
                 return Ok(producto);
             }
             catch (Exception ex)

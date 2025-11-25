@@ -30,7 +30,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return await _organizationRepository.Get(id) != null;
         }
 
-        public async Task<CompanyDto> Get(int id)
+        public async Task<CompanyDto> Get(int id, int userId = 0)
         {
             var model = await _organizationRepository.Get(id);
             return _mapper.Map<CompanyDto>(model);

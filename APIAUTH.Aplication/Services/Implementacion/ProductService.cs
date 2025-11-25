@@ -43,12 +43,11 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return await _repository.Get(id) != null;
         }
 
-        public async Task<ProductDto> Get(int id)
+        public async Task<ProductDto> Get(int id, int userId = 0)
         {
             var model = await _repository.Get(id);
 
-            var userId = 1; //TODO: Cambiar por token
-            model.IsFavorite = model.Favorites?.Any(f => f.UserId == userId) ?? false;
+            model.IsFavorite = model.Favorites?.Any(f => userId !=0 && f.UserId == userId) ?? false;
 
             var productDto = _mapper.Map<ProductDto>(model);
 

@@ -10,7 +10,7 @@ namespace APIAUTH.Aplication.Services.Interfaces
     public interface IGenericService<TDto>
          where TDto : BaseDto
     {
-        Task<TDto> Get(int id);
+        Task<TDto> Get(int id,int userId = 0);
         Task<bool> Exists(int id);
         Task Activate(int id);
         Task Inactivate(int id);

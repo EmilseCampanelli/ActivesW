@@ -45,7 +45,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             return await _repository.Get(id) != null;
         }
 
-        public async Task<UserDto> Get(int id)
+        public async Task<UserDto> Get(int id, int userId = 0)
         {
             var model = await _repository.Get(id);
             var userdto = _mapper.Map<UserDto>(model);

@@ -31,32 +31,32 @@ namespace APIAUTH.Aplication.CQRS.Queries.Products
             var now = DateTime.UtcNow;
 
             var allPromos = await _promotionRepo.GetAll()
-        .Where(p => p.Active &&
-               (!p.StartsAtUtc.HasValue || p.StartsAtUtc <= now) &&
-               (!p.EndsAtUtc.HasValue || p.EndsAtUtc >= now))
-        .ToListAsync();
+                        .Where(p => p.Active &&
+                               (!p.StartsAtUtc.HasValue || p.StartsAtUtc <= now) &&
+                               (!p.EndsAtUtc.HasValue || p.EndsAtUtc >= now))
+                        .ToListAsync();
 
-            var query = _readOnlyRepo.GetAll()
-         .Include(p => p.Category)
-         .Include(p => p.ProductImages)
-         .Select(p => new Product
-                 {
-                     Id = p.Id,
-                     Title = p.Title,
-                     Description = p.Description,
-                     Price = p.Price,
-                     Stock = p.Stock,
-                     ImagesUrl = p.ProductImages.OrderBy(s => s.Orden).FirstOrDefault().Url,
-                     CategoryId = p.CategoryId,
-                     Category = p.Category,
-                     Slug = p.Slug,
-                     ProductState = p.ProductState,
-                     Sizes = p.Sizes,
-                     Tags = p.Tags,
-                     Gender = p.Gender,
-                     ProductImages = p.ProductImages,
-                     Favorites = p.Favorites
-                 });
+                            var query = _readOnlyRepo.GetAll()
+                         .Include(p => p.Category)
+                         .Include(p => p.ProductImages)
+                         .Select(p => new Product
+                                 {
+                                     Id = p.Id,
+                                     Title = p.Title,
+                                     Description = p.Description,
+                                     Price = p.Price,
+                                     Stock = p.Stock,
+                                     ImagesUrl = p.ProductImages.OrderBy(s => s.Orden).FirstOrDefault().Url,
+                                     CategoryId = p.CategoryId,
+                                     Category = p.Category,
+                                     Slug = p.Slug,
+                                     ProductState = p.ProductState,
+                                     Sizes = p.Sizes,
+                                     Tags = p.Tags,
+                                     Gender = p.Gender,
+                                     ProductImages = p.ProductImages,
+                                     Favorites = p.Favorites
+                                 });
 
 
             var paged = await _repository.GetPagedResultAsync(query, request.Parameters,
