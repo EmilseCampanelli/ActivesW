@@ -4,9 +4,11 @@ using APIAUTH.Domain.Enums;
 using APIAUTH.Shared.Parameters;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.Json;
 
 namespace APIAUTH.Aplication.Filtered
 {
@@ -63,8 +65,15 @@ namespace APIAUTH.Aplication.Filtered
                 }
             }
 
-            if (p.CategoryId.HasValue)
-                query = query.Where(x => x.CategoryId == p.CategoryId);
+            if (!string.IsNullOrWhiteSpace(p.CategoryId))
+            {
+                var categoryIds = p.CategoryId
+                    .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(id => int.Parse(id))
+                    .ToList();
+
+                query = query.Where(x => categoryIds.Contains(x.CategoryId));
+            }
 
             if (p.State.HasValue && Enum.IsDefined(typeof(ProductState), p.State.Value))
             {
@@ -76,7 +85,39 @@ namespace APIAUTH.Aplication.Filtered
             {
                 query = query.Where(x => x.ProductState == ProductState.Disponible);
             }
+          
 
+            if (!string.IsNullOrWhiteSpace(p.GenderId))
+            {
+                var genderIds = p.GenderId
+                    .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(int.Parse)
+                    .ToList();
+
+                query = query.Where(x => genderIds.Contains((int)x.Gender));
+            }
+
+
+
+            if (!string.IsNullOrWhiteSpace(p.SizeId))
+            {
+                var sizeIds = p.SizeId
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(int.Parse)
+                    .ToList();
+
+                var selectedSizes = sizeIds
+                    .Where(id => Enum.IsDefined(typeof(Sizes), id))
+                    .Select(id => Enum.GetName(typeof(Sizes), id))
+                    .ToList();
+
+                query = query.Where(x =>
+                    x.Sizes != null &&
+                    x.Sizes
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Any(s => selectedSizes.Contains(s, StringComparer.OrdinalIgnoreCase))
+                );
+            }
 
             return query;
         }
