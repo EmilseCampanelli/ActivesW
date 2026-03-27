@@ -58,7 +58,6 @@ namespace APIAUTH.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Policy = "UserAndAdmin")]
         public async Task<ActionResult<UserDto>> Get(int id)
         {
             try

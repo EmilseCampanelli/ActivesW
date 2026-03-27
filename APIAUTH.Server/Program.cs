@@ -1,12 +1,6 @@
-using APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria;
-using APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria;
 using APIAUTH.Aplication.CQRS.Commands.Producto.CreateProducto;
-using APIAUTH.Aplication.CQRS.Commands.Producto.ProductCart.Create;
-using APIAUTH.Aplication.CQRS.Commands.Producto.UpdateProducto;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
-using APIAUTH.Aplication.CQRS.Queries.Products;
-using APIAUTH.Aplication.CQRS.Queries.Users;
 using APIAUTH.Aplication.Filtered;
 using APIAUTH.Aplication.Mapper;
 using APIAUTH.Aplication.Policies;
