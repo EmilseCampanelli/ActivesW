@@ -19,6 +19,11 @@ namespace APIAUTH.Data.Repositorios
             _db = db;
         }
 
+        public async Task<Country> GetCountryByIso(string iso)
+        {
+            return await _db.Countries.Where(c => c.Iso2 == iso).FirstOrDefaultAsync();
+        }
+
         public async Task<List<Country>> GetPaisesAsync()
         {
             return await _db.Countries

@@ -11,12 +11,14 @@ namespace APIAUTH.Aplication.Services.Implementacion
         private readonly IRepository<Address> _repository;
         private readonly IRepository<User> _userRepository;
         private readonly IMapper _mapper;
+        private readonly IGeoRepo _geoRepo;
 
-        public AddressService(IRepository<Address> repository, IMapper mapper, IRepository<User> userRepository)
+        public AddressService(IRepository<Address> repository, IMapper mapper, IRepository<User> userRepository, IGeoRepo geoRepo)
         {
             _repository = repository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _geoRepo = geoRepo;
         }
 
         public async Task<int> AddToUsuarioAsync(int usuarioId, AddressAddDto dto)
@@ -37,7 +39,7 @@ namespace APIAUTH.Aplication.Services.Implementacion
             address.Apartment = dto.Apartment;
             address.Notes = dto.Notes;
             address.CityId = dto.CityId;
-            address.CountryId = dto.CountryId;
+            address.CountryId = _geoRepo.GetCountryByIso(dto.CountryId).Result.Id;
             address.ProvinceId = dto.ProvinceId;
             address.CreatedDate = DateTime.UtcNow;
             address.Floor = dto.Floor;

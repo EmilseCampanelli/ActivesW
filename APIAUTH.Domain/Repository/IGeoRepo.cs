@@ -12,5 +12,6 @@ namespace APIAUTH.Domain.Repository
         Task<List<Country>> GetPaisesAsync();
         Task<List<Province>> GetProvinciasAsync(string countryIso2);
         Task<List<City>> GetCiudadesAsync(string countryIso2, int? stateId = null, string? q = null, int top = 50);
+        Task<Country> GetCountryByIso(string iso);
     }
 }
