@@ -9,5 +9,7 @@
         public string ProductTitle { get; set; }
         public string ProductDescription { get; set; }
         public List<ProductImageDto> ImagesUrl { get; set; }
+        public string Size { get; set; }
+        public string Slug { get; set; }
     }
 }

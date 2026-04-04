@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace APIAUTH.Aplication.CQRS.Commands.Categoria.CreateCategoria
 {
     public record CreateCategoriaCommand(
-        string Descripcion
+        string Description
     ): IRequest<int>;
 }

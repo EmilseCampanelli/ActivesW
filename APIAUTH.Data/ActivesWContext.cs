@@ -59,6 +59,8 @@ namespace APIAUTH.Data.Context
             modelBuilder.Entity<Promotion>().Navigation(e => e.Categories).AutoInclude();
             modelBuilder.Entity<Promotion>().Navigation(e => e.Categories).AutoInclude();
 
+            modelBuilder.Entity<Address>().Navigation(e => e.Country).AutoInclude();
+
             modelBuilder.Entity<Category>()
                .HasMany(c => c.SubCategory)
                .WithOne(c => c.ParentCategory)

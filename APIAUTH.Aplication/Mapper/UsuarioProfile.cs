@@ -1,4 +1,4 @@
-﻿using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
+using APIAUTH.Aplication.CQRS.Commands.Usuario.CreateUser;
 using APIAUTH.Aplication.CQRS.Commands.Usuario.UpdateUser;
 using APIAUTH.Aplication.DTOs;
 using APIAUTH.Domain.Entities;
@@ -38,6 +38,12 @@ namespace APIAUTH.Aplication.Mapper
                 .ForMember(dest => dest.Country, opt => opt.Ignore())
                 .ForMember(dest => dest.City, opt => opt.Ignore())
                 .ForMember(dest => dest.Province, opt => opt.Ignore());
+
+            CreateMap<Address, AddressAddDto>()
+                .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.Country != null ? src.Country.Iso2 : null))
+                .ForMember(dest => dest.PostalCode, opt => opt.MapFrom(src => src.ZipCode))
+                .ReverseMap()
+                .ForMember(dest => dest.Country, opt => opt.Ignore());
 
 
         }

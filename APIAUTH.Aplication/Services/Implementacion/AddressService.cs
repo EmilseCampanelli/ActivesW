@@ -1,4 +1,4 @@
-﻿using APIAUTH.Aplication.DTOs;
+using APIAUTH.Aplication.DTOs;
 using APIAUTH.Aplication.Services.Interfaces;
 using APIAUTH.Domain.Entities;
 using APIAUTH.Domain.Repository;
@@ -45,6 +45,8 @@ namespace APIAUTH.Aplication.Services.Implementacion
             address.Floor = dto.Floor;
             address.Number = dto.Number;
             address.ZipCode = dto.PostalCode;
+            address.Name = dto.Name;
+            address.Phone = dto.Phone;
 
             var addressOk = await _repository.Add(address);
             return addressOk.Id;
@@ -59,10 +61,10 @@ namespace APIAUTH.Aplication.Services.Implementacion
             await _repository.Delete(entity);
         }
 
-        public async Task<IEnumerable<AddressDto>> GetByUsuarioIdAsync(int usuarioId)
+        public async Task<IEnumerable<AddressAddDto>> GetByUsuarioIdAsync(int usuarioId)
         {
             var entity = _userRepository.Get(usuarioId).Result.Address;
-            var addressDto = _mapper.Map<List<AddressDto>>(entity);
+            var addressDto = _mapper.Map<List<AddressAddDto>>(entity);
 
             return addressDto;
 

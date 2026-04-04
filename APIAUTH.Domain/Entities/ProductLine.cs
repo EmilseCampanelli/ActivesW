@@ -16,5 +16,6 @@ namespace APIAUTH.Domain.Entities
         public virtual Product Product { get; set; }
         public int OrdenId { get; set; }
         public virtual Orden Orden { get; set; }
+        public string Size { get; set; }
     }
 }

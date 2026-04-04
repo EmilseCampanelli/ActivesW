@@ -15,15 +15,13 @@ namespace APIAUTH.Aplication.Services.Implementacion
         private readonly IMapper _mapper;
         private readonly IAccountService _accountService;
         private readonly IRepository<Role> _roleRepository;
-        private readonly IRepository<Address> _addressRepository;
 
-        public UserService(IRepository<User> repository, IMapper mapper, IAccountService accountService, IRepository<Role> roleRepository, IRepository<Address> addressRepository)
+        public UserService(IRepository<User> repository, IMapper mapper, IAccountService accountService, IRepository<Role> roleRepository)
         {
             _repository = repository;
             _mapper = mapper;
             _accountService = accountService;
             _roleRepository = roleRepository;
-            _addressRepository = addressRepository;
         }
 
         public async Task Activate(int id)

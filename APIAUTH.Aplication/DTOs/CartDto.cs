@@ -13,6 +13,7 @@ namespace APIAUTH.Aplication.DTOs
         [JsonIgnore]
         public int UserId { get; set; }
         public OrdenState OrdenState { get; set; }
+        public double TotalPrice { get; set; }
 
         public List<ProductLineDto> ProductLine { get; set; }
     }

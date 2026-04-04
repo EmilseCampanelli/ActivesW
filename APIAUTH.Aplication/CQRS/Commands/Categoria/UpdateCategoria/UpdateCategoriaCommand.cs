@@ -9,6 +9,6 @@ namespace APIAUTH.Aplication.CQRS.Commands.Categoria.UpdateCategoria
 {
     public record UpdateCategoriaCommand(
         int Id,
-        string Descripcion
+        string Description
     ) : IRequest<int>;
 }

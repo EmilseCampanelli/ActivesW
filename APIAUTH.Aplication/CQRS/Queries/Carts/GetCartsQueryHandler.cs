@@ -64,10 +64,12 @@ namespace APIAUTH.Aplication.CQRS.Queries.Carts
                     Id = line.Id,
                     Amount = line.Amount,
                     Price = line.Price,                // PRECIO DE LISTA
-                    PriceFinal = (double)result.FinalPrice,           // PRECIO DESPUÉS DE PROMOS
+                    PriceFinal = (double)result.FinalPrice * line.Amount,           // PRECIO DESPUÉS DE PROMOS
                     ProductId = product.Id,
                     ProductTitle = product.Title,
                     ProductDescription = product.Description,
+                    Size = line.Size,
+                    Slug = product.Slug,
                     ImagesUrl = product.ProductImages?
                         .OrderBy(i => i.Orden)
                         .Select(pi => new ProductImageDto
@@ -78,6 +80,8 @@ namespace APIAUTH.Aplication.CQRS.Queries.Carts
                         })
                         .ToList()
                 };
+
+                cart.TotalPrice += lineDto.PriceFinal; 
 
                 cart.ProductLine.Add(lineDto);
             }

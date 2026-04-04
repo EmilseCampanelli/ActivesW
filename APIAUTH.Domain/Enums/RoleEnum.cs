@@ -8,8 +8,8 @@ namespace APIAUTH.Domain.Enums
 {
     public enum RoleEnum
     {
-        Cliente = 0,
-        Admin = 1,
-        Vendedor = 2
+        Cliente = 1,
+        Admin = 2,
+        Vendedor = 3
     }
 }
