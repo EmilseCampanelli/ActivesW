@@ -60,14 +60,14 @@ namespace APIAUTH.Aplication.Services.Implementacion
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.Account.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Account != null ? usuario.Account.Email :  usuario.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
                 new Claim("idUser", usuario.Id.ToString()),
                 new Claim("Description", $"{usuario.LastName}, {usuario.Name}"),
                 new Claim("email", usuario.Email),
                 new Claim("role", usuario.Role.Description),
-                new Claim("isGenericPassword", usuario.Account.IsGenericPassword.ToString()),
+                new Claim("isGenericPassword", usuario.Account != null ? usuario.Account.IsGenericPassword.ToString() : "false"),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -150,7 +150,10 @@ namespace APIAUTH.Aplication.Services.Implementacion
             var idToken = GenerateIdToken(collaborator);
             var refreshToken = GenerateRefreshToken();
 
-            SaveRefreshTokenAsync(collaborator.Id, refreshToken);
+            if (collaborator.Account != null)
+            {
+                SaveRefreshTokenAsync(collaborator.Id, refreshToken);
+            }
             return new AuthDto(idToken);
         }
 
