@@ -32,7 +32,7 @@ namespace APIAUTH.Infrastructure.Services
                 Timestamp = DateTime.UtcNow
             };
       
-            await _hubContext.Clients.User(userId).SendAsync("ReceiveNotification", message);
+            await _hubContext.Clients.User(userId).SendAsync("ReceiveNotification", notification);
         }
 
         public async Task NotifyUserAdmin(string[] userIds, NotificationDto payload)
