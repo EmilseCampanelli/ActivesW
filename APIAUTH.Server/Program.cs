@@ -86,7 +86,7 @@ builder.Services.AddSingleton(provider =>
 {
     var cloudinaryUrl = Environment.GetEnvironmentVariable("CLOUDINARY_URL");
     if (string.IsNullOrWhiteSpace(cloudinaryUrl))
-        throw new Exception("La variable CLOUDINARY_URL no está configurada");
+        throw new Exception("La variable CLOUDINARY_URL no estï¿½ configurada");
 
     var uri = new Uri(cloudinaryUrl);
     var apiKey = uri.UserInfo.Split(':')[0];
@@ -137,9 +137,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", builder =>
-        builder.AllowAnyOrigin()
+        builder.WithOrigins(
+                   "https://activesw-henna.vercel.app",
+                   "http://localhost:3000"
+               )
                .AllowAnyHeader()
-               .AllowAnyMethod());
+               .AllowAnyMethod()
+               .AllowCredentials());
 });
 
 builder.Services.AddAuthorization(options =>
@@ -190,6 +194,7 @@ app.UseSwagger();
 
 //app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigins");
+app.UseAuthentication();
 app.UseAuthorization();
 
 
